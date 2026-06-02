@@ -5,18 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>نظام إدارة الموظفين</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"><\/script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --sidebar:#03455E;
-  --dash-bg:#607496;
-  --card:#ffffff;
-  --sidebar-hover:rgba(255,255,255,0.1);
-  --sidebar-active:rgba(255,255,255,0.18);
+  --sb:#03455E;--dash:#607496;--card:#ffffff;
   --txt:#1c1c1a;--txt2:#5a5a56;--txt3:#9a9a96;
   --brd:rgba(0,0,0,0.09);--brd2:rgba(0,0,0,0.18);
-  --blue:#1a6bc4;--blue-l:#deeaf8;
+  --blue:#1a6bc4;--blue-l:#deeaf8;--blue-d:#0f4a8a;
   --green:#2d7d3a;--green-l:#e0f0e3;
   --amber:#b06a00;--amber-l:#fdf0dc;
   --red:#c0392b;--red-l:#fce8e6;
@@ -24,71 +20,71 @@
   --teal:#0f7a6e;--teal-l:#daf2ef;
   --r:10px;--r2:14px;--r3:18px;
 }
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--dash-bg);color:var(--txt);font-size:14px;min-height:100vh}
-.app-wrap{display:flex;height:100vh;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--dash);color:var(--txt);font-size:14px;min-height:100vh}
+.app{display:flex;height:100vh;overflow:hidden}
 /* SIDEBAR */
-.sidebar{width:235px;background:var(--sidebar);display:flex;flex-direction:column;flex-shrink:0}
-.logo-area{padding:22px 18px 18px;border-bottom:1px solid rgba(255,255,255,0.12)}
-.logo-row{display:flex;align-items:center;gap:11px}
-.logo-ic{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo-ic i{font-size:19px;color:#fff}
-.logo-nm{font-size:14px;font-weight:700;color:#fff}
-.logo-sb{font-size:11px;color:rgba(255,255,255,0.55);margin-top:2px}
-.nav-menu{padding:10px 8px;flex:1;overflow-y:auto}
-.nav-sep{font-size:10px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.08em;padding:10px 12px 4px;margin-top:4px}
-.ni{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r);cursor:pointer;font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:2px;transition:all .15s;user-select:none}
-.ni:hover{background:var(--sidebar-hover);color:#fff}
-.ni.active{background:var(--sidebar-active);color:#fff;font-weight:600}
-.ni i{font-size:17px;flex-shrink:0;color:rgba(255,255,255,0.55)}
+.sb{width:232px;background:var(--sb);display:flex;flex-direction:column;flex-shrink:0}
+.sb-logo{padding:20px 16px 16px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.sb-logo-row{display:flex;align-items:center;gap:10px}
+.sb-ic{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-ic i{font-size:18px;color:#fff}
+.sb-name{font-size:14px;font-weight:700;color:#fff}
+.sb-sub{font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px}
+.sb-nav{padding:10px 8px;flex:1;overflow-y:auto}
+.sb-sep{font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:.08em;padding:10px 12px 4px;margin-top:3px}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r);cursor:pointer;font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:2px;transition:all .15s;user-select:none}
+.ni:hover{background:rgba(255,255,255,0.1);color:#fff}
+.ni.active{background:rgba(255,255,255,0.18);color:#fff;font-weight:600}
+.ni i{font-size:17px;flex-shrink:0;color:rgba(255,255,255,0.5)}
 .ni.active i,.ni:hover i{color:#fff}
-.user-footer{padding:13px 15px;border-top:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;gap:9px}
-.user-footer .nm{font-size:12px;font-weight:700;color:#fff}
-.user-footer .rl{font-size:10px;color:rgba(255,255,255,0.5)}
+.sb-foot{padding:12px 14px;border-top:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:9px}
+.sb-foot .fn{font-size:12px;font-weight:700;color:#fff}
+.sb-foot .fl{font-size:10px;color:rgba(255,255,255,0.45)}
 /* MAIN */
-.main-area{flex:1;overflow-y:auto;padding:24px 26px;background:var(--dash-bg)}
+.main{flex:1;overflow-y:auto;padding:24px 26px;background:var(--dash)}
 .screen{display:none}.screen.active{display:block}
 .pg{display:none}.pg.active{display:block}
-.pg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.pg-title{font-size:20px;font-weight:800;color:#fff}
-.pg-sub{font-size:12px;color:rgba(255,255,255,0.65);margin-top:3px}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.pt{font-size:20px;font-weight:800;color:#fff}
+.ps{font-size:12px;color:rgba(255,255,255,0.6);margin-top:3px}
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:var(--r);border:1px solid var(--brd2);background:var(--card);font-size:13px;cursor:pointer;color:var(--txt);font-family:inherit;font-weight:500;transition:all .15s}
-.btn:hover{background:#f5f5f3}
-.btn-blue{background:var(--blue);color:#fff;border-color:var(--blue)}.btn-blue:hover{background:#1055a0;color:#fff}
-.btn-white{background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)}.btn-white:hover{background:rgba(255,255,255,0.25)}
+.btn:hover{background:#f4f4f2}
+.btn-blue{background:var(--blue);color:#fff;border-color:var(--blue)}.btn-blue:hover{background:var(--blue-d);color:#fff}
+.btn-wh{background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.22)}.btn-wh:hover{background:rgba(255,255,255,0.25)}
 .btn-red{background:var(--red-l);color:var(--red);border-color:#e0b0ac}.btn-red:hover{background:#f9d5d2}
-.btn-green{background:var(--green-l);color:var(--green);border-color:#aed4b5}.btn-green:hover{background:#d0ebd4}
+.btn-grn{background:var(--green-l);color:var(--green);border-color:#aed4b5}.btn-grn:hover{background:#d0ebd4}
 .btn-sm{padding:5px 10px;font-size:12px}
 /* CARDS */
-.card{background:var(--card);border-radius:var(--r2);padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
-.card-flat{background:var(--card);border-radius:var(--r2);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
+.card{background:var(--card);border-radius:var(--r2);padding:20px;box-shadow:0 2px 14px rgba(0,0,0,0.12)}
+.card-t{background:var(--card);border-radius:var(--r2);overflow:hidden;box-shadow:0 2px 14px rgba(0,0,0,0.12)}
 /* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
-.kpi-card{background:var(--card);border-radius:var(--r2);padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 12px rgba(0,0,0,0.1);transition:transform .2s,box-shadow .2s;border-right:4px solid transparent}
-.kpi-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.15)}
+.kpi{background:var(--card);border-radius:var(--r2);padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 14px rgba(0,0,0,0.12);border-right:4px solid transparent;transition:transform .2s,box-shadow .2s}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,0.18)}
 .kpi-ic{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .kpi-ic i{font-size:23px}
-.kpi-val{font-size:30px;font-weight:900;line-height:1;color:var(--txt)}
-.kpi-lbl{font-size:12px;color:var(--txt2);margin-top:3px;font-weight:500}
-.kpi-trend{font-size:11px;margin-top:5px;font-weight:600}
+.kpi-v{font-size:30px;font-weight:900;line-height:1;color:var(--txt)}
+.kpi-l{font-size:12px;color:var(--txt2);margin-top:3px;font-weight:500}
+.kpi-t{font-size:11px;margin-top:5px;font-weight:600}
+/* CHARTS */
+.ch-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:18px}
+.ch-card{background:var(--card);border-radius:var(--r2);padding:18px;box-shadow:0 2px 14px rgba(0,0,0,0.12)}
+.ch-title{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.ch-title i{font-size:15px;color:var(--txt2)}
+.ch-wrap{position:relative;height:160px}
 /* DASH SECTIONS */
-.dash-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:16px}
-.dsc{background:var(--card);border-radius:var(--r2);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
-.dsc-head{padding:14px 18px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
-.dsc-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;color:var(--txt)}
-.dsc-title i{font-size:16px;color:var(--txt2)}
-.dr{display:flex;align-items:center;gap:10px;padding:11px 18px;border-bottom:1px solid var(--brd);font-size:13px;transition:background .12s}
+.dg{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:16px}
+.dsc{background:var(--card);border-radius:var(--r2);overflow:hidden;box-shadow:0 2px 14px rgba(0,0,0,0.12)}
+.dsc-h{padding:13px 16px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
+.dsc-ht{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;color:var(--txt)}
+.dsc-ht i{font-size:15px;color:var(--txt2)}
+.dr{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--brd);font-size:13px;transition:background .12s}
 .dr:last-child{border-bottom:none}
 .dr:hover{background:#fafaf8}
-.dr-main{flex:1;min-width:0}
+.dr-m{flex:1;min-width:0}
 .dr-t{font-weight:600;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dr-s{font-size:11px;color:var(--txt2);margin-top:2px}
-/* CHARTS ROW */
-.charts-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
-.chart-card{background:var(--card);border-radius:var(--r2);padding:18px;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
-.chart-title{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:14px;display:flex;align-items:center;gap:7px}
-.chart-title i{font-size:15px;color:var(--txt2)}
-.chart-wrap{position:relative;height:160px;display:flex;align-items:center;justify-content:center}
 /* BADGES */
 .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
 .b-blue{background:var(--blue-l);color:var(--blue)}
@@ -97,7 +93,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .b-red{background:var(--red-l);color:var(--red)}
 .b-purple{background:var(--purple-l);color:var(--purple)}
 .b-teal{background:var(--teal-l);color:var(--teal)}
-.b-gray{background:#f1efe8;color:var(--txt2)}
+.b-gray{background:#f0ede8;color:var(--txt2)}
 /* AVATARS */
 .av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
 .av0{background:#c5ddf7;color:#0f4a8a}.av1{background:#b0e6de;color:#0f7a6e}
@@ -105,236 +101,224 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .av4{background:#b8e0bf;color:#2d7d3a}.av5{background:#f5c0ba;color:#c0392b}
 /* TABLE */
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:right;padding:12px 16px;border-bottom:1px solid var(--brd);font-weight:700;font-size:11px;color:var(--txt2);background:#f8f8f6;text-transform:uppercase;letter-spacing:.04em}
-td{padding:10px 16px;border-bottom:1px solid var(--brd);color:var(--txt);vertical-align:middle}
+th{text-align:right;padding:11px 14px;border-bottom:1px solid var(--brd);font-weight:700;font-size:11px;color:var(--txt2);background:#f7f7f5;text-transform:uppercase;letter-spacing:.04em}
+td{padding:10px 14px;border-bottom:1px solid var(--brd);color:var(--txt);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#fafaf8}
 /* GRID */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 /* PROGRESS */
-.pb{background:#e5e4e0;border-radius:4px;height:7px;overflow:hidden}
+.pb{background:#e0dedd;border-radius:4px;height:7px;overflow:hidden}
 .pf{height:100%;border-radius:4px;transition:width .4s}
 /* MODALS */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
-.overlay.open{display:flex}
-.modal{background:var(--card);border-radius:var(--r3);padding:28px;width:510px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.2)}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.ov.open{display:flex}
+.modal{background:var(--card);border-radius:var(--r3);padding:28px;width:510px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.22)}
 .modal-title{font-size:17px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px;color:var(--txt)}
-.modal-title .mi{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.modal-title .mi i{font-size:19px;color:#fff}
-.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--brd)}
+.modal-title .mtic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.modal-title .mtic i{font-size:19px;color:#fff}
+.modal-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--brd)}
 .fr{margin-bottom:14px}
 .fr label{display:block;font-size:12px;color:var(--txt2);margin-bottom:5px;font-weight:600}
 .fr input,.fr select,.fr textarea{width:100%;padding:10px 12px;border:1.5px solid var(--brd2);border-radius:var(--r);font-size:13px;background:#fff;color:var(--txt);font-family:inherit;transition:border-color .15s}
 .fr input:focus,.fr select:focus,.fr textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,107,196,.1)}
 .fr textarea{resize:vertical;min-height:72px}
 .fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.login-inner{background:var(--blue-l);border-radius:var(--r);padding:14px 16px;border:1.5px solid rgba(26,107,196,.2)}
+.li-box{background:var(--blue-l);border-radius:var(--r);padding:14px 16px;border:1.5px solid rgba(26,107,196,.2)}
 /* STARS */
 .stars{display:flex;gap:3px;margin-top:3px}
 .stars span{font-size:26px;cursor:pointer;color:#ddd;transition:color .1s;line-height:1}
 .stars span.on{color:#f5a623}
 /* LOGIN */
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#03455E 0%,#607496 60%,#03455E 100%)}
-.login-panel{width:420px}
-.login-head{text-align:center;margin-bottom:28px}
-.login-brand{width:68px;height:68px;border-radius:18px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;border:2px solid rgba(255,255,255,0.25);backdrop-filter:blur(10px)}
-.login-brand i{font-size:32px;color:#fff}
-.login-head h1{font-size:23px;font-weight:900;color:#fff}
-.login-head p{font-size:13px;color:rgba(255,255,255,0.65);margin-top:5px}
-.login-card{background:rgba(255,255,255,0.97);border-radius:var(--r3);padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-.hint-box{background:var(--blue-l);border-radius:var(--r);padding:13px 16px;margin-top:14px;font-size:12px;color:var(--blue);border:1px solid rgba(26,107,196,.2)}
-.hint-box b{display:block;font-size:13px;margin-bottom:5px}
-.err-box{background:var(--red-l);color:var(--red);padding:9px 13px;border-radius:var(--r);font-size:13px;margin-bottom:12px;display:none;border:1px solid #e8b0ac}
-/* EMP PORTAL KPI */
-.ekpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.ekpi{border-radius:var(--r2);padding:16px 18px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.18);backdrop-filter:blur(8px)}
-.ekpi-val{font-size:24px;font-weight:900;line-height:1;color:#fff}
-.ekpi-lbl{font-size:11px;font-weight:600;margin-top:3px;color:rgba(255,255,255,0.75)}
-.ekpi i{font-size:24px;color:rgba(255,255,255,0.8)}
+.lw{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#03455E 0%,#607496 60%,#03455E 100%)}
+.lp{width:420px}
+.lh{text-align:center;margin-bottom:26px}
+.lb{width:66px;height:66px;border-radius:18px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border:2px solid rgba(255,255,255,0.22)}
+.lb i{font-size:30px;color:#fff}
+.lh h1{font-size:22px;font-weight:900;color:#fff}
+.lh p{font-size:13px;color:rgba(255,255,255,0.6);margin-top:5px}
+.lc{background:rgba(255,255,255,0.97);border-radius:var(--r3);padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.hint{background:var(--blue-l);border-radius:var(--r);padding:12px 14px;margin-top:13px;font-size:12px;color:var(--blue);border:1px solid rgba(26,107,196,.2)}
+.hint b{display:block;font-size:13px;margin-bottom:5px}
+.err{background:var(--red-l);color:var(--red);padding:9px 13px;border-radius:var(--r);font-size:13px;margin-bottom:12px;display:none;border:1px solid #e8b0ac}
+/* EMP KPI */
+.ekr{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.ek{border-radius:var(--r2);padding:16px 18px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.16)}
+.ek i{font-size:24px;color:rgba(255,255,255,0.8)}
+.ek-v{font-size:24px;font-weight:900;line-height:1;color:#fff}
+.ek-l{font-size:11px;font-weight:600;margin-top:3px;color:rgba(255,255,255,0.7)}
 /* PROJ CARD */
-.proj-card{background:var(--card);border-radius:var(--r2);padding:18px;box-shadow:0 2px 12px rgba(0,0,0,0.08);transition:transform .2s,box-shadow .2s}
-.proj-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.13)}
+.pc{background:var(--card);border-radius:var(--r2);padding:18px;box-shadow:0 2px 14px rgba(0,0,0,0.1);transition:transform .2s,box-shadow .2s}
+.pc:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,0.14)}
 /* EMPTY */
-.empty-st{text-align:center;padding:36px 20px;color:var(--txt3)}
-.empty-st i{font-size:34px;display:block;margin-bottom:9px;opacity:.35}
-.empty-st p{font-size:13px}
-/* EDIT BTN */
-.action-btns{display:flex;gap:5px}
-/* SECTION TITLES in non-dash pages */
-.section-bg{background:rgba(255,255,255,0.08);border-radius:var(--r2);padding:20px;margin-bottom:16px}
+.emp-st{text-align:center;padding:36px 20px;color:var(--txt3)}
+.emp-st i{font-size:34px;display:block;margin-bottom:9px;opacity:.35}
+.emp-st p{font-size:13px}
+.act-btns{display:flex;gap:5px}
 </style>
 </head>
 <body>
-
-<!-- ══ LOGIN ══ -->
+<!-- LOGIN -->
 <div id="scr-login" class="screen active">
-<div class="login-wrap"><div class="login-panel">
-  <div class="login-head">
-    <div class="login-brand"><i class="ti ti-building-community"></i></div>
+<div class="lw"><div class="lp">
+  <div class="lh">
+    <div class="lb"><i class="ti ti-building-community"></i></div>
     <h1>نظام إدارة الموظفين</h1>
     <p>بوابة الدخول الموحدة للمدير والموظفين</p>
   </div>
-  <div class="login-card">
-    <div class="fr"><label>اسم المستخدم</label><input id="l-u" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"></div>
-    <div class="fr"><label>كلمة السر</label><input type="password" id="l-p" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
-    <div class="err-box" id="l-err">اسم المستخدم أو كلمة السر غير صحيحة</div>
-    <button class="btn btn-blue" style="width:100%;justify-content:center;padding:11px;font-size:14px" onclick="doLogin()"><i class="ti ti-login"></i> تسجيل الدخول</button>
-    <div class="hint-box"><b><i class="ti ti-info-circle" style="font-size:14px;vertical-align:-2px"></i> حسابات تجريبية</b>المدير: <b>admin</b> / <b>admin123</b><div style="margin-top:4px;color:var(--txt2)">الموظف: يُضاف عند إنشاء موظف جديد</div></div>
+  <div class="lc">
+    <div class="fr"><label>اسم المستخدم</label><input id="l-u" placeholder="admin"></div>
+    <div class="fr"><label>كلمة السر</label><input type="password" id="l-p" placeholder="••••••"></div>
+    <div class="err" id="l-err">اسم المستخدم أو كلمة السر غير صحيحة</div>
+    <button class="btn btn-blue" style="width:100%;justify-content:center;padding:11px;font-size:14px" id="login-btn"><i class="ti ti-login"></i> تسجيل الدخول</button>
+    <div class="hint"><b><i class="ti ti-info-circle" style="font-size:14px;vertical-align:-2px"></i> حسابات تجريبية</b>المدير: <b>admin</b> / <b>admin123</b><div style="margin-top:4px;color:var(--txt2)">الموظف: يُضاف عند إنشاء موظف جديد</div></div>
   </div>
 </div></div>
 </div>
-
-<!-- ══ ADMIN ══ -->
+<!-- ADMIN -->
 <div id="scr-admin" class="screen">
-<div class="app-wrap">
-  <div class="sidebar">
-    <div class="logo-area">
-      <div class="logo-row">
-        <div class="logo-ic"><i class="ti ti-building-community"></i></div>
-        <div><div class="logo-nm">نظام الموظفين</div><div class="logo-sb">لوحة المدير</div></div>
+<div class="app">
+  <div class="sb">
+    <div class="sb-logo">
+      <div class="sb-logo-row">
+        <div class="sb-ic"><i class="ti ti-building-community"></i></div>
+        <div><div class="sb-name">نظام الموظفين</div><div class="sb-sub">لوحة المدير</div></div>
       </div>
     </div>
-    <div class="nav-menu">
-      <div class="nav-sep">الرئيسية</div>
-      <div class="ni active" onclick="aPage('dashboard')"><i class="ti ti-layout-dashboard"></i><span>لوحة التحكم</span></div>
-      <div class="nav-sep">إدارة الموارد</div>
-      <div class="ni" onclick="aPage('employees')"><i class="ti ti-users"></i><span>الموظفون</span></div>
-      <div class="ni" onclick="aPage('tasks')"><i class="ti ti-checklist"></i><span>المهام</span></div>
-      <div class="ni" onclick="aPage('projects')"><i class="ti ti-folders"></i><span>المشاريع</span></div>
-      <div class="nav-sep">التطوير والأداء</div>
-      <div class="ni" onclick="aPage('initiatives')"><i class="ti ti-bulb"></i><span>المبادرات</span></div>
-      <div class="ni" onclick="aPage('goals')"><i class="ti ti-target"></i><span>الأهداف</span></div>
-      <div class="nav-sep">التخطيط</div>
-      <div class="ni" onclick="aPage('vacations')"><i class="ti ti-beach"></i><span>الإجازات</span></div>
-      <div class="ni" onclick="aPage('daily')"><i class="ti ti-calendar-event"></i><span>الأعمال اليومية</span></div>
+    <div class="sb-nav">
+      <div class="sb-sep">الرئيسية</div>
+      <div class="ni active" id="ni-dashboard"><i class="ti ti-layout-dashboard"></i><span>لوحة التحكم</span></div>
+      <div class="sb-sep">إدارة الموارد</div>
+      <div class="ni" id="ni-employees"><i class="ti ti-users"></i><span>الموظفون</span></div>
+      <div class="ni" id="ni-tasks"><i class="ti ti-checklist"></i><span>المهام</span></div>
+      <div class="ni" id="ni-projects"><i class="ti ti-folders"></i><span>المشاريع</span></div>
+      <div class="sb-sep">التطوير والأداء</div>
+      <div class="ni" id="ni-initiatives"><i class="ti ti-bulb"></i><span>المبادرات</span></div>
+      <div class="ni" id="ni-goals"><i class="ti ti-target"></i><span>الأهداف</span></div>
+      <div class="sb-sep">التخطيط</div>
+      <div class="ni" id="ni-vacations"><i class="ti ti-beach"></i><span>الإجازات</span></div>
+      <div class="ni" id="ni-daily"><i class="ti ti-calendar-event"></i><span>الأعمال اليومية</span></div>
     </div>
-    <div class="user-footer">
+    <div class="sb-foot">
       <div class="av av0" style="width:34px;height:34px;font-size:13px">م</div>
-      <div style="flex:1;min-width:0"><div class="nm">المدير العام</div><div class="rl">صلاحية كاملة</div></div>
-      <button class="btn btn-sm" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.2)" onclick="logout()"><i class="ti ti-logout" style="font-size:14px"></i></button>
+      <div style="flex:1;min-width:0"><div class="fn">المدير العام</div><div class="fl">صلاحية كاملة</div></div>
+      <button class="btn btn-sm" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.2)" id="logout-admin"><i class="ti ti-logout" style="font-size:14px"></i></button>
     </div>
   </div>
-  <div class="main-area">
-
+  <div class="main">
     <!-- DASHBOARD -->
     <div class="pg active" id="ap-dashboard">
-      <div class="pg-head">
-        <div><div class="pg-title">لوحة التحكم</div><div class="pg-sub" id="dash-dt"></div></div>
+      <div class="ph">
+        <div><div class="pt">لوحة التحكم</div><div class="ps" id="dash-dt"></div></div>
         <div style="display:flex;gap:8px">
-          <button class="btn btn-white btn-sm" onclick="aPage('employees');openM('m-emp')"><i class="ti ti-user-plus"></i> موظف جديد</button>
-          <button class="btn btn-white btn-sm" onclick="aPage('tasks');openM('m-task')"><i class="ti ti-plus"></i> مهمة جديدة</button>
+          <button class="btn btn-wh btn-sm" id="btn-new-emp"><i class="ti ti-user-plus"></i> موظف جديد</button>
+          <button class="btn btn-wh btn-sm" id="btn-new-task"><i class="ti ti-plus"></i> مهمة جديدة</button>
         </div>
       </div>
       <div class="kpi-grid">
-        <div class="kpi-card" style="border-right-color:var(--blue)"><div class="kpi-ic" style="background:var(--blue-l)"><i class="ti ti-users" style="color:var(--blue)"></i></div><div><div class="kpi-val" id="k-emp">0</div><div class="kpi-lbl">إجمالي الموظفين</div><div class="kpi-trend" style="color:var(--blue)" id="k-emp-t"></div></div></div>
-        <div class="kpi-card" style="border-right-color:var(--purple)"><div class="kpi-ic" style="background:var(--purple-l)"><i class="ti ti-folders" style="color:var(--purple)"></i></div><div><div class="kpi-val" id="k-proj">0</div><div class="kpi-lbl">مشاريع نشطة</div><div class="kpi-trend" style="color:var(--purple)" id="k-proj-t"></div></div></div>
-        <div class="kpi-card" style="border-right-color:var(--amber)"><div class="kpi-ic" style="background:var(--amber-l)"><i class="ti ti-checklist" style="color:var(--amber)"></i></div><div><div class="kpi-val" id="k-task">0</div><div class="kpi-lbl">مهام قيد التنفيذ</div><div class="kpi-trend" style="color:var(--amber)" id="k-task-t"></div></div></div>
-        <div class="kpi-card" style="border-right-color:var(--teal)"><div class="kpi-ic" style="background:var(--teal-l)"><i class="ti ti-bulb" style="color:var(--teal)"></i></div><div><div class="kpi-val" id="k-init">0</div><div class="kpi-lbl">مبادرات الموظفين</div><div class="kpi-trend" style="color:var(--teal)" id="k-init-t"></div></div></div>
+        <div class="kpi" style="border-right-color:var(--blue)"><div class="kpi-ic" style="background:var(--blue-l)"><i class="ti ti-users" style="color:var(--blue)"></i></div><div><div class="kpi-v" id="k-emp">0</div><div class="kpi-l">إجمالي الموظفين</div><div class="kpi-t" style="color:var(--blue)" id="k-emp-t"></div></div></div>
+        <div class="kpi" style="border-right-color:var(--purple)"><div class="kpi-ic" style="background:var(--purple-l)"><i class="ti ti-folders" style="color:var(--purple)"></i></div><div><div class="kpi-v" id="k-proj">0</div><div class="kpi-l">مشاريع نشطة</div><div class="kpi-t" style="color:var(--purple)" id="k-proj-t"></div></div></div>
+        <div class="kpi" style="border-right-color:var(--amber)"><div class="kpi-ic" style="background:var(--amber-l)"><i class="ti ti-checklist" style="color:var(--amber)"></i></div><div><div class="kpi-v" id="k-task">0</div><div class="kpi-l">مهام قيد التنفيذ</div><div class="kpi-t" style="color:var(--amber)" id="k-task-t"></div></div></div>
+        <div class="kpi" style="border-right-color:var(--teal)"><div class="kpi-ic" style="background:var(--teal-l)"><i class="ti ti-bulb" style="color:var(--teal)"></i></div><div><div class="kpi-v" id="k-init">0</div><div class="kpi-l">مبادرات الموظفين</div><div class="kpi-t" style="color:var(--teal)" id="k-init-t"></div></div></div>
       </div>
-      <!-- CHARTS ROW -->
-      <div class="charts-row">
-        <div class="chart-card"><div class="chart-title"><i class="ti ti-chart-donut"></i>توزيع حالات المهام</div><div class="chart-wrap"><canvas id="ch-tasks"></canvas></div></div>
-        <div class="chart-card"><div class="chart-title"><i class="ti ti-chart-bar"></i>إنجاز المشاريع</div><div class="chart-wrap"><canvas id="ch-proj"></canvas></div></div>
-        <div class="chart-card"><div class="chart-title"><i class="ti ti-chart-donut"></i>توزيع الأقسام</div><div class="chart-wrap"><canvas id="ch-dept"></canvas></div></div>
+      <div class="ch-row">
+        <div class="ch-card"><div class="ch-title"><i class="ti ti-chart-donut"></i>حالات المهام</div><div class="ch-wrap"><canvas id="ch-tasks"></canvas></div></div>
+        <div class="ch-card"><div class="ch-title"><i class="ti ti-chart-bar"></i>إنجاز المشاريع</div><div class="ch-wrap"><canvas id="ch-proj"></canvas></div></div>
+        <div class="ch-card"><div class="ch-title"><i class="ti ti-chart-donut"></i>توزيع الأقسام</div><div class="ch-wrap"><canvas id="ch-dept"></canvas></div></div>
       </div>
-      <!-- DASH GRID -->
-      <div class="dash-grid">
+      <div class="dg">
         <div>
           <div class="dsc" style="margin-bottom:14px">
-            <div class="dsc-head"><div class="dsc-title"><i class="ti ti-folders"></i>المشاريع النشطة</div><button class="btn btn-sm" onclick="aPage('projects')">عرض الكل</button></div>
-            <div id="d-proj"><div class="empty-st"><i class="ti ti-folders"></i><p>لا توجد مشاريع</p></div></div>
+            <div class="dsc-h"><div class="dsc-ht"><i class="ti ti-folders"></i>المشاريع النشطة</div><button class="btn btn-sm" id="btn-all-proj">عرض الكل</button></div>
+            <div id="d-proj"><div class="emp-st"><i class="ti ti-folders"></i><p>لا توجد مشاريع</p></div></div>
           </div>
           <div class="dsc">
-            <div class="dsc-head"><div class="dsc-title"><i class="ti ti-target"></i>مؤشر الأهداف</div><button class="btn btn-sm" onclick="aPage('goals')">عرض الكل</button></div>
-            <div id="d-goals" style="padding:12px 16px"><div class="empty-st"><i class="ti ti-target"></i><p>لا توجد أهداف</p></div></div>
+            <div class="dsc-h"><div class="dsc-ht"><i class="ti ti-target"></i>مؤشر الأهداف</div><button class="btn btn-sm" id="btn-all-goals">عرض الكل</button></div>
+            <div id="d-goals" style="padding:12px 16px"><div class="emp-st"><i class="ti ti-target"></i><p>لا توجد أهداف</p></div></div>
           </div>
         </div>
         <div>
           <div class="dsc" style="margin-bottom:14px">
-            <div class="dsc-head"><div class="dsc-title"><i class="ti ti-bulb"></i>أبرز المبادرات</div><button class="btn btn-sm" onclick="aPage('initiatives')">عرض الكل</button></div>
-            <div id="d-init"><div class="empty-st"><i class="ti ti-bulb"></i><p>لا توجد مبادرات</p></div></div>
+            <div class="dsc-h"><div class="dsc-ht"><i class="ti ti-bulb"></i>أبرز المبادرات</div><button class="btn btn-sm" id="btn-all-init">عرض الكل</button></div>
+            <div id="d-init"><div class="emp-st"><i class="ti ti-bulb"></i><p>لا توجد مبادرات</p></div></div>
           </div>
           <div class="dsc">
-            <div class="dsc-head"><div class="dsc-title"><i class="ti ti-beach"></i>الإجازات القادمة</div><button class="btn btn-sm" onclick="aPage('vacations')">عرض الكل</button></div>
-            <div id="d-vac"><div class="empty-st"><i class="ti ti-beach"></i><p>لا توجد إجازات</p></div></div>
+            <div class="dsc-h"><div class="dsc-ht"><i class="ti ti-beach"></i>الإجازات القادمة</div><button class="btn btn-sm" id="btn-all-vac">عرض الكل</button></div>
+            <div id="d-vac"><div class="emp-st"><i class="ti ti-beach"></i><p>لا توجد إجازات</p></div></div>
           </div>
         </div>
       </div>
       <div class="dsc">
-        <div class="dsc-head"><div class="dsc-title"><i class="ti ti-calendar-event"></i>أعمال اليوم</div><button class="btn btn-sm btn-blue" onclick="aPage('daily');openM('m-daily')"><i class="ti ti-plus"></i> إضافة</button></div>
-        <div id="d-daily"><div class="empty-st"><i class="ti ti-calendar-event"></i><p>لا توجد أعمال اليوم</p></div></div>
+        <div class="dsc-h"><div class="dsc-ht"><i class="ti ti-calendar-event"></i>أعمال اليوم</div><button class="btn btn-sm btn-blue" id="btn-add-daily-dash"><i class="ti ti-plus"></i> إضافة</button></div>
+        <div id="d-daily"><div class="emp-st"><i class="ti ti-calendar-event"></i><p>لا توجد أعمال اليوم</p></div></div>
       </div>
     </div>
-
-    <!-- EMPLOYEES -->
+    <!-- EMPLOYEES PAGE -->
     <div class="pg" id="ap-employees">
-      <div class="pg-head"><div><div class="pg-title">الموظفون</div></div><button class="btn btn-white" onclick="openM('m-emp')"><i class="ti ti-user-plus"></i> إضافة موظف</button></div>
-      <div class="card-flat"><table><thead><tr><th>الموظف</th><th>المسمى</th><th>القسم</th><th>اسم الدخول</th><th>الهاتف</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="t-emp"></tbody></table></div>
+      <div class="ph"><div><div class="pt">الموظفون</div></div><button class="btn btn-wh" id="btn-add-emp"><i class="ti ti-user-plus"></i> إضافة موظف</button></div>
+      <div class="card-t"><table><thead><tr><th>الموظف</th><th>المسمى</th><th>القسم</th><th>اسم الدخول</th><th>الهاتف</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="t-emp"></tbody></table></div>
     </div>
-    <!-- TASKS -->
+    <!-- TASKS PAGE -->
     <div class="pg" id="ap-tasks">
-      <div class="pg-head"><div><div class="pg-title">المهام</div></div><button class="btn btn-white" onclick="openM('m-task')"><i class="ti ti-plus"></i> توكيل مهمة</button></div>
-      <div class="card-flat"><table><thead><tr><th>المهمة</th><th>الموظف</th><th>الأولوية</th><th>الموعد</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="t-task"></tbody></table></div>
+      <div class="ph"><div><div class="pt">المهام</div></div><button class="btn btn-wh" id="btn-add-task"><i class="ti ti-plus"></i> توكيل مهمة</button></div>
+      <div class="card-t"><table><thead><tr><th>المهمة</th><th>الموظف</th><th>الأولوية</th><th>الموعد</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="t-task"></tbody></table></div>
     </div>
-    <!-- PROJECTS -->
+    <!-- PROJECTS PAGE -->
     <div class="pg" id="ap-projects">
-      <div class="pg-head"><div><div class="pg-title">المشاريع</div></div><button class="btn btn-white" onclick="openM('m-proj')"><i class="ti ti-plus"></i> إضافة مشروع</button></div>
+      <div class="ph"><div><div class="pt">المشاريع</div></div><button class="btn btn-wh" id="btn-add-proj"><i class="ti ti-plus"></i> إضافة مشروع</button></div>
       <div id="g-proj" class="g2"></div>
     </div>
-    <!-- INITIATIVES -->
+    <!-- INITIATIVES PAGE -->
     <div class="pg" id="ap-initiatives">
-      <div class="pg-head"><div><div class="pg-title">مبادرات الموظفين</div></div><button class="btn btn-white" onclick="openM('m-init')"><i class="ti ti-plus"></i> إضافة مبادرة</button></div>
+      <div class="ph"><div><div class="pt">مبادرات الموظفين</div></div><button class="btn btn-wh" id="btn-add-init"><i class="ti ti-plus"></i> إضافة مبادرة</button></div>
       <div id="g-init" class="g2"></div>
     </div>
-    <!-- GOALS -->
+    <!-- GOALS PAGE -->
     <div class="pg" id="ap-goals">
-      <div class="pg-head"><div><div class="pg-title">أهداف الموظفين</div></div><button class="btn btn-white" onclick="openM('m-goal')"><i class="ti ti-plus"></i> إضافة هدف</button></div>
+      <div class="ph"><div><div class="pt">أهداف الموظفين</div></div><button class="btn btn-wh" id="btn-add-goal"><i class="ti ti-plus"></i> إضافة هدف</button></div>
       <div id="g-goals"></div>
     </div>
-    <!-- VACATIONS -->
+    <!-- VACATIONS PAGE -->
     <div class="pg" id="ap-vacations">
-      <div class="pg-head"><div><div class="pg-title">خطة الإجازات</div></div><button class="btn btn-white" onclick="openM('m-vac')"><i class="ti ti-plus"></i> جدولة إجازة</button></div>
-      <div class="card-flat"><table><thead><tr><th>الموظف</th><th>النوع</th><th>من</th><th>إلى</th><th>أيام</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="t-vac"></tbody></table></div>
+      <div class="ph"><div><div class="pt">خطة الإجازات</div></div><button class="btn btn-wh" id="btn-add-vac"><i class="ti ti-plus"></i> جدولة إجازة</button></div>
+      <div class="card-t"><table><thead><tr><th>الموظف</th><th>النوع</th><th>من</th><th>إلى</th><th>أيام</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="t-vac"></tbody></table></div>
     </div>
-    <!-- DAILY -->
+    <!-- DAILY PAGE -->
     <div class="pg" id="ap-daily">
-      <div class="pg-head"><div><div class="pg-title">الأعمال اليومية</div></div><button class="btn btn-white" onclick="openM('m-daily')"><i class="ti ti-plus"></i> إضافة عمل</button></div>
+      <div class="ph"><div><div class="pt">الأعمال اليومية</div></div><button class="btn btn-wh" id="btn-add-daily"><i class="ti ti-plus"></i> إضافة عمل</button></div>
       <div id="g-daily"></div>
     </div>
-
   </div>
 </div>
 </div>
-
-<!-- ══ EMPLOYEE PORTAL ══ -->
+<!-- EMPLOYEE PORTAL -->
 <div id="scr-emp" class="screen">
-<div class="app-wrap">
-  <div class="sidebar">
-    <div class="logo-area">
-      <div class="logo-row">
-        <div class="logo-ic" style="background:rgba(255,255,255,0.15)"><i class="ti ti-user-circle"></i></div>
-        <div><div class="logo-nm">بوابة الموظف</div><div class="logo-sb" id="ep-sub">—</div></div>
+<div class="app">
+  <div class="sb">
+    <div class="sb-logo">
+      <div class="sb-logo-row">
+        <div class="sb-ic"><i class="ti ti-user-circle"></i></div>
+        <div><div class="sb-name">بوابة الموظف</div><div class="sb-sub" id="ep-sub">—</div></div>
       </div>
     </div>
-    <div class="nav-menu">
-      <div class="ni active" onclick="ePage('home')"><i class="ti ti-home"></i><span>ملفي الشخصي</span></div>
-      <div class="nav-sep">عملي</div>
-      <div class="ni" onclick="ePage('mytasks')"><i class="ti ti-checklist"></i><span>مهامي</span></div>
-      <div class="ni" onclick="ePage('mygoals')"><i class="ti ti-target"></i><span>أهدافي</span></div>
-      <div class="ni" onclick="ePage('myinit')"><i class="ti ti-bulb"></i><span>مبادراتي</span></div>
-      <div class="ni" onclick="ePage('myvac')"><i class="ti ti-beach"></i><span>إجازاتي</span></div>
-      <div class="ni" onclick="ePage('mydaily')"><i class="ti ti-calendar-event"></i><span>أعمالي اليومية</span></div>
+    <div class="sb-nav">
+      <div class="ni active" id="eni-home"><i class="ti ti-home"></i><span>ملفي الشخصي</span></div>
+      <div class="sb-sep">عملي</div>
+      <div class="ni" id="eni-mytasks"><i class="ti ti-checklist"></i><span>مهامي</span></div>
+      <div class="ni" id="eni-mygoals"><i class="ti ti-target"></i><span>أهدافي</span></div>
+      <div class="ni" id="eni-myinit"><i class="ti ti-bulb"></i><span>مبادراتي</span></div>
+      <div class="ni" id="eni-myvac"><i class="ti ti-beach"></i><span>إجازاتي</span></div>
+      <div class="ni" id="eni-mydaily"><i class="ti ti-calendar-event"></i><span>أعمالي اليومية</span></div>
     </div>
-    <div class="user-footer">
+    <div class="sb-foot">
       <div class="av" id="ep-av-sb" style="width:34px;height:34px;font-size:13px">م</div>
-      <div style="flex:1;min-width:0"><div class="nm" id="ep-nm-sb" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">—</div><div class="rl" id="ep-tt-sb">—</div></div>
-      <button class="btn btn-sm" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.2)" onclick="logout()"><i class="ti ti-logout" style="font-size:14px"></i></button>
+      <div style="flex:1;min-width:0"><div class="fn" id="ep-nm-sb" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">—</div><div class="fl" id="ep-tt-sb">—</div></div>
+      <button class="btn btn-sm" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.2)" id="logout-emp"><i class="ti ti-logout" style="font-size:14px"></i></button>
     </div>
   </div>
-  <div class="main-area">
+  <div class="main">
     <div class="pg active" id="ep-home">
-      <div class="pg-head"><div><div class="pg-title">ملفي الشخصي</div></div></div>
+      <div class="ph"><div class="pt">ملفي الشخصي</div></div>
       <div class="g2" style="margin-bottom:18px">
         <div class="card" style="display:flex;align-items:center;gap:18px">
           <div class="av" id="ep-av" style="width:62px;height:62px;font-size:22px;flex-shrink:0">م</div>
@@ -343,137 +327,147 @@ tr:hover td{background:#fafaf8}
         <div class="card">
           <div style="font-size:11px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px">معلومات التواصل</div>
           <div style="display:flex;flex-direction:column;gap:9px;font-size:13px">
-            <div style="display:flex;align-items:center;gap:9px"><i class="ti ti-phone" style="font-size:15px;color:var(--txt3);flex-shrink:0"></i><span id="ep-ph">—</span></div>
-            <div style="display:flex;align-items:center;gap:9px"><i class="ti ti-mail" style="font-size:15px;color:var(--txt3);flex-shrink:0"></i><span id="ep-em">—</span></div>
-            <div style="display:flex;align-items:center;gap:9px"><i class="ti ti-calendar" style="font-size:15px;color:var(--txt3);flex-shrink:0"></i><span id="ep-jn">—</span></div>
+            <div style="display:flex;align-items:center;gap:9px"><i class="ti ti-phone" style="font-size:15px;color:var(--txt3)"></i><span id="ep-ph">—</span></div>
+            <div style="display:flex;align-items:center;gap:9px"><i class="ti ti-mail" style="font-size:15px;color:var(--txt3)"></i><span id="ep-em">—</span></div>
+            <div style="display:flex;align-items:center;gap:9px"><i class="ti ti-calendar" style="font-size:15px;color:var(--txt3)"></i><span id="ep-jn">—</span></div>
           </div>
         </div>
       </div>
-      <div class="ekpi-row">
-        <div class="ekpi"><i class="ti ti-checklist"></i><div><div class="ekpi-val" id="ek-t">0</div><div class="ekpi-lbl">مهامي النشطة</div></div></div>
-        <div class="ekpi"><i class="ti ti-target"></i><div><div class="ekpi-val" id="ek-g">0</div><div class="ekpi-lbl">أهدافي</div></div></div>
-        <div class="ekpi"><i class="ti ti-bulb"></i><div><div class="ekpi-val" id="ek-i">0</div><div class="ekpi-lbl">مبادراتي</div></div></div>
-        <div class="ekpi"><i class="ti ti-beach"></i><div><div class="ekpi-val" id="ek-v">0</div><div class="ekpi-lbl">إجازاتي</div></div></div>
+      <div class="ekr">
+        <div class="ek"><i class="ti ti-checklist"></i><div><div class="ek-v" id="ek-t">0</div><div class="ek-l">مهامي النشطة</div></div></div>
+        <div class="ek"><i class="ti ti-target"></i><div><div class="ek-v" id="ek-g">0</div><div class="ek-l">أهدافي</div></div></div>
+        <div class="ek"><i class="ti ti-bulb"></i><div><div class="ek-v" id="ek-i">0</div><div class="ek-l">مبادراتي</div></div></div>
+        <div class="ek"><i class="ti ti-beach"></i><div><div class="ek-v" id="ek-v">0</div><div class="ek-l">إجازاتي</div></div></div>
       </div>
     </div>
-    <div class="pg" id="ep-mytasks"><div class="pg-head"><div class="pg-title">مهامي</div></div><div class="card-flat"><table><thead><tr><th>المهمة</th><th>الأولوية</th><th>الموعد</th><th>الحالة</th></tr></thead><tbody id="et-t"></tbody></table></div></div>
-    <div class="pg" id="ep-mygoals"><div class="pg-head"><div class="pg-title">أهدافي</div></div><div id="eg-g"></div></div>
-    <div class="pg" id="ep-myinit"><div class="pg-head"><div class="pg-title">مبادراتي</div></div><div id="eg-i" class="g2"></div></div>
-    <div class="pg" id="ep-myvac"><div class="pg-head"><div class="pg-title">إجازاتي</div></div><div class="card-flat"><table><thead><tr><th>النوع</th><th>من</th><th>إلى</th><th>الأيام</th><th>الحالة</th></tr></thead><tbody id="et-v"></tbody></table></div></div>
-    <div class="pg" id="ep-mydaily"><div class="pg-head"><div class="pg-title">أعمالي اليومية</div></div><div id="eg-d"></div></div>
+    <div class="pg" id="ep-mytasks"><div class="ph"><div class="pt">مهامي</div></div><div class="card-t"><table><thead><tr><th>المهمة</th><th>الأولوية</th><th>الموعد</th><th>الحالة</th></tr></thead><tbody id="et-t"></tbody></table></div></div>
+    <div class="pg" id="ep-mygoals"><div class="ph"><div class="pt">أهدافي</div></div><div id="eg-g"></div></div>
+    <div class="pg" id="ep-myinit"><div class="ph"><div class="pt">مبادراتي</div></div><div id="eg-i" class="g2"></div></div>
+    <div class="pg" id="ep-myvac"><div class="ph"><div class="pt">إجازاتي</div></div><div class="card-t"><table><thead><tr><th>النوع</th><th>من</th><th>إلى</th><th>الأيام</th><th>الحالة</th></tr></thead><tbody id="et-v"></tbody></table></div></div>
+    <div class="pg" id="ep-mydaily"><div class="ph"><div class="pt">أعمالي اليومية</div></div><div id="eg-d"></div></div>
   </div>
 </div>
 </div>
-
-<!-- ══ MODALS ══ -->
-<!-- Employee -->
-<div class="overlay" id="m-emp"><div class="modal">
-  <div class="modal-title"><div class="mi" style="background:var(--blue)"><i class="ti ti-user-plus"></i></div><span id="m-emp-title">إضافة موظف جديد</span></div>
+<!-- MODALS -->
+<div class="ov" id="m-emp"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--blue)"><i class="ti ti-user-plus"></i></div><span id="mt-emp">إضافة موظف جديد</span></div>
   <div class="fg2"><div class="fr"><label>الاسم الأول *</label><input id="ef-fn" placeholder="محمد"></div><div class="fr"><label>اسم العائلة *</label><input id="ef-ln" placeholder="الأحمد"></div></div>
   <div class="fr"><label>المسمى الوظيفي *</label><input id="ef-tt" placeholder="مدير مشاريع"></div>
-  <div class="fg2"><div class="fr"><label>القسم</label><select id="ef-dp"><option>تقنية المعلومات</option><option>الموارد البشرية</option><option>المالية</option><option>التسويق</option><option>العمليات</option><option>المبيعات</option><option>الإدارة</option></select></div><div class="fr"><label>الهاتف</label><input id="ef-ph" placeholder="05xxxxxxxx"></div></div>
+  <div class="fg2">
+    <div class="fr"><label>القسم</label><select id="ef-dp"><option>تقنية المعلومات</option><option>الموارد البشرية</option><option>المالية</option><option>التسويق</option><option>العمليات</option><option>المبيعات</option><option>الإدارة</option></select></div>
+    <div class="fr"><label>الهاتف</label><input id="ef-ph" placeholder="05xxxxxxxx"></div>
+  </div>
   <div class="fr"><label>البريد الإلكتروني</label><input id="ef-em" type="email" placeholder="name@company.com"></div>
   <div class="fg2"><div class="fr"><label>تاريخ الانضمام</label><input type="date" id="ef-jn"></div><div class="fr"><label>الحالة</label><select id="ef-st"><option>نشط</option><option>إجازة</option><option>موقوف</option></select></div></div>
-  <div class="login-inner" style="margin-bottom:4px">
+  <div class="li-box" style="margin-bottom:4px">
     <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:6px"><i class="ti ti-lock" style="font-size:13px"></i>بيانات تسجيل الدخول</div>
     <div class="fg2"><div class="fr"><label>اسم المستخدم *</label><input id="ef-us" placeholder="username"></div><div class="fr"><label>كلمة السر *</label><input id="ef-pw" placeholder="password"></div></div>
   </div>
   <input type="hidden" id="ef-id">
-  <div class="modal-footer"><button class="btn" onclick="closeM('m-emp')">إلغاء</button><button class="btn btn-blue" onclick="saveEmp()"><i class="ti ti-check"></i> <span id="m-emp-btn">إضافة الموظف</span></button></div>
+  <div class="modal-foot"><button class="btn" id="mc-emp">إلغاء</button><button class="btn btn-blue" id="ms-emp"><i class="ti ti-check"></i> <span id="mb-emp">إضافة الموظف</span></button></div>
 </div></div>
-<!-- Task -->
-<div class="overlay" id="m-task"><div class="modal">
-  <div class="modal-title"><div class="mi" style="background:var(--amber)"><i class="ti ti-checklist"></i></div><span id="m-task-title">توكيل مهمة</span></div>
+
+<div class="ov" id="m-task"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--amber)"><i class="ti ti-checklist"></i></div><span id="mt-task">توكيل مهمة</span></div>
   <div class="fr"><label>العنوان *</label><input id="tf-tt" placeholder="اسم المهمة..."></div>
   <div class="fr"><label>الوصف</label><textarea id="tf-ds" placeholder="تفاصيل..."></textarea></div>
   <div class="fg2"><div class="fr"><label>الموظف *</label><select id="tf-em"><option value="">-- اختر --</option></select></div><div class="fr"><label>الأولوية</label><select id="tf-pr"><option>عالية</option><option>متوسطة</option><option>منخفضة</option></select></div></div>
   <div class="fr"><label>الموعد النهائي</label><input type="date" id="tf-du"></div>
   <input type="hidden" id="tf-id">
-  <div class="modal-footer"><button class="btn" onclick="closeM('m-task')">إلغاء</button><button class="btn btn-blue" onclick="saveTask()"><i class="ti ti-check"></i> <span id="m-task-btn">توكيل</span></button></div>
+  <div class="modal-foot"><button class="btn" id="mc-task">إلغاء</button><button class="btn btn-blue" id="ms-task"><i class="ti ti-check"></i> <span id="mb-task">توكيل</span></button></div>
 </div></div>
-<!-- Project -->
-<div class="overlay" id="m-proj"><div class="modal">
-  <div class="modal-title"><div class="mi" style="background:var(--purple)"><i class="ti ti-folder-plus"></i></div><span id="m-proj-title">إضافة مشروع</span></div>
+
+<div class="ov" id="m-proj"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-folder-plus"></i></div><span id="mt-proj">إضافة مشروع</span></div>
   <div class="fr"><label>اسم المشروع *</label><input id="pf-nm" placeholder="اسم المشروع..."></div>
   <div class="fr"><label>الوصف</label><textarea id="pf-ds" placeholder="وصف..."></textarea></div>
   <div class="fg2"><div class="fr"><label>المسؤول</label><select id="pf-em"><option value="">-- اختر --</option></select></div><div class="fr"><label>الحالة</label><select id="pf-st"><option>قيد التنفيذ</option><option>مخطط</option><option>مكتمل</option><option>متوقف</option></select></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ البدء</label><input type="date" id="pf-s1"></div><div class="fr"><label>تاريخ الانتهاء</label><input type="date" id="pf-s2"></div></div>
   <div class="fr"><label>نسبة الإنجاز %</label><input type="number" id="pf-pg" min="0" max="100" value="0"></div>
   <input type="hidden" id="pf-id">
-  <div class="modal-footer"><button class="btn" onclick="closeM('m-proj')">إلغاء</button><button class="btn btn-blue" onclick="saveProj()"><i class="ti ti-check"></i> <span id="m-proj-btn">إضافة</span></button></div>
+  <div class="modal-foot"><button class="btn" id="mc-proj">إلغاء</button><button class="btn btn-blue" id="ms-proj"><i class="ti ti-check"></i> <span id="mb-proj">إضافة</span></button></div>
 </div></div>
-<!-- Initiative -->
-<div class="overlay" id="m-init"><div class="modal">
-  <div class="modal-title"><div class="mi" style="background:var(--teal)"><i class="ti ti-bulb"></i></div><span id="m-init-title">إضافة مبادرة</span></div>
+
+<div class="ov" id="m-init"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--teal)"><i class="ti ti-bulb"></i></div><span id="mt-init">إضافة مبادرة</span></div>
   <div class="fr"><label>العنوان *</label><input id="if-tt" placeholder="المبادرة..."></div>
   <div class="fr"><label>الوصف</label><textarea id="if-ds" placeholder="تفاصيل..."></textarea></div>
   <div class="fr"><label>الموظف</label><select id="if-em"><option value="">-- اختر --</option></select></div>
-  <div class="fr"><label>التقييم بالنجوم</label><div class="stars" id="s-row"><span onclick="setSt(1)">★</span><span onclick="setSt(2)">★</span><span onclick="setSt(3)">★</span><span onclick="setSt(4)">★</span><span onclick="setSt(5)">★</span></div><div style="font-size:12px;color:var(--txt2);margin-top:5px" id="s-lbl">لم يتم التقييم</div></div>
+  <div class="fr"><label>التقييم بالنجوم</label>
+    <div class="stars" id="s-row">
+      <span data-n="1">★</span><span data-n="2">★</span><span data-n="3">★</span><span data-n="4">★</span><span data-n="5">★</span>
+    </div>
+    <div style="font-size:12px;color:var(--txt2);margin-top:5px" id="s-lbl">لم يتم التقييم</div>
+  </div>
   <div class="fr"><label>الفئة</label><select id="if-ct"><option>كفاءة</option><option>ابتكار</option><option>توفير</option><option>جودة</option><option>أخرى</option></select></div>
   <input type="hidden" id="if-id">
-  <div class="modal-footer"><button class="btn" onclick="closeM('m-init')">إلغاء</button><button class="btn btn-blue" onclick="saveInit()"><i class="ti ti-check"></i> <span id="m-init-btn">إضافة</span></button></div>
+  <div class="modal-foot"><button class="btn" id="mc-init">إلغاء</button><button class="btn btn-blue" id="ms-init"><i class="ti ti-check"></i> <span id="mb-init">إضافة</span></button></div>
 </div></div>
-<!-- Goal -->
-<div class="overlay" id="m-goal"><div class="modal">
-  <div class="modal-title"><div class="mi" style="background:var(--green)"><i class="ti ti-target"></i></div><span id="m-goal-title">إضافة هدف</span></div>
+
+<div class="ov" id="m-goal"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--green)"><i class="ti ti-target"></i></div><span id="mt-goal">إضافة هدف</span></div>
   <div class="fr"><label>العنوان *</label><input id="gf-tt" placeholder="الهدف..."></div>
   <div class="fr"><label>الوصف</label><textarea id="gf-ds" placeholder="تفاصيل..."></textarea></div>
   <div class="fg2"><div class="fr"><label>الموظف</label><select id="gf-em"><option value="">-- اختر --</option></select></div><div class="fr"><label>الفئة</label><select id="gf-ct"><option>أداء</option><option>تطوير</option><option>إنتاجية</option><option>قيادة</option></select></div></div>
   <div class="fg2"><div class="fr"><label>الموعد</label><input type="date" id="gf-du"></div><div class="fr"><label>نسبة الإنجاز %</label><input type="number" id="gf-pg" min="0" max="100" value="0"></div></div>
   <input type="hidden" id="gf-id">
-  <div class="modal-footer"><button class="btn" onclick="closeM('m-goal')">إلغاء</button><button class="btn btn-blue" onclick="saveGoal()"><i class="ti ti-check"></i> <span id="m-goal-btn">إضافة</span></button></div>
+  <div class="modal-foot"><button class="btn" id="mc-goal">إلغاء</button><button class="btn btn-blue" id="ms-goal"><i class="ti ti-check"></i> <span id="mb-goal">إضافة</span></button></div>
 </div></div>
-<!-- Vacation -->
-<div class="overlay" id="m-vac"><div class="modal">
-  <div class="modal-title"><div class="mi" style="background:#e67e22"><i class="ti ti-beach"></i></div><span id="m-vac-title">جدولة إجازة</span></div>
+
+<div class="ov" id="m-vac"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:#e67e22"><i class="ti ti-beach"></i></div><span id="mt-vac">جدولة إجازة</span></div>
   <div class="fr"><label>الموظف *</label><select id="vf-em"><option value="">-- اختر --</option></select></div>
   <div class="fr"><label>نوع الإجازة</label><select id="vf-tp"><option>سنوية</option><option>مرضية</option><option>طارئة</option><option>أمومة / أبوة</option><option>دراسية</option></select></div>
   <div class="fg2"><div class="fr"><label>من *</label><input type="date" id="vf-fr"></div><div class="fr"><label>إلى *</label><input type="date" id="vf-to"></div></div>
   <div class="fr"><label>ملاحظات</label><textarea id="vf-nt" placeholder="..."></textarea></div>
   <input type="hidden" id="vf-id">
-  <div class="modal-footer"><button class="btn" onclick="closeM('m-vac')">إلغاء</button><button class="btn btn-blue" onclick="saveVac()"><i class="ti ti-check"></i> <span id="m-vac-btn">جدولة</span></button></div>
+  <div class="modal-foot"><button class="btn" id="mc-vac">إلغاء</button><button class="btn btn-blue" id="ms-vac"><i class="ti ti-check"></i> <span id="mb-vac">جدولة</span></button></div>
 </div></div>
-<!-- Daily -->
-<div class="overlay" id="m-daily"><div class="modal">
-  <div class="modal-title"><div class="mi" style="background:var(--blue)"><i class="ti ti-calendar-event"></i></div><span id="m-daily-title">إضافة عمل يومي</span></div>
+
+<div class="ov" id="m-daily"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--blue)"><i class="ti ti-calendar-event"></i></div><span id="mt-daily">إضافة عمل يومي</span></div>
   <div class="fr"><label>العمل / النشاط *</label><input id="df-tt" placeholder="وصف العمل..."></div>
   <div class="fg2"><div class="fr"><label>الموظف</label><select id="df-em"><option value="">-- اختر --</option></select></div><div class="fr"><label>التاريخ</label><input type="date" id="df-dt"></div></div>
   <div class="fg2"><div class="fr"><label>وقت البداية</label><input type="time" id="df-fr"></div><div class="fr"><label>وقت النهاية</label><input type="time" id="df-to"></div></div>
   <div class="fr"><label>الحالة</label><select id="df-st"><option>مكتمل</option><option>جاري</option><option>مخطط</option></select></div>
   <input type="hidden" id="df-id">
-  <div class="modal-footer"><button class="btn" onclick="closeM('m-daily')">إلغاء</button><button class="btn btn-blue" onclick="saveDaily()"><i class="ti ti-check"></i> <span id="m-daily-btn">إضافة</span></button></div>
+  <div class="modal-foot"><button class="btn" id="mc-daily">إلغاء</button><button class="btn btn-blue" id="ms-daily"><i class="ti ti-check"></i> <span id="mb-daily">إضافة</span></button></div>
 </div></div>
-
 <script>
-// ══ STORAGE ══
-const SK='emp_sys_v3';
+const SK='empsys_v4';
 const AVC=['av0','av1','av2','av3','av4','av5'];
 let DB={employees:[],tasks:[],projects:[],initiatives:[],goals:[],vacations:[],daily:[]};
-let CU=null,CS=0;
-let charts={};
+let CU=null, CS=0, charts={};
 
 function save(){try{localStorage.setItem(SK,JSON.stringify(DB));}catch(e){}}
 function load(){try{const d=localStorage.getItem(SK);if(d)DB=Object.assign({employees:[],tasks:[],projects:[],initiatives:[],goals:[],vacations:[],daily:[]},JSON.parse(d));}catch(e){}}
 
 const $=id=>document.getElementById(id);
 const v=id=>($( id)||{}).value||'';
-const sv=(id,val)=>{const e=$(id);if(e)e.value=val;};
+const sv=(id,val)=>{const e=$(id);if(e)e.value=val||'';};
 const clr=ids=>ids.forEach(id=>{const e=$(id);if(e)e.value='';});
 const avc=i=>AVC[((i%6)+6)%6];
 const ini=(f,l)=>(f[0]||'').toUpperCase()+(l[0]||'').toUpperCase();
 const tod=()=>new Date().toISOString().split('T')[0];
 const ddays=(a,b)=>Math.max(1,Math.round((new Date(b)-new Date(a))/86400000)+1);
 const strs=n=>'★'.repeat(n)+'☆'.repeat(5-n);
-const nid=()=>Date.now()+Math.floor(Math.random()*1000);
+const nid=()=>Date.now()+Math.floor(Math.random()*999);
 
 function pC(p){return p==='عالية'?'b-red':p==='متوسطة'?'b-amber':'b-green';}
-function sC(s){if(['مكتمل','موافق عليها','نشط'].includes(s))return 'b-green';if(['قيد التنفيذ','جاري','مخطط'].includes(s))return 'b-blue';if(['متوقف','مرفوضة','موقوف'].includes(s))return 'b-red';return 'b-gray';}
+function sC(s){
+  if(['مكتمل','موافق عليها','نشط'].includes(s)) return 'b-green';
+  if(['قيد التنفيذ','جاري','مخطط'].includes(s)) return 'b-blue';
+  if(['متوقف','مرفوضة','موقوف'].includes(s)) return 'b-red';
+  return 'b-gray';
+}
 function dC(s){return s==='مكتمل'?'#2d7d3a':s==='جاري'?'#1a6bc4':'#b06a00';}
 
-// ══ SCREENS ══
+// ── SCREENS ──
 function showScr(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');}
+
+// ── LOGIN ──
 function doLogin(){
-  const u=v('l-u').trim(),p=v('l-p').trim();
+  const u=v('l-u').trim(), p=v('l-p').trim();
   $('l-err').style.display='none';
   if(u==='admin'&&p==='admin123'){CU={role:'admin'};showScr('scr-admin');aPage('dashboard');initDates();return;}
   const emp=DB.employees.find(e=>e.username===u&&e.password===p);
@@ -482,240 +476,347 @@ function doLogin(){
 }
 function logout(){CU=null;clr(['l-u','l-p']);$('l-err').style.display='none';showScr('scr-login');}
 
-// ══ ADMIN NAV ══
+// ── ADMIN PAGES ──
+const APAGES=['dashboard','employees','tasks','projects','initiatives','goals','vacations','daily'];
 function aPage(pg){
-  document.querySelectorAll('#scr-admin .ni').forEach(n=>n.classList.toggle('active',!!n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+pg+"'")));
-  ['dashboard','employees','tasks','projects','initiatives','goals','vacations','daily'].forEach(p=>$('ap-'+p).classList.toggle('active',p===pg));
-  if(pg==='dashboard')renderDash();
+  APAGES.forEach(p=>{
+    $('ap-'+p).classList.toggle('active',p===pg);
+    const ni=$('ni-'+p);
+    if(ni) ni.classList.toggle('active',p===pg);
+  });
+  if(pg==='dashboard') renderDash();
   refreshSel();
 }
+
+// ── EMP PAGES ──
+const EPAGES=['home','mytasks','mygoals','myinit','myvac','mydaily'];
 function ePage(pg){
-  document.querySelectorAll('#scr-emp .ni').forEach(n=>n.classList.toggle('active',!!n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+pg+"'")));
-  ['home','mytasks','mygoals','myinit','myvac','mydaily'].forEach(p=>$('ep-'+p).classList.toggle('active',p===pg));
+  EPAGES.forEach(p=>{
+    $('ep-'+p).classList.toggle('active',p===pg);
+    const ni=$('eni-'+p);
+    if(ni) ni.classList.toggle('active',p===pg);
+  });
   if(CU&&CU.role==='employee'){const emp=DB.employees.find(e=>e.id===CU.id);if(emp)renderEmpData(emp);}
 }
 
-// ══ EMP PORTAL ══
 function buildEmpPortal(emp){
-  const idx=DB.employees.findIndex(e=>e.id===emp.id),a=avc(idx),i=ini(emp.fname,emp.lname);
+  const idx=DB.employees.findIndex(e=>e.id===emp.id);
+  const a=avc(idx), i=ini(emp.fname,emp.lname);
   $('ep-sub').textContent=emp.title;
-  ['ep-av-sb','ep-av'].forEach(id=>{const el=$(id);if(el){el.className='av '+a;el.style.cssText=id==='ep-av'?'width:62px;height:62px;font-size:22px;flex-shrink:0':'width:34px;height:34px;font-size:13px;flex-shrink:0';el.textContent=i;}});
-  $('ep-nm-sb').textContent=emp.fname+' '+emp.lname;$('ep-tt-sb').textContent=emp.title;
-  $('ep-fn').textContent=emp.fname+' '+emp.lname;$('ep-jt').textContent=emp.title;$('ep-dp').textContent=emp.dept;
-  $('ep-ph').textContent=emp.phone||'—';$('ep-em').textContent=emp.email||'—';$('ep-jn').textContent=emp.join||'—';
+  ['ep-av-sb','ep-av'].forEach(id=>{
+    const el=$(id); if(!el) return;
+    el.className='av '+a;
+    el.style.cssText=id==='ep-av'?'width:62px;height:62px;font-size:22px;flex-shrink:0':'width:34px;height:34px;font-size:13px;flex-shrink:0';
+    el.textContent=i;
+  });
+  $('ep-nm-sb').textContent=emp.fname+' '+emp.lname;
+  $('ep-tt-sb').textContent=emp.title;
+  $('ep-fn').textContent=emp.fname+' '+emp.lname;
+  $('ep-jt').textContent=emp.title;
+  $('ep-dp').textContent=emp.dept;
+  $('ep-ph').textContent=emp.phone||'—';
+  $('ep-em').textContent=emp.email||'—';
+  $('ep-jn').textContent=emp.join||'—';
   renderEmpData(emp);
 }
+
 function renderEmpData(emp){
   const eid=emp.id;
-  const myT=DB.tasks.filter(t=>t.eid===eid),myG=DB.goals.filter(g=>g.eid===eid),myI=DB.initiatives.filter(i=>i.eid===eid),myV=DB.vacations.filter(vv=>vv.eid===eid),myD=DB.daily.filter(d=>d.eid===eid);
-  $('ek-t').textContent=myT.filter(t=>t.status!=='مكتمل').length;$('ek-g').textContent=myG.length;$('ek-i').textContent=myI.length;$('ek-v').textContent=myV.length;
-  $('et-t').innerHTML=myT.length?myT.map(t=>`<tr><td><b>${t.title}</b><div style="font-size:11px;color:var(--txt2)">${t.desc||''}</div></td><td><span class="badge ${pC(t.priority)}">${t.priority}</span></td><td>${t.due||'—'}</td><td><span class="badge ${sC(t.status)}">${t.status}</span></td></tr>`).join(''): '<tr><td colspan="4"><div class="empty-st"><i class="ti ti-checklist"></i><p>لا توجد مهام</p></div></td></tr>';
-  $('eg-g').innerHTML=myG.length?'<div style="display:flex;flex-direction:column;gap:10px">'+myG.map(g=>`<div class="card" style="display:flex;align-items:center;gap:14px"><div style="flex:1"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><b style="font-size:14px">${g.title}</b><span class="badge b-blue">${g.cat}</span></div>${g.due?`<div style="font-size:11px;color:var(--txt2);margin-bottom:7px"><i class="ti ti-calendar" style="font-size:12px"></i> ${g.due}</div>`:''}<div style="display:flex;align-items:center;gap:10px"><div class="pb" style="flex:1"><div class="pf" style="width:${g.prog}%;background:${g.prog===100?'var(--green)':'var(--blue)'}"></div></div><b style="font-size:13px;min-width:38px">${g.prog}%</b></div></div></div>`).join('')+'</div>':'<div class="empty-st"><i class="ti ti-target"></i><p>لا توجد أهداف</p></div>';
-  $('eg-i').innerHTML=myI.length?myI.map(i=>`<div class="proj-card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><b>${i.title}</b><span class="badge b-amber">${i.cat}</span></div><div style="font-size:12px;color:var(--txt2);margin-bottom:10px">${i.desc||''}</div><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="color:#f5a623;font-size:20px;letter-spacing:2px">${strs(i.stars)}</span><b>${i.stars}/5</b></div><div class="pb"><div class="pf" style="width:${Math.round((i.stars/5)*100)}%;background:#f5a623"></div></div><div style="font-size:11px;color:var(--amber);font-weight:700;margin-top:4px">${Math.round((i.stars/5)*100)}%</div></div>`).join(''): '<div class="empty-st" style="grid-column:1/-1"><i class="ti ti-bulb"></i><p>لا توجد مبادرات</p></div>';
-  $('et-v').innerHTML=myV.length?myV.map(vv=>`<tr><td>${vv.type}</td><td>${vv.from}</td><td>${vv.to}</td><td><b>${vv.days} يوم</b></td><td><span class="badge ${sC(vv.status)}">${vv.status}</span></td></tr>`).join(''): '<tr><td colspan="5"><div class="empty-st"><i class="ti ti-beach"></i><p>لا توجد إجازات</p></div></td></tr>';
+  const myT=DB.tasks.filter(t=>t.eid===eid);
+  const myG=DB.goals.filter(g=>g.eid===eid);
+  const myI=DB.initiatives.filter(i=>i.eid===eid);
+  const myV=DB.vacations.filter(vv=>vv.eid===eid);
+  const myD=DB.daily.filter(d=>d.eid===eid);
+  $('ek-t').textContent=myT.filter(t=>t.status!=='مكتمل').length;
+  $('ek-g').textContent=myG.length;
+  $('ek-i').textContent=myI.length;
+  $('ek-v').textContent=myV.length;
+  $('et-t').innerHTML=myT.length
+    ?myT.map(t=>`<tr><td><b>${t.title}</b><div style="font-size:11px;color:var(--txt2)">${t.desc||''}</div></td><td><span class="badge ${pC(t.priority)}">${t.priority}</span></td><td>${t.due||'—'}</td><td><span class="badge ${sC(t.status)}">${t.status}</span></td></tr>`).join('')
+    :'<tr><td colspan="4"><div class="emp-st"><i class="ti ti-checklist"></i><p>لا توجد مهام</p></div></td></tr>';
+  $('eg-g').innerHTML=myG.length
+    ?'<div style="display:flex;flex-direction:column;gap:10px">'+myG.map(g=>`<div class="card" style="display:flex;align-items:center;gap:14px"><div style="flex:1"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><b style="font-size:14px">${g.title}</b><span class="badge b-blue">${g.cat}</span></div>${g.due?`<div style="font-size:11px;color:var(--txt2);margin-bottom:7px">${g.due}</div>`:''}<div style="display:flex;align-items:center;gap:10px"><div class="pb" style="flex:1"><div class="pf" style="width:${g.prog}%;background:${g.prog===100?'var(--green)':'var(--blue)'}"></div></div><b style="min-width:38px">${g.prog}%</b></div></div></div>`).join('')+'</div>'
+    :'<div class="emp-st"><i class="ti ti-target"></i><p>لا توجد أهداف</p></div>';
+  $('eg-i').innerHTML=myI.length
+    ?myI.map(i=>`<div class="pc"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><b>${i.title}</b><span class="badge b-amber">${i.cat}</span></div><div style="font-size:12px;color:var(--txt2);margin-bottom:10px">${i.desc||''}</div><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="color:#f5a623;font-size:20px;letter-spacing:2px">${strs(i.stars)}</span><b>${i.stars}/5</b></div><div class="pb"><div class="pf" style="width:${Math.round((i.stars/5)*100)}%;background:#f5a623"></div></div><div style="font-size:11px;color:var(--amber);font-weight:700;margin-top:4px">${Math.round((i.stars/5)*100)}%</div></div>`).join('')
+    :'<div class="emp-st" style="grid-column:1/-1"><i class="ti ti-bulb"></i><p>لا توجد مبادرات</p></div>';
+  $('et-v').innerHTML=myV.length
+    ?myV.map(vv=>`<tr><td>${vv.type}</td><td>${vv.from}</td><td>${vv.to}</td><td><b>${vv.days} يوم</b></td><td><span class="badge ${sC(vv.status)}">${vv.status}</span></td></tr>`).join('')
+    :'<tr><td colspan="5"><div class="emp-st"><i class="ti ti-beach"></i><p>لا توجد إجازات</p></div></td></tr>';
   renderDailyList('eg-d',myD,false);
 }
 
-// ══ MODALS ══
+// ── MODALS ──
 function openM(id){refreshSel();$(id).classList.add('open');}
 function closeM(id){$(id).classList.remove('open');}
-document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
 function refreshSel(){
   const opts=DB.employees.map(e=>`<option value="${e.id}">${e.fname} ${e.lname}</option>`).join('');
-  ['tf-em','pf-em','if-em','gf-em','vf-em','df-em'].forEach(id=>{const el=$(id);if(el)el.innerHTML='<option value="">-- اختر موظف --</option>'+opts;});
+  ['tf-em','pf-em','if-em','gf-em','vf-em','df-em'].forEach(id=>{
+    const el=$(id); if(el) el.innerHTML='<option value="">-- اختر موظف --</option>'+opts;
+  });
 }
-function setSt(n){CS=n;const lb=['ضعيف','مقبول','جيد','جيد جداً','ممتاز'];document.querySelectorAll('#s-row span').forEach((s,i)=>s.classList.toggle('on',i<n));$('s-lbl').textContent=`${n}/5 — ${lb[n-1]} (${Math.round((n/5)*100)}%)`;}
 
-// ══ OPEN FOR EDIT ══
+// Stars
+document.querySelectorAll('#s-row span').forEach(s=>{
+  s.addEventListener('click',()=>{
+    const n=parseInt(s.dataset.n);
+    CS=n;
+    const lb=['ضعيف','مقبول','جيد','جيد جداً','ممتاز'];
+    document.querySelectorAll('#s-row span').forEach((x,i)=>x.classList.toggle('on',i<n));
+    $('s-lbl').textContent=n+'/5 — '+lb[n-1]+' ('+Math.round((n/5)*100)+'%)';
+  });
+});
+
+// ── EDIT HELPERS ──
+function setModalMode(key,title,btn){$('mt-'+key).textContent=title;$('mb-'+key).textContent=btn;}
+function resetModalMode(key,title,btn){$('mt-'+key).textContent=title;$('mb-'+key).textContent=btn;}
+
 function editEmp(id){
-  const e=DB.employees.find(x=>x.id===id);if(!e)return;
-  sv('ef-fn',e.fname);sv('ef-ln',e.lname);sv('ef-tt',e.title);sv('ef-dp',e.dept);sv('ef-ph',e.phone||''  );sv('ef-em',e.email||'');sv('ef-jn',e.join||'');sv('ef-st',e.status);sv('ef-us',e.username);sv('ef-pw',e.password);sv('ef-id',id);
-  $('m-emp-title').textContent='تعديل بيانات الموظف';$('m-emp-btn').textContent='حفظ التعديلات';openM('m-emp');
+  const e=DB.employees.find(x=>x.id===id); if(!e)return;
+  sv('ef-fn',e.fname);sv('ef-ln',e.lname);sv('ef-tt',e.title);sv('ef-dp',e.dept);
+  sv('ef-ph',e.phone);sv('ef-em',e.email);sv('ef-jn',e.join);sv('ef-st',e.status);
+  sv('ef-us',e.username);sv('ef-pw',e.password);sv('ef-id',id);
+  setModalMode('emp','تعديل بيانات الموظف','حفظ التعديلات');openM('m-emp');
 }
 function editTask(id){
-  const t=DB.tasks.find(x=>x.id===id);if(!t)return;
-  sv('tf-tt',t.title);sv('tf-ds',t.desc||'');sv('tf-em',t.eid);sv('tf-pr',t.priority);sv('tf-du',t.due||'');sv('tf-id',id);
-  $('m-task-title').textContent='تعديل المهمة';$('m-task-btn').textContent='حفظ التعديلات';openM('m-task');
+  const t=DB.tasks.find(x=>x.id===id); if(!t)return;
+  sv('tf-tt',t.title);sv('tf-ds',t.desc);sv('tf-em',t.eid);sv('tf-pr',t.priority);sv('tf-du',t.due);sv('tf-id',id);
+  setModalMode('task','تعديل المهمة','حفظ');openM('m-task');
 }
 function editProj(id){
-  const p=DB.projects.find(x=>x.id===id);if(!p)return;
-  sv('pf-nm',p.name);sv('pf-ds',p.desc||'');sv('pf-em',p.eid);sv('pf-st',p.status);sv('pf-s1',p.start||'');sv('pf-s2',p.end||'');sv('pf-pg',p.prog);sv('pf-id',id);
-  $('m-proj-title').textContent='تعديل المشروع';$('m-proj-btn').textContent='حفظ التعديلات';openM('m-proj');
+  const p=DB.projects.find(x=>x.id===id); if(!p)return;
+  sv('pf-nm',p.name);sv('pf-ds',p.desc);sv('pf-em',p.eid);sv('pf-st',p.status);
+  sv('pf-s1',p.start);sv('pf-s2',p.end);sv('pf-pg',p.prog);sv('pf-id',id);
+  setModalMode('proj','تعديل المشروع','حفظ');openM('m-proj');
 }
 function editInit(id){
-  const i=DB.initiatives.find(x=>x.id===id);if(!i)return;
-  sv('if-tt',i.title);sv('if-ds',i.desc||'');sv('if-em',i.eid);sv('if-ct',i.cat);sv('if-id',id);CS=i.stars;
+  const i=DB.initiatives.find(x=>x.id===id); if(!i)return;
+  sv('if-tt',i.title);sv('if-ds',i.desc);sv('if-em',i.eid);sv('if-ct',i.cat);sv('if-id',id);
+  CS=i.stars;
   document.querySelectorAll('#s-row span').forEach((s,idx)=>s.classList.toggle('on',idx<i.stars));
   const lb=['ضعيف','مقبول','جيد','جيد جداً','ممتاز'];
-  $('s-lbl').textContent=i.stars?`${i.stars}/5 — ${lb[i.stars-1]}`:'لم يتم التقييم';
-  $('m-init-title').textContent='تعديل المبادرة';$('m-init-btn').textContent='حفظ التعديلات';openM('m-init');
+  $('s-lbl').textContent=i.stars?(i.stars+'/5 — '+lb[i.stars-1]):'لم يتم التقييم';
+  setModalMode('init','تعديل المبادرة','حفظ');openM('m-init');
 }
 function editGoal(id){
-  const g=DB.goals.find(x=>x.id===id);if(!g)return;
-  sv('gf-tt',g.title);sv('gf-ds',g.desc||'');sv('gf-em',g.eid);sv('gf-ct',g.cat);sv('gf-du',g.due||'');sv('gf-pg',g.prog);sv('gf-id',id);
-  $('m-goal-title').textContent='تعديل الهدف';$('m-goal-btn').textContent='حفظ التعديلات';openM('m-goal');
+  const g=DB.goals.find(x=>x.id===id); if(!g)return;
+  sv('gf-tt',g.title);sv('gf-ds',g.desc);sv('gf-em',g.eid);sv('gf-ct',g.cat);sv('gf-du',g.due);sv('gf-pg',g.prog);sv('gf-id',id);
+  setModalMode('goal','تعديل الهدف','حفظ');openM('m-goal');
 }
 function editVac(id){
-  const vv=DB.vacations.find(x=>x.id===id);if(!vv)return;
-  sv('vf-em',vv.eid);sv('vf-tp',vv.type);sv('vf-fr',vv.from);sv('vf-to',vv.to);sv('vf-nt',vv.notes||'');sv('vf-id',id);
-  $('m-vac-title').textContent='تعديل الإجازة';$('m-vac-btn').textContent='حفظ التعديلات';openM('m-vac');
+  const vv=DB.vacations.find(x=>x.id===id); if(!vv)return;
+  sv('vf-em',vv.eid);sv('vf-tp',vv.type);sv('vf-fr',vv.from);sv('vf-to',vv.to);sv('vf-nt',vv.notes);sv('vf-id',id);
+  setModalMode('vac','تعديل الإجازة','حفظ');openM('m-vac');
 }
 function editDaily(id){
-  const d=DB.daily.find(x=>x.id===id);if(!d)return;
-  sv('df-tt',d.title);sv('df-em',d.eid);sv('df-dt',d.date||'');sv('df-fr',d.from||'');sv('df-to',d.to||'');sv('df-st',d.status);sv('df-id',id);
-  $('m-daily-title').textContent='تعديل العمل';$('m-daily-btn').textContent='حفظ التعديلات';openM('m-daily');
+  const d=DB.daily.find(x=>x.id===id); if(!d)return;
+  sv('df-tt',d.title);sv('df-em',d.eid);sv('df-dt',d.date);sv('df-fr',d.from);sv('df-to',d.to);sv('df-st',d.status);sv('df-id',id);
+  setModalMode('daily','تعديل العمل','حفظ');openM('m-daily');
 }
-function resetModal(mid,title,btn){$('m-'+mid+'-title').textContent=title;$('m-'+mid+'-btn').textContent=btn;}
 
-// ══ SAVE (Add or Edit) ══
+// ── SAVE / ADD / EDIT ──
 function saveEmp(){
   const fn=v('ef-fn'),ln=v('ef-ln'),tt=v('ef-tt'),dp=v('ef-dp'),ph=v('ef-ph'),em=v('ef-em'),jn=v('ef-jn'),st=v('ef-st'),us=v('ef-us'),pw=v('ef-pw'),eid=v('ef-id');
   if(!fn||!ln||!tt){alert('يرجى ملء الاسم والمسمى');return;}
   if(!us||!pw){alert('يرجى إدخال بيانات الدخول');return;}
+  const dup=DB.employees.find(e=>e.username===us&&e.id!=eid);
+  if(dup){alert('اسم المستخدم مستخدم مسبقاً');return;}
   if(eid){
     const idx=DB.employees.findIndex(x=>x.id==eid);
-    if(idx>-1){const dup=DB.employees.find(e=>e.username===us&&e.id!=eid);if(dup){alert('اسم المستخدم مستخدم مسبقاً');return;}DB.employees[idx]={...DB.employees[idx],fname:fn,lname:ln,title:tt,dept:dp,phone:ph,email:em,join:jn,status:st,username:us,password:pw};}
+    if(idx>-1) DB.employees[idx]={...DB.employees[idx],fname:fn,lname:ln,title:tt,dept:dp,phone:ph,email:em,join:jn,status:st,username:us,password:pw};
   }else{
-    if(DB.employees.find(e=>e.username===us)){alert('اسم المستخدم مستخدم مسبقاً');return;}
     DB.employees.push({id:nid(),fname:fn,lname:ln,title:tt,dept:dp,phone:ph,email:em,join:jn,status:st,username:us,password:pw});
   }
-  save();rEmps();kpis();closeM('m-emp');clr(['ef-fn','ef-ln','ef-tt','ef-ph','ef-em','ef-us','ef-pw','ef-id']);resetModal('emp','إضافة موظف جديد','إضافة الموظف');
+  save();rEmps();kpis();closeM('m-emp');
+  clr(['ef-fn','ef-ln','ef-tt','ef-ph','ef-em','ef-us','ef-pw','ef-id']);
+  resetModalMode('emp','إضافة موظف جديد','إضافة الموظف');
 }
 function saveTask(){
   const tt=v('tf-tt'),ds=v('tf-ds'),eid=v('tf-em'),pr=v('tf-pr'),du=v('tf-du'),tid=v('tf-id');
   if(!tt||!eid){alert('يرجى ملء العنوان واختيار موظف');return;}
   const emp=DB.employees.find(e=>e.id==eid);
-  if(tid){const idx=DB.tasks.findIndex(x=>x.id==tid);if(idx>-1)DB.tasks[idx]={...DB.tasks[idx],title:tt,desc:ds,eid:+eid,ename:emp?emp.fname+' '+emp.lname:'',priority:pr,due:du};}
-  else DB.tasks.push({id:nid(),title:tt,desc:ds,eid:+eid,ename:emp?emp.fname+' '+emp.lname:'',priority:pr,due:du,status:'قيد التنفيذ'});
-  save();rTasks();kpis();closeM('m-task');clr(['tf-tt','tf-ds','tf-id']);resetModal('task','توكيل مهمة','توكيل');
+  const en=emp?emp.fname+' '+emp.lname:'';
+  if(tid){const idx=DB.tasks.findIndex(x=>x.id==tid);if(idx>-1)DB.tasks[idx]={...DB.tasks[idx],title:tt,desc:ds,eid:+eid,ename:en,priority:pr,due:du};}
+  else DB.tasks.push({id:nid(),title:tt,desc:ds,eid:+eid,ename:en,priority:pr,due:du,status:'قيد التنفيذ'});
+  save();rTasks();kpis();closeM('m-task');clr(['tf-tt','tf-ds','tf-id']);resetModalMode('task','توكيل مهمة','توكيل');
 }
 function saveProj(){
   const nm=v('pf-nm'),ds=v('pf-ds'),eid=v('pf-em'),st=v('pf-st'),s1=v('pf-s1'),s2=v('pf-s2'),pg=Math.min(100,Math.max(0,parseInt(v('pf-pg'))||0)),pid=v('pf-id');
   if(!nm){alert('يرجى إدخال اسم المشروع');return;}
   const emp=DB.employees.find(e=>e.id==eid);
-  if(pid){const idx=DB.projects.findIndex(x=>x.id==pid);if(idx>-1)DB.projects[idx]={...DB.projects[idx],name:nm,desc:ds,eid:+eid,ename:emp?emp.fname+' '+emp.lname:'غير محدد',status:st,start:s1,end:s2,prog:pg};}
-  else DB.projects.push({id:nid(),name:nm,desc:ds,eid:+eid,ename:emp?emp.fname+' '+emp.lname:'غير محدد',status:st,start:s1,end:s2,prog:pg});
-  save();rProjs();kpis();closeM('m-proj');clr(['pf-nm','pf-ds','pf-pg','pf-id']);resetModal('proj','إضافة مشروع','إضافة');
+  const en=emp?emp.fname+' '+emp.lname:'غير محدد';
+  if(pid){const idx=DB.projects.findIndex(x=>x.id==pid);if(idx>-1)DB.projects[idx]={...DB.projects[idx],name:nm,desc:ds,eid:+eid,ename:en,status:st,start:s1,end:s2,prog:pg};}
+  else DB.projects.push({id:nid(),name:nm,desc:ds,eid:+eid,ename:en,status:st,start:s1,end:s2,prog:pg});
+  save();rProjs();kpis();closeM('m-proj');clr(['pf-nm','pf-ds','pf-pg','pf-id']);resetModalMode('proj','إضافة مشروع','إضافة');
 }
 function saveInit(){
   const tt=v('if-tt'),ds=v('if-ds'),eid=v('if-em'),ct=v('if-ct'),iid=v('if-id');
   if(!tt){alert('يرجى إدخال العنوان');return;}
   const emp=DB.employees.find(e=>e.id==eid);
-  if(iid){const idx=DB.initiatives.findIndex(x=>x.id==iid);if(idx>-1)DB.initiatives[idx]={...DB.initiatives[idx],title:tt,desc:ds,eid:+eid,ename:emp?emp.fname+' '+emp.lname:'',stars:CS,cat:ct};}
-  else DB.initiatives.push({id:nid(),title:tt,desc:ds,eid:+eid,ename:emp?emp.fname+' '+emp.lname:'',stars:CS,cat:ct});
+  const en=emp?emp.fname+' '+emp.lname:'';
+  if(iid){const idx=DB.initiatives.findIndex(x=>x.id==iid);if(idx>-1)DB.initiatives[idx]={...DB.initiatives[idx],title:tt,desc:ds,eid:+eid,ename:en,stars:CS,cat:ct};}
+  else DB.initiatives.push({id:nid(),title:tt,desc:ds,eid:+eid,ename:en,stars:CS,cat:ct});
   CS=0;document.querySelectorAll('#s-row span').forEach(s=>s.classList.remove('on'));$('s-lbl').textContent='لم يتم التقييم';
-  save();rInits();kpis();closeM('m-init');clr(['if-tt','if-ds','if-id']);resetModal('init','إضافة مبادرة','إضافة');
+  save();rInits();kpis();closeM('m-init');clr(['if-tt','if-ds','if-id']);resetModalMode('init','إضافة مبادرة','إضافة');
 }
 function saveGoal(){
   const tt=v('gf-tt'),ds=v('gf-ds'),eid=v('gf-em'),ct=v('gf-ct'),du=v('gf-du'),pg=Math.min(100,Math.max(0,parseInt(v('gf-pg'))||0)),gid=v('gf-id');
   if(!tt){alert('يرجى إدخال العنوان');return;}
   const emp=DB.employees.find(e=>e.id==eid);
-  if(gid){const idx=DB.goals.findIndex(x=>x.id==gid);if(idx>-1)DB.goals[idx]={...DB.goals[idx],title:tt,desc:ds,eid:+eid,ename:emp?emp.fname+' '+emp.lname:'',cat:ct,due:du,prog:pg};}
-  else DB.goals.push({id:nid(),title:tt,desc:ds,eid:+eid,ename:emp?emp.fname+' '+emp.lname:'',cat:ct,due:du,prog:pg});
-  save();rGoals();closeM('m-goal');clr(['gf-tt','gf-ds','gf-pg','gf-id']);resetModal('goal','إضافة هدف','إضافة');
+  const en=emp?emp.fname+' '+emp.lname:'';
+  if(gid){const idx=DB.goals.findIndex(x=>x.id==gid);if(idx>-1)DB.goals[idx]={...DB.goals[idx],title:tt,desc:ds,eid:+eid,ename:en,cat:ct,due:du,prog:pg};}
+  else DB.goals.push({id:nid(),title:tt,desc:ds,eid:+eid,ename:en,cat:ct,due:du,prog:pg});
+  save();rGoals();closeM('m-goal');clr(['gf-tt','gf-ds','gf-pg','gf-id']);resetModalMode('goal','إضافة هدف','إضافة');
 }
 function saveVac(){
   const eid=v('vf-em'),tp=v('vf-tp'),fr=v('vf-fr'),to=v('vf-to'),nt=v('vf-nt'),vid=v('vf-id');
   if(!eid||!fr||!to){alert('يرجى اختيار موظف وتحديد الفترة');return;}
-  const emp=DB.employees.find(e=>e.id==eid);const dd=ddays(fr,to);
-  if(vid){const idx=DB.vacations.findIndex(x=>x.id==vid);if(idx>-1)DB.vacations[idx]={...DB.vacations[idx],eid:+eid,ename:emp?emp.fname+' '+emp.lname:'',type:tp,from:fr,to:to,days:dd,notes:nt};}
-  else DB.vacations.push({id:nid(),eid:+eid,ename:emp?emp.fname+' '+emp.lname:'',type:tp,from:fr,to:to,days:dd,notes:nt,status:'مخطط'});
-  save();rVacs();closeM('m-vac');clr(['vf-nt','vf-id']);resetModal('vac','جدولة إجازة','جدولة');
+  const emp=DB.employees.find(e=>e.id==eid);
+  const en=emp?emp.fname+' '+emp.lname:'';
+  const dd=ddays(fr,to);
+  if(vid){const idx=DB.vacations.findIndex(x=>x.id==vid);if(idx>-1)DB.vacations[idx]={...DB.vacations[idx],eid:+eid,ename:en,type:tp,from:fr,to:to,days:dd,notes:nt};}
+  else DB.vacations.push({id:nid(),eid:+eid,ename:en,type:tp,from:fr,to:to,days:dd,notes:nt,status:'مخطط'});
+  save();rVacs();closeM('m-vac');clr(['vf-nt','vf-id']);resetModalMode('vac','جدولة إجازة','جدولة');
 }
 function saveDaily(){
   const tt=v('df-tt'),eid=v('df-em'),dt=v('df-dt'),fr=v('df-fr'),to=v('df-to'),st=v('df-st'),did=v('df-id');
   if(!tt){alert('يرجى إدخال وصف العمل');return;}
   const emp=DB.employees.find(e=>e.id==eid);
-  if(did){const idx=DB.daily.findIndex(x=>x.id==did);if(idx>-1)DB.daily[idx]={...DB.daily[idx],title:tt,eid:+eid,ename:emp?emp.fname+' '+emp.lname:'',date:dt,from:fr,to:to,status:st};}
-  else DB.daily.push({id:nid(),title:tt,eid:+eid,ename:emp?emp.fname+' '+emp.lname:'',date:dt,from:fr,to:to,status:st});
-  save();rDaily();closeM('m-daily');clr(['df-tt','df-id']);resetModal('daily','إضافة عمل يومي','إضافة');
+  const en=emp?emp.fname+' '+emp.lname:'';
+  if(did){const idx=DB.daily.findIndex(x=>x.id==did);if(idx>-1)DB.daily[idx]={...DB.daily[idx],title:tt,eid:+eid,ename:en,date:dt,from:fr,to:to,status:st};}
+  else DB.daily.push({id:nid(),title:tt,eid:+eid,ename:en,date:dt,from:fr,to:to,status:st});
+  save();rDaily();closeM('m-daily');clr(['df-tt','df-id']);resetModalMode('daily','إضافة عمل يومي','إضافة');
 }
 
-// ══ RENDER ══
+// ── RENDER FUNCTIONS ──
 function rEmps(){
   const tb=$('t-emp');
-  if(!DB.employees.length){tb.innerHTML='<tr><td colspan="7"><div class="empty-st"><i class="ti ti-users"></i><p>لا يوجد موظفون</p></div></td></tr>';return;}
+  if(!DB.employees.length){tb.innerHTML='<tr><td colspan="7"><div class="emp-st"><i class="ti ti-users"></i><p>لا يوجد موظفون</p></div></td></tr>';return;}
   tb.innerHTML=DB.employees.map((e,i)=>`<tr>
-    <td><div style="display:flex;align-items:center;gap:10px"><div class="av ${avc(i)}" style="width:34px;height:34px;font-size:12px">${ini(e.fname,e.lname)}</div><div><b style="font-size:13px">${e.fname} ${e.lname}</b><div style="font-size:11px;color:var(--txt2)">${e.email||''}</div></div></div></td>
-    <td>${e.title}</td><td><span class="badge b-blue">${e.dept}</span></td>
+    <td><div style="display:flex;align-items:center;gap:10px">
+      <div class="av ${avc(i)}" style="width:34px;height:34px;font-size:12px">${ini(e.fname,e.lname)}</div>
+      <div><b style="font-size:13px">${e.fname} ${e.lname}</b><div style="font-size:11px;color:var(--txt2)">${e.email||''}</div></div>
+    </div></td>
+    <td>${e.title}</td>
+    <td><span class="badge b-blue">${e.dept}</span></td>
     <td style="font-size:12px;color:var(--txt2);direction:ltr;text-align:right">${e.username}</td>
-    <td>${e.phone||'—'}</td><td><span class="badge ${sC(e.status)}">${e.status}</span></td>
-    <td><div class="action-btns"><button class="btn btn-sm btn-green" onclick="editEmp(${e.id})"><i class="ti ti-edit" style="font-size:13px"></i></button><button class="btn btn-sm btn-red" onclick="delEmp(${e.id})"><i class="ti ti-trash" style="font-size:13px"></i></button></div></td>
+    <td>${e.phone||'—'}</td>
+    <td><span class="badge ${sC(e.status)}">${e.status}</span></td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editEmp(${e.id})"><i class="ti ti-edit" style="font-size:13px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delEmp(${e.id})"><i class="ti ti-trash" style="font-size:13px"></i></button>
+    </div></td>
   </tr>`).join('');
 }
-function delEmp(id){if(!confirm('حذف الموظف وجميع بياناته؟'))return;['employees','tasks','goals','initiatives','vacations','daily'].forEach(k=>DB[k]=DB[k].filter(x=>x.id!==id&&x.eid!==id));save();rEmps();kpis();}
+function delEmp(id){
+  if(!confirm('حذف الموظف وجميع بياناته؟'))return;
+  ['employees','tasks','goals','initiatives','vacations','daily'].forEach(k=>DB[k]=DB[k].filter(x=>x.id!==id&&x.eid!==id));
+  save();rEmps();kpis();
+}
 
 function rTasks(){
   const tb=$('t-task');
-  if(!DB.tasks.length){tb.innerHTML='<tr><td colspan="6"><div class="empty-st"><i class="ti ti-checklist"></i><p>لا توجد مهام</p></div></td></tr>';return;}
+  if(!DB.tasks.length){tb.innerHTML='<tr><td colspan="6"><div class="emp-st"><i class="ti ti-checklist"></i><p>لا توجد مهام</p></div></td></tr>';return;}
   tb.innerHTML=DB.tasks.map(t=>`<tr>
     <td><b>${t.title}</b><div style="font-size:11px;color:var(--txt2)">${t.desc||''}</div></td>
-    <td>${t.ename}</td><td><span class="badge ${pC(t.priority)}">${t.priority}</span></td><td>${t.due||'—'}</td>
+    <td>${t.ename}</td>
+    <td><span class="badge ${pC(t.priority)}">${t.priority}</span></td>
+    <td>${t.due||'—'}</td>
     <td><select style="font-size:12px;padding:5px 8px;border:1px solid var(--brd2);border-radius:7px;background:#fff;color:var(--txt);font-family:inherit" onchange="updTask(${t.id},this.value)">
       <option ${t.status==='قيد التنفيذ'?'selected':''}>قيد التنفيذ</option>
       <option ${t.status==='مكتمل'?'selected':''}>مكتمل</option>
       <option ${t.status==='متوقف'?'selected':''}>متوقف</option>
     </select></td>
-    <td><div class="action-btns"><button class="btn btn-sm btn-green" onclick="editTask(${t.id})"><i class="ti ti-edit" style="font-size:13px"></i></button><button class="btn btn-sm btn-red" onclick="delItem('tasks',${t.id},rTasks)"><i class="ti ti-trash" style="font-size:13px"></i></button></div></td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editTask(${t.id})"><i class="ti ti-edit" style="font-size:13px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delItem('tasks',${t.id},rTasks)"><i class="ti ti-trash" style="font-size:13px"></i></button>
+    </div></td>
   </tr>`).join('');
 }
 function updTask(id,val){const t=DB.tasks.find(x=>x.id===id);if(t){t.status=val;save();kpis();}}
 
 function rProjs(){
   const g=$('g-proj');
-  if(!DB.projects.length){g.innerHTML='<div class="empty-st" style="grid-column:1/-1"><i class="ti ti-folders"></i><p>لا توجد مشاريع</p></div>';return;}
-  g.innerHTML=DB.projects.map(p=>`<div class="proj-card">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px"><b style="font-size:14px">${p.name}</b><span class="badge ${sC(p.status)}">${p.status}</span></div>
+  if(!DB.projects.length){g.innerHTML='<div class="emp-st" style="grid-column:1/-1"><i class="ti ti-folders"></i><p>لا توجد مشاريع</p></div>';return;}
+  g.innerHTML=DB.projects.map(p=>`<div class="pc">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+      <b style="font-size:14px">${p.name}</b><span class="badge ${sC(p.status)}">${p.status}</span>
+    </div>
     <div style="font-size:12px;color:var(--txt2);margin-bottom:12px;min-height:16px">${p.desc||''}</div>
-    <div style="display:flex;align-items:center;gap:7px;font-size:12px;margin-bottom:12px"><i class="ti ti-user" style="color:var(--txt3)"></i>${p.ename}</div>
-    <div style="margin-bottom:4px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="color:var(--txt2)">الإنجاز</span><b>${p.prog}%</b></div>
-    <div class="pb"><div class="pf" style="width:${p.prog}%;background:${p.prog===100?'var(--green)':'var(--blue)'}"></div></div></div>
+    <div style="display:flex;align-items:center;gap:7px;font-size:12px;margin-bottom:12px">
+      <i class="ti ti-user" style="color:var(--txt3)"></i>${p.ename}
+    </div>
+    <div style="margin-bottom:4px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
+        <span style="color:var(--txt2)">الإنجاز</span><b>${p.prog}%</b>
+      </div>
+      <div class="pb"><div class="pf" style="width:${p.prog}%;background:${p.prog===100?'var(--green)':'var(--blue)'}"></div></div>
+    </div>
     ${p.end?`<div style="font-size:11px;color:var(--txt2);margin-top:8px"><i class="ti ti-calendar" style="font-size:12px"></i> الانتهاء: ${p.end}</div>`:''}
-    <div style="display:flex;gap:6px;margin-top:12px;justify-content:flex-end"><button class="btn btn-sm btn-green" onclick="editProj(${p.id})"><i class="ti ti-edit" style="font-size:13px"></i> تعديل</button><button class="btn btn-sm btn-red" onclick="delItem('projects',${p.id},rProjs)"><i class="ti ti-trash" style="font-size:13px"></i></button></div>
+    <div style="display:flex;gap:6px;margin-top:12px;justify-content:flex-end">
+      <button class="btn btn-sm btn-grn" onclick="editProj(${p.id})"><i class="ti ti-edit" style="font-size:13px"></i> تعديل</button>
+      <button class="btn btn-sm btn-red" onclick="delItem('projects',${p.id},rProjs)"><i class="ti ti-trash" style="font-size:13px"></i></button>
+    </div>
   </div>`).join('');
 }
 
 function rInits(){
   const g=$('g-init');
-  if(!DB.initiatives.length){g.innerHTML='<div class="empty-st" style="grid-column:1/-1"><i class="ti ti-bulb"></i><p>لا توجد مبادرات</p></div>';return;}
-  g.innerHTML=DB.initiatives.map(i=>`<div class="proj-card">
-    <div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="font-size:13px">${i.title}</b><span class="badge b-amber">${i.cat}</span></div>
+  if(!DB.initiatives.length){g.innerHTML='<div class="emp-st" style="grid-column:1/-1"><i class="ti ti-bulb"></i><p>لا توجد مبادرات</p></div>';return;}
+  g.innerHTML=DB.initiatives.map(i=>`<div class="pc">
+    <div style="display:flex;justify-content:space-between;margin-bottom:8px"><b>${i.title}</b><span class="badge b-amber">${i.cat}</span></div>
     <div style="font-size:12px;color:var(--txt2);margin-bottom:10px">${i.desc||''}</div>
     <div style="font-size:12px;margin-bottom:10px"><i class="ti ti-user" style="font-size:13px;color:var(--txt3)"></i> ${i.ename||'—'}</div>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="color:#f5a623;font-size:20px;letter-spacing:2px">${strs(i.stars)}</span><b>${i.stars}/5</b></div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <span style="color:#f5a623;font-size:20px;letter-spacing:2px">${strs(i.stars)}</span><b>${i.stars}/5</b>
+    </div>
     <div class="pb"><div class="pf" style="width:${Math.round((i.stars/5)*100)}%;background:#f5a623"></div></div>
     <div style="font-size:11px;color:var(--amber);font-weight:700;margin-top:4px">${Math.round((i.stars/5)*100)}%</div>
-    <div style="display:flex;gap:6px;margin-top:12px;justify-content:flex-end"><button class="btn btn-sm btn-green" onclick="editInit(${i.id})"><i class="ti ti-edit" style="font-size:13px"></i> تعديل</button><button class="btn btn-sm btn-red" onclick="delItem('initiatives',${i.id},rInits)"><i class="ti ti-trash" style="font-size:13px"></i></button></div>
+    <div style="display:flex;gap:6px;margin-top:12px;justify-content:flex-end">
+      <button class="btn btn-sm btn-grn" onclick="editInit(${i.id})"><i class="ti ti-edit" style="font-size:13px"></i> تعديل</button>
+      <button class="btn btn-sm btn-red" onclick="delItem('initiatives',${i.id},rInits)"><i class="ti ti-trash" style="font-size:13px"></i></button>
+    </div>
   </div>`).join('');
 }
 
 function rGoals(){
   const g=$('g-goals');
-  if(!DB.goals.length){g.innerHTML='<div class="empty-st"><i class="ti ti-target"></i><p>لا توجد أهداف</p></div>';return;}
+  if(!DB.goals.length){g.innerHTML='<div class="emp-st"><i class="ti ti-target"></i><p>لا توجد أهداف</p></div>';return;}
   g.innerHTML='<div style="display:flex;flex-direction:column;gap:10px">'+DB.goals.map(gl=>`<div class="card" style="display:flex;align-items:center;gap:14px">
     <div style="flex:1">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><b style="font-size:14px">${gl.title}</b><span class="badge b-blue">${gl.cat}</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <b style="font-size:14px">${gl.title}</b><span class="badge b-blue">${gl.cat}</span>
+      </div>
       <div style="font-size:12px;color:var(--txt2);margin-bottom:7px">${gl.ename||'—'}${gl.due?' · '+gl.due:''}</div>
       <div style="display:flex;align-items:center;gap:10px">
         <div class="pb" style="flex:1"><div class="pf" style="width:${gl.prog}%;background:${gl.prog===100?'var(--green)':'var(--blue)'}"></div></div>
         <b style="font-size:13px;min-width:38px">${gl.prog}%</b>
       </div>
     </div>
-    <div class="action-btns"><button class="btn btn-sm btn-green" onclick="editGoal(${gl.id})"><i class="ti ti-edit" style="font-size:13px"></i></button><button class="btn btn-sm btn-red" onclick="delItem('goals',${gl.id},rGoals)"><i class="ti ti-trash" style="font-size:13px"></i></button></div>
+    <div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editGoal(${gl.id})"><i class="ti ti-edit" style="font-size:13px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delItem('goals',${gl.id},rGoals)"><i class="ti ti-trash" style="font-size:13px"></i></button>
+    </div>
   </div>`).join('')+'</div>';
 }
 
 function rVacs(){
   const tb=$('t-vac');
-  if(!DB.vacations.length){tb.innerHTML='<tr><td colspan="7"><div class="empty-st"><i class="ti ti-beach"></i><p>لا توجد إجازات</p></div></td></tr>';return;}
+  if(!DB.vacations.length){tb.innerHTML='<tr><td colspan="7"><div class="emp-st"><i class="ti ti-beach"></i><p>لا توجد إجازات</p></div></td></tr>';return;}
   tb.innerHTML=DB.vacations.map(vv=>`<tr>
-    <td>${vv.ename}</td><td>${vv.type}</td><td>${vv.from}</td><td>${vv.to}</td><td><b>${vv.days} يوم</b></td>
+    <td>${vv.ename}</td><td>${vv.type}</td><td>${vv.from}</td><td>${vv.to}</td>
+    <td><b>${vv.days} يوم</b></td>
     <td><select style="font-size:12px;padding:5px 8px;border:1px solid var(--brd2);border-radius:7px;background:#fff;color:var(--txt);font-family:inherit" onchange="updVac(${vv.id},this.value)">
       <option ${vv.status==='مخطط'?'selected':''}>مخطط</option>
       <option ${vv.status==='موافق عليها'?'selected':''}>موافق عليها</option>
       <option ${vv.status==='مرفوضة'?'selected':''}>مرفوضة</option>
     </select></td>
-    <td><div class="action-btns"><button class="btn btn-sm btn-green" onclick="editVac(${vv.id})"><i class="ti ti-edit" style="font-size:13px"></i></button><button class="btn btn-sm btn-red" onclick="delItem('vacations',${vv.id},rVacs)"><i class="ti ti-trash" style="font-size:13px"></i></button></div></td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editVac(${vv.id})"><i class="ti ti-edit" style="font-size:13px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delItem('vacations',${vv.id},rVacs)"><i class="ti ti-trash" style="font-size:13px"></i></button>
+    </div></td>
   </tr>`).join('');
 }
 function updVac(id,val){const vv=DB.vacations.find(x=>x.id===id);if(vv){vv.status=val;save();}}
@@ -723,70 +824,86 @@ function updVac(id,val){const vv=DB.vacations.find(x=>x.id===id);if(vv){vv.statu
 function rDaily(){renderDailyList('g-daily',DB.daily,true);}
 function renderDailyList(elId,data,showEdit){
   const g=$(elId);
-  if(!data.length){g.innerHTML='<div class="empty-st"><i class="ti ti-calendar-event"></i><p>لا توجد أعمال</p></div>';return;}
-  const byD={};data.forEach(d=>{(byD[d.date]||(byD[d.date]=[])).push(d);});
+  if(!data.length){g.innerHTML='<div class="emp-st"><i class="ti ti-calendar-event"></i><p>لا توجد أعمال</p></div>';return;}
+  const byD={};
+  data.forEach(d=>{(byD[d.date]||(byD[d.date]=[])).push(d);});
   g.innerHTML=Object.keys(byD).sort().reverse().map(dt=>`
     <div style="margin-bottom:14px">
-      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px">${dt}</div>
-      <div class="card-flat">${byD[dt].map(d=>`
+      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px">${dt}</div>
+      <div class="card-t">${byD[dt].map(d=>`
         <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--brd)">
           <div style="width:8px;height:8px;border-radius:50%;background:${dC(d.status)};flex-shrink:0"></div>
-          <div style="flex:1"><b style="font-size:13px">${d.title}</b><div style="font-size:11px;color:var(--txt2)">${d.ename||''} ${d.from&&d.to?'· '+d.from+' – '+d.to:''}</div></div>
+          <div style="flex:1"><b style="font-size:13px">${d.title}</b>
+            <div style="font-size:11px;color:var(--txt2)">${d.ename||''} ${d.from&&d.to?'· '+d.from+' – '+d.to:''}</div>
+          </div>
           <span class="badge ${sC(d.status)}">${d.status}</span>
-          ${showEdit?`<div class="action-btns"><button class="btn btn-sm btn-green" onclick="editDaily(${d.id})"><i class="ti ti-edit" style="font-size:12px"></i></button><button class="btn btn-sm btn-red" onclick="delItem('daily',${d.id},rDaily)"><i class="ti ti-trash" style="font-size:12px"></i></button></div>`:''}
+          ${showEdit?`<div class="act-btns"><button class="btn btn-sm btn-grn" onclick="editDaily(${d.id})"><i class="ti ti-edit" style="font-size:12px"></i></button><button class="btn btn-sm btn-red" onclick="delItem('daily',${d.id},rDaily)"><i class="ti ti-trash" style="font-size:12px"></i></button></div>`:''}
         </div>`).join('')}</div>
     </div>`).join('');
 }
-function delItem(list,id,rFn){if(!confirm('حذف هذا العنصر؟'))return;DB[list]=DB[list].filter(x=>x.id!==id);save();rFn();kpis();}
+function delItem(list,id,rFn){
+  if(!confirm('حذف هذا العنصر؟'))return;
+  DB[list]=DB[list].filter(x=>x.id!==id);save();rFn();kpis();
+}
 
-// ══ KPIs ══
+// ── KPIs ──
 function kpis(){
-  const ne=DB.employees.length,np=DB.projects.filter(p=>p.status==='قيد التنفيذ').length,nt=DB.tasks.filter(t=>t.status!=='مكتمل').length,ni=DB.initiatives.length;
-  $('k-emp').textContent=ne;$('k-proj').textContent=np;$('k-task').textContent=nt;$('k-init').textContent=ni;
-  $('k-emp-t').textContent=ne?`${DB.employees.filter(e=>e.status==='نشط').length} نشط`:'';
-  $('k-proj-t').textContent=np?`${DB.projects.filter(p=>p.prog===100).length} مكتمل`:'';
-  $('k-task-t').textContent=nt?`${DB.tasks.filter(t=>t.status==='مكتمل').length} مكتملة`:'';
-  $('k-init-t').textContent=ni?`متوسط ${Math.round(DB.initiatives.reduce((a,i)=>a+i.stars,0)/ni*10)/10} ★`:'';
+  const ne=DB.employees.length, np=DB.projects.filter(p=>p.status==='قيد التنفيذ').length;
+  const nt=DB.tasks.filter(t=>t.status!=='مكتمل').length, ni=DB.initiatives.length;
+  $('k-emp').textContent=ne; $('k-proj').textContent=np;
+  $('k-task').textContent=nt; $('k-init').textContent=ni;
+  $('k-emp-t').textContent=ne?DB.employees.filter(e=>e.status==='نشط').length+' نشط':'';
+  $('k-proj-t').textContent=np?DB.projects.filter(p=>p.prog===100).length+' مكتمل':'';
+  $('k-task-t').textContent=nt?DB.tasks.filter(t=>t.status==='مكتمل').length+' مكتملة':'';
+  $('k-init-t').textContent=ni?'متوسط '+Math.round(DB.initiatives.reduce((a,i)=>a+i.stars,0)/ni*10)/10+' ★':'';
 }
 
-// ══ CHARTS ══
+// ── CHARTS ──
 function buildCharts(){
-  const ctx1=$('ch-tasks'),ctx2=$('ch-proj'),ctx3=$('ch-dept');
-  if(!ctx1||!ctx2||!ctx3)return;
-  // Tasks donut
-  const tDone=DB.tasks.filter(t=>t.status==='مكتمل').length;
-  const tActive=DB.tasks.filter(t=>t.status==='قيد التنفيذ').length;
-  const tStop=DB.tasks.filter(t=>t.status==='متوقف').length;
+  const c1=$('ch-tasks'), c2=$('ch-proj'), c3=$('ch-dept');
+  if(!c1||!c2||!c3) return;
   if(charts.t)charts.t.destroy();
-  charts.t=new Chart(ctx1,{type:'doughnut',data:{labels:['مكتملة','نشطة','متوقفة'],datasets:[{data:[tDone,tActive,tStop],backgroundColor:['#2d7d3a','#1a6bc4','#c0392b'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,boxWidth:10}}}}});
-  // Projects bar
-  const pNames=DB.projects.slice(-5).map(p=>p.name.length>8?p.name.substring(0,8)+'…':p.name);
-  const pProgs=DB.projects.slice(-5).map(p=>p.prog);
   if(charts.p)charts.p.destroy();
-  charts.p=new Chart(ctx2,{type:'bar',data:{labels:pNames.length?pNames:['لا توجد'],datasets:[{label:'الإنجاز %',data:pProgs.length?pProgs:[0],backgroundColor:'rgba(26,107,196,0.8)',borderRadius:6,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100,ticks:{font:{size:10}},grid:{color:'rgba(0,0,0,0.05)'}},x:{ticks:{font:{size:10}},grid:{display:false}}}}});
-  // Dept donut
-  const depts={};DB.employees.forEach(e=>{depts[e.dept]=(depts[e.dept]||0)+1;});
-  const dColors=['#1a6bc4','#2d7d3a','#b06a00','#5b4fcf','#0f7a6e','#c0392b','#e67e22'];
   if(charts.d)charts.d.destroy();
-  charts.d=new Chart(ctx3,{type:'doughnut',data:{labels:Object.keys(depts).length?Object.keys(depts):['لا توجد'],datasets:[{data:Object.values(depts).length?Object.values(depts):[1],backgroundColor:dColors,borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:6,boxWidth:10}}}}});
+  const tD=DB.tasks.filter(t=>t.status==='مكتمل').length;
+  const tA=DB.tasks.filter(t=>t.status==='قيد التنفيذ').length;
+  const tS=DB.tasks.filter(t=>t.status==='متوقف').length;
+  const total=tD+tA+tS;
+  charts.t=new Chart(c1,{type:'doughnut',data:{labels:['مكتملة','نشطة','متوقفة'],datasets:[{data:total?[tD,tA,tS]:[1,0,0],backgroundColor:['#2d7d3a','#1a6bc4','#c0392b'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:6,boxWidth:10}}}}});
+  const projs=DB.projects.slice(-6);
+  charts.p=new Chart(c2,{type:'bar',data:{labels:projs.length?projs.map(p=>p.name.length>7?p.name.substring(0,7)+'…':p.name):['—'],datasets:[{label:'%',data:projs.length?projs.map(p=>p.prog):[0],backgroundColor:projs.length?projs.map(p=>p.prog===100?'rgba(45,125,58,0.85)':'rgba(26,107,196,0.8)'):['rgba(26,107,196,0.5)'],borderRadius:6,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100,ticks:{font:{size:10}},grid:{color:'rgba(0,0,0,0.05)'}},x:{ticks:{font:{size:10}},grid:{display:false}}}}});
+  const depts={};DB.employees.forEach(e=>{depts[e.dept]=(depts[e.dept]||0)+1;});
+  const dkeys=Object.keys(depts);
+  const dcols=['#1a6bc4','#2d7d3a','#b06a00','#5b4fcf','#0f7a6e','#c0392b','#e67e22'];
+  charts.d=new Chart(c3,{type:'doughnut',data:{labels:dkeys.length?dkeys:['لا توجد بيانات'],datasets:[{data:dkeys.length?Object.values(depts):[1],backgroundColor:dkeys.length?dcols:['#ccc'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:6,boxWidth:10}}}}});
 }
 
-// ══ DASHBOARD ══
+// ── DASHBOARD ──
 function renderDash(){
   kpis();
-  setTimeout(buildCharts,50);
+  setTimeout(buildCharts,80);
   const dp=$('d-proj');
-  dp.innerHTML=DB.projects.length?DB.projects.slice(-5).reverse().map(p=>`<div class="dr"><div class="dr-main"><div class="dr-t">${p.name}</div><div class="dr-s">${p.ename}</div></div><div style="width:72px"><div class="pb"><div class="pf" style="width:${p.prog}%;background:${p.prog===100?'var(--green)':'var(--blue)'}"></div></div><div style="font-size:10px;font-weight:700;color:var(--txt2);margin-top:2px;text-align:left">${p.prog}%</div></div><span class="badge ${sC(p.status)}" style="flex-shrink:0">${p.status}</span></div>`).join(''): '<div class="empty-st"><i class="ti ti-folders"></i><p>لا توجد مشاريع</p></div>';
+  dp.innerHTML=DB.projects.length
+    ?DB.projects.slice(-5).reverse().map(p=>`<div class="dr"><div class="dr-m"><div class="dr-t">${p.name}</div><div class="dr-s">${p.ename}</div></div><div style="width:72px"><div class="pb"><div class="pf" style="width:${p.prog}%;background:${p.prog===100?'var(--green)':'var(--blue)'}"></div></div><div style="font-size:10px;font-weight:700;color:var(--txt2);margin-top:2px;text-align:left">${p.prog}%</div></div><span class="badge ${sC(p.status)}" style="flex-shrink:0">${p.status}</span></div>`).join('')
+    :'<div class="emp-st"><i class="ti ti-folders"></i><p>لا توجد مشاريع</p></div>';
   const dg=$('d-goals');
-  dg.innerHTML=DB.goals.length?DB.goals.slice(-4).reverse().map(g=>`<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span style="font-weight:600">${g.title}</span><b style="color:${g.prog===100?'var(--green)':'var(--blue)'}">${g.prog}%</b></div><div class="pb"><div class="pf" style="width:${g.prog}%;background:${g.prog===100?'var(--green)':'var(--blue)'}"></div></div><div style="font-size:11px;color:var(--txt2);margin-top:2px">${g.ename||'—'}</div></div>`).join(''): '<div class="empty-st"><i class="ti ti-target"></i><p>لا توجد أهداف</p></div>';
+  dg.innerHTML=DB.goals.length
+    ?DB.goals.slice(-4).reverse().map(g=>`<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span style="font-weight:600">${g.title}</span><b style="color:${g.prog===100?'var(--green)':'var(--blue)'}">${g.prog}%</b></div><div class="pb"><div class="pf" style="width:${g.prog}%;background:${g.prog===100?'var(--green)':'var(--blue)'}"></div></div><div style="font-size:11px;color:var(--txt2);margin-top:2px">${g.ename||'—'}</div></div>`).join('')
+    :'<div class="emp-st"><i class="ti ti-target"></i><p>لا توجد أهداف</p></div>';
   const di=$('d-init');
-  di.innerHTML=DB.initiatives.length?DB.initiatives.slice(-4).reverse().map(i=>`<div class="dr"><div class="dr-main"><div class="dr-t">${i.title}</div><div class="dr-s">${i.ename||'—'}</div></div><span style="color:#f5a623;font-size:15px;letter-spacing:1px">${strs(i.stars)}</span></div>`).join(''): '<div class="empty-st"><i class="ti ti-bulb"></i><p>لا توجد مبادرات</p></div>';
+  di.innerHTML=DB.initiatives.length
+    ?DB.initiatives.slice(-4).reverse().map(i=>`<div class="dr"><div class="dr-m"><div class="dr-t">${i.title}</div><div class="dr-s">${i.ename||'—'}</div></div><span style="color:#f5a623;font-size:15px;letter-spacing:1px">${strs(i.stars)}</span></div>`).join('')
+    :'<div class="emp-st"><i class="ti ti-bulb"></i><p>لا توجد مبادرات</p></div>';
   const dv=$('d-vac');
   const up=DB.vacations.filter(vv=>vv.from>=tod()).slice(0,4);
-  dv.innerHTML=up.length?up.map(vv=>`<div class="dr"><div class="dr-main"><div class="dr-t">${vv.ename}</div><div class="dr-s">${vv.type} · ${vv.days} أيام</div></div><span style="font-size:12px;color:var(--txt2)">${vv.from}</span></div>`).join(''): '<div class="empty-st"><i class="ti ti-beach"></i><p>لا توجد إجازات قادمة</p></div>';
+  dv.innerHTML=up.length
+    ?up.map(vv=>`<div class="dr"><div class="dr-m"><div class="dr-t">${vv.ename}</div><div class="dr-s">${vv.type} · ${vv.days} أيام</div></div><span style="font-size:12px;color:var(--txt2)">${vv.from}</span></div>`).join('')
+    :'<div class="emp-st"><i class="ti ti-beach"></i><p>لا توجد إجازات قادمة</p></div>';
   const dd=$('d-daily');
   const td=DB.daily.filter(d=>d.date===tod());
-  dd.innerHTML=td.length?td.map(d=>`<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--brd)"><div style="width:8px;height:8px;border-radius:50%;background:${dC(d.status)};flex-shrink:0"></div><div style="flex:1"><b style="font-size:13px">${d.title}</b><div style="font-size:11px;color:var(--txt2)">${d.ename||''} ${d.from&&d.to?'· '+d.from+' – '+d.to:''}</div></div><span class="badge ${sC(d.status)}">${d.status}</span></div>`).join(''): '<div class="empty-st"><i class="ti ti-calendar-event"></i><p>لا توجد أعمال اليوم</p></div>';
+  dd.innerHTML=td.length
+    ?td.map(d=>`<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--brd)"><div style="width:8px;height:8px;border-radius:50%;background:${dC(d.status)};flex-shrink:0"></div><div style="flex:1"><b style="font-size:13px">${d.title}</b><div style="font-size:11px;color:var(--txt2)">${d.ename||''} ${d.from&&d.to?'· '+d.from+' – '+d.to:''}</div></div><span class="badge ${sC(d.status)}">${d.status}</span></div>`).join('')
+    :'<div class="emp-st"><i class="ti ti-calendar-event"></i><p>لا توجد أعمال اليوم</p></div>';
 }
 
 function initDates(){
@@ -794,7 +911,66 @@ function initDates(){
   ['tf-du','pf-s1','pf-s2','gf-du','vf-fr','vf-to','df-dt','ef-jn'].forEach(id=>{const el=$(id);if(el&&!el.value)el.value=t;});
   $('dash-dt').textContent=new Date().toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 }
+
+// ── EVENT LISTENERS ──
+document.addEventListener('DOMContentLoaded', function(){
+  $('login-btn').addEventListener('click', doLogin);
+  $('l-p').addEventListener('keydown', e=>{if(e.key==='Enter')doLogin();});
+  $('l-u').addEventListener('keydown', e=>{if(e.key==='Enter')doLogin();});
+  $('logout-admin').addEventListener('click', logout);
+  $('logout-emp').addEventListener('click', logout);
+  // Admin nav
+  $('ni-dashboard').addEventListener('click',()=>aPage('dashboard'));
+  $('ni-employees').addEventListener('click',()=>aPage('employees'));
+  $('ni-tasks').addEventListener('click',()=>aPage('tasks'));
+  $('ni-projects').addEventListener('click',()=>aPage('projects'));
+  $('ni-initiatives').addEventListener('click',()=>aPage('initiatives'));
+  $('ni-goals').addEventListener('click',()=>aPage('goals'));
+  $('ni-vacations').addEventListener('click',()=>aPage('vacations'));
+  $('ni-daily').addEventListener('click',()=>aPage('daily'));
+  // Emp nav
+  $('eni-home').addEventListener('click',()=>ePage('home'));
+  $('eni-mytasks').addEventListener('click',()=>ePage('mytasks'));
+  $('eni-mygoals').addEventListener('click',()=>ePage('mygoals'));
+  $('eni-myinit').addEventListener('click',()=>ePage('myinit'));
+  $('eni-myvac').addEventListener('click',()=>ePage('myvac'));
+  $('eni-mydaily').addEventListener('click',()=>ePage('mydaily'));
+  // Dashboard buttons
+  $('btn-new-emp').addEventListener('click',()=>{aPage('employees');openM('m-emp');});
+  $('btn-new-task').addEventListener('click',()=>{aPage('tasks');openM('m-task');});
+  $('btn-all-proj').addEventListener('click',()=>aPage('projects'));
+  $('btn-all-goals').addEventListener('click',()=>aPage('goals'));
+  $('btn-all-init').addEventListener('click',()=>aPage('initiatives'));
+  $('btn-all-vac').addEventListener('click',()=>aPage('vacations'));
+  $('btn-add-daily-dash').addEventListener('click',()=>{aPage('daily');openM('m-daily');});
+  // Page add buttons
+  $('btn-add-emp').addEventListener('click',()=>openM('m-emp'));
+  $('btn-add-task').addEventListener('click',()=>openM('m-task'));
+  $('btn-add-proj').addEventListener('click',()=>openM('m-proj'));
+  $('btn-add-init').addEventListener('click',()=>openM('m-init'));
+  $('btn-add-goal').addEventListener('click',()=>openM('m-goal'));
+  $('btn-add-vac').addEventListener('click',()=>openM('m-vac'));
+  $('btn-add-daily').addEventListener('click',()=>openM('m-daily'));
+  // Modal close buttons
+  $('mc-emp').addEventListener('click',()=>closeM('m-emp'));
+  $('mc-task').addEventListener('click',()=>closeM('m-task'));
+  $('mc-proj').addEventListener('click',()=>closeM('m-proj'));
+  $('mc-init').addEventListener('click',()=>closeM('m-init'));
+  $('mc-goal').addEventListener('click',()=>closeM('m-goal'));
+  $('mc-vac').addEventListener('click',()=>closeM('m-vac'));
+  $('mc-daily').addEventListener('click',()=>closeM('m-daily'));
+  // Modal save buttons
+  $('ms-emp').addEventListener('click', saveEmp);
+  $('ms-task').addEventListener('click', saveTask);
+  $('ms-proj').addEventListener('click', saveProj);
+  $('ms-init').addEventListener('click', saveInit);
+  $('ms-goal').addEventListener('click', saveGoal);
+  $('ms-vac').addEventListener('click', saveVac);
+  $('ms-daily').addEventListener('click', saveDaily);
+});
+
 load();
-<\/script>
+
+</script>
 </body>
 </html>
