@@ -518,32 +518,19 @@ function stopListeners(){
 }
 
 function refreshCurrentView(){
-  if(!CU) return; // Not logged in yet, skip render
+  if(!CU) return;
+  // Always render ALL pages so data is ready when user navigates
+  rEmps(); rTasks(); rProjs(); rInits(); rGoals(); rVacs(); rDaily();
+  kpis();
+  // Also render dashboard and current active page
   const adm=$('scr-admin'), emp=$('scr-emp');
   if(adm && adm.classList.contains('active')){
-    const pages=['dashboard','employees','tasks','projects','initiatives','goals','vacations','daily'];
-    pages.forEach(pg=>{
-      const el=$('ap-'+pg);
-      if(el && el.classList.contains('active')){
-        if(pg==='dashboard') renderDash();
-        else if(pg==='employees') rEmps();
-        else if(pg==='tasks') rTasks();
-        else if(pg==='projects') rProjs();
-        else if(pg==='initiatives') rInits();
-        else if(pg==='goals') rGoals();
-        else if(pg==='vacations') rVacs();
-        else if(pg==='daily') rDaily();
-      }
-    });
+    renderDash();
   }
-  if(emp && emp.classList.contains('active') && CU && CU.role==='employee'){
+  if(emp && emp.classList.contains('active') && CU.role==='employee'){
     const e=DB.employees.find(x=>x.id===CU.id);
-    if(e){
-      buildEmpPortal(e);
-      renderEmpData(e);
-    }
+    if(e){ buildEmpPortal(e); renderEmpData(e); }
   }
-  kpis();
 }
 
 // ── SCREENS ──
