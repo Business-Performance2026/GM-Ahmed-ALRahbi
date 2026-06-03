@@ -6,6 +6,7 @@
 <title>نظام إدارة الموظفين</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -134,6 +135,25 @@ tr:hover td{background:#fafaf8}
 .emp-st i{font-size:34px;display:block;margin-bottom:9px;opacity:.35}
 .emp-st p{font-size:13px}
 .act-btns{display:flex;gap:5px}
+/* NOTIFICATIONS */
+.notif-btn{position:relative;cursor:pointer;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.22);color:#fff;width:36px;height:36px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0}
+.notif-btn:hover{background:rgba(255,255,255,0.25)}
+.notif-badge{position:absolute;top:-5px;right:-5px;background:#c0392b;color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;display:none}
+.notif-badge.show{display:flex}
+.notif-panel{position:absolute;top:50px;left:0;width:340px;background:var(--card);border-radius:var(--r2);box-shadow:0 8px 32px rgba(0,0,0,0.2);z-index:500;display:none;overflow:hidden;border:1px solid var(--brd)}
+.notif-panel.open{display:block}
+.notif-head{padding:12px 16px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
+.notif-head span{font-size:13px;font-weight:700;color:var(--txt)}
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:11px 16px;border-bottom:1px solid var(--brd);transition:background .12s;cursor:pointer}
+.notif-item:last-child{border-bottom:none}
+.notif-item:hover{background:var(--bg3,#f5f5f3)}
+.notif-item.unread{background:#fef9f0}
+.notif-ic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.notif-txt{flex:1;min-width:0}
+.notif-txt b{font-size:12px;color:var(--txt);display:block}
+.notif-txt span{font-size:11px;color:var(--txt2);margin-top:2px;display:block}
+.notif-empty{text-align:center;padding:24px;color:var(--txt3);font-size:13px}
+.notif-wrap{position:relative}
 /* LOADING OVERLAY */
 .loading-ov{position:fixed;inset:0;background:rgba(3,69,94,0.92);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
 .loading-ov.hide{display:none}
@@ -217,7 +237,20 @@ tr:hover td{background:#fafaf8}
     <div class="pg active" id="ap-dashboard">
       <div class="ph">
         <div><div class="pt">لوحة التحكم</div><div class="ps" id="dash-dt"></div></div>
-        <div style="display:flex;gap:8px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="notif-wrap">
+            <button class="notif-btn" id="notif-btn" title="الإشعارات">
+              <i class="ti ti-bell" style="font-size:17px"></i>
+              <span class="notif-badge" id="notif-badge">0</span>
+            </button>
+            <div class="notif-panel" id="notif-panel">
+              <div class="notif-head">
+                <span><i class="ti ti-bell" style="font-size:14px;vertical-align:-2px;margin-left:5px"></i>الإشعارات</span>
+                <button class="btn btn-sm" id="notif-clear" style="font-size:11px;padding:3px 8px">مسح الكل</button>
+              </div>
+              <div id="notif-list"><div class="notif-empty">لا توجد إشعارات</div></div>
+            </div>
+          </div>
           <button class="btn btn-wh btn-sm" id="btn-new-emp"><i class="ti ti-user-plus"></i> موظف جديد</button>
           <button class="btn btn-wh btn-sm" id="btn-new-task"><i class="ti ti-plus"></i> مهمة جديدة</button>
         </div>
@@ -269,7 +302,12 @@ tr:hover td{background:#fafaf8}
       <div class="card-t"><table><thead><tr><th>المهمة</th><th>الموظف</th><th>الأولوية</th><th>الموعد</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="t-task"></tbody></table></div>
     </div>
     <div class="pg" id="ap-projects">
-      <div class="ph"><div><div class="pt">المشاريع</div></div><button class="btn btn-wh" id="btn-add-proj"><i class="ti ti-plus"></i> إضافة مشروع</button></div>
+      <div class="ph"><div><div class="pt">المشاريع</div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" id="btn-export-pdf"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
+          <button class="btn btn-wh" id="btn-add-proj"><i class="ti ti-plus"></i> إضافة مشروع</button>
+        </div>
+      </div>
       <div id="g-proj" class="g2"></div>
     </div>
     <div class="pg" id="ap-initiatives">
@@ -1075,7 +1113,333 @@ document.addEventListener('DOMContentLoaded',()=>{
   window.delEmp=delEmp;window.delItem=delItem;
   window.updTask=updTask;window.updVac=updVac;
   window.aPage=aPage;window.ePage=ePage;window.openM=openM;window.closeM=closeM;
+
+  // ── NOTIFICATIONS ──
+  $('btn-export-pdf') && $('btn-export-pdf').addEventListener('click', exportProjectsPDF);
+  $('notif-btn') && $('notif-btn').addEventListener('click', toggleNotifPanel);
+  $('notif-clear') && $('notif-clear').addEventListener('click', clearNotifs);
+  document.addEventListener('click', e=>{
+    const panel=$('notif-panel'), btn=$('notif-btn');
+    if(panel && btn && !panel.contains(e.target) && !btn.contains(e.target)){
+      panel.classList.remove('open');
+    }
+  });
+
+  // Check notifications every minute
+  setInterval(checkNotifications, 60000);
 });
+
+// ── NOTIFICATIONS SYSTEM ──
+let notifRead = JSON.parse(sessionStorage.getItem('notif_read')||'[]');
+
+function checkNotifications(){
+  if(!CU || CU.role!=='admin') return;
+  const notifs = [];
+  const today = new Date();
+
+  // Check tasks nearing deadline (within 3 days)
+  DB.tasks.filter(t=>t.status!=='مكتمل'&&t.due).forEach(t=>{
+    const due = new Date(t.due);
+    const diff = Math.ceil((due-today)/(1000*60*60*24));
+    if(diff>=0 && diff<=3){
+      notifs.push({
+        id:'task_'+t.id,
+        type:'warning',
+        icon:'ti-checklist',
+        color:'#b06a00',
+        bg:'#fdf0dc',
+        title: diff===0?'مهمة تنتهي اليوم!': diff===1?'مهمة تنتهي غداً':'مهمة تنتهي خلال '+diff+' أيام',
+        text: t.title + ' — ' + (t.ename||''),
+        time: t.due
+      });
+    }
+  });
+
+  // Check projects nearing end date (within 7 days)
+  DB.projects.filter(p=>p.status==='قيد التنفيذ'&&p.end).forEach(p=>{
+    const end = new Date(p.end);
+    const diff = Math.ceil((end-today)/(1000*60*60*24));
+    if(diff>=0 && diff<=7){
+      notifs.push({
+        id:'proj_'+p.id,
+        type:'info',
+        icon:'ti-folders',
+        color:'#1a6bc4',
+        bg:'#deeaf8',
+        title: 'مشروع يقترب من الانتهاء — '+diff+' أيام',
+        text: p.name + ' — ' + p.prog + '% منجز',
+        time: p.end
+      });
+    }
+  });
+
+  // Check vacations starting within 2 days
+  DB.vacations.filter(v=>v.status==='موافق عليها'&&v.from).forEach(v=>{
+    const from = new Date(v.from);
+    const diff = Math.ceil((from-today)/(1000*60*60*24));
+    if(diff>=0 && diff<=2){
+      notifs.push({
+        id:'vac_'+v.id,
+        type:'success',
+        icon:'ti-beach',
+        color:'#2d7d3a',
+        bg:'#e0f0e3',
+        title: 'إجازة تبدأ '+(diff===0?'اليوم':diff===1?'غداً':'بعد يومين'),
+        text: v.ename + ' — ' + v.type,
+        time: v.from
+      });
+    }
+  });
+
+  // Check goals with 0% progress and due soon
+  DB.goals.filter(g=>g.prog===0&&g.due).forEach(g=>{
+    const due = new Date(g.due);
+    const diff = Math.ceil((due-today)/(1000*60*60*24));
+    if(diff>=0 && diff<=7){
+      notifs.push({
+        id:'goal_'+g.id,
+        type:'danger',
+        icon:'ti-target',
+        color:'#c0392b',
+        bg:'#fce8e6',
+        title: 'هدف لم يبدأ بعد — '+diff+' أيام متبقية',
+        text: g.title + ' — ' + (g.ename||''),
+        time: g.due
+      });
+    }
+  });
+
+  renderNotifications(notifs);
+}
+
+function renderNotifications(notifs){
+  const list=$('notif-list'), badge=$('notif-badge');
+  if(!list||!badge) return;
+
+  const unread = notifs.filter(n=>!notifRead.includes(n.id));
+
+  if(!notifs.length){
+    list.innerHTML='<div class="notif-empty"><i class="ti ti-check" style="font-size:24px;display:block;margin-bottom:8px;opacity:.4"></i>لا توجد إشعارات</div>';
+    badge.classList.remove('show');
+    return;
+  }
+
+  badge.textContent = unread.length>9?'9+':unread.length;
+  badge.classList.toggle('show', unread.length>0);
+
+  list.innerHTML = notifs.map(n=>`
+    <div class="notif-item ${notifRead.includes(n.id)?'':'unread'}" onclick="markRead('${n.id}')">
+      <div class="notif-ic" style="background:${n.bg}">
+        <i class="ti ${n.icon}" style="color:${n.color}"></i>
+      </div>
+      <div class="notif-txt">
+        <b>${n.title}</b>
+        <span>${n.text}</span>
+        <span style="color:var(--txt3);font-size:10px;margin-top:3px">${n.time||''}</span>
+      </div>
+      ${!notifRead.includes(n.id)?'<div style="width:8px;height:8px;border-radius:50%;background:#c0392b;flex-shrink:0;margin-top:5px"></div>':''}
+    </div>`).join('');
+}
+
+function markRead(id){
+  if(!notifRead.includes(id)){
+    notifRead.push(id);
+    sessionStorage.setItem('notif_read', JSON.stringify(notifRead));
+  }
+  checkNotifications();
+}
+
+function clearNotifs(){
+  const ids = [];
+  DB.tasks.forEach(t=>ids.push('task_'+t.id));
+  DB.projects.forEach(p=>ids.push('proj_'+p.id));
+  DB.vacations.forEach(v=>ids.push('vac_'+v.id));
+  DB.goals.forEach(g=>ids.push('goal_'+g.id));
+  notifRead = ids;
+  sessionStorage.setItem('notif_read', JSON.stringify(notifRead));
+  checkNotifications();
+}
+
+function toggleNotifPanel(){
+  const panel=$('notif-panel');
+  if(!panel) return;
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open')) checkNotifications();
+}
+
+// ── PDF EXPORT ──
+function exportProjectsPDF(){
+  if(!DB.projects.length){showToast('لا توجد مشاريع للتصدير');return;}
+  showToast('جاري إنشاء PDF...');
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+
+  const pageW = doc.internal.pageSize.getWidth();
+  const margin = 15;
+  let y = margin;
+
+  // ── HEADER ──
+  doc.setFillColor(3, 69, 94);
+  doc.rect(0, 0, pageW, 28, 'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(16);
+  doc.setFont('helvetica','bold');
+  doc.text('Projects Report', pageW/2, 12, {align:'center'});
+  doc.setFontSize(9);
+  doc.setFont('helvetica','normal');
+  doc.text('Generated: '+new Date().toLocaleDateString('en-GB'), pageW/2, 20, {align:'center'});
+  doc.text('Total Projects: '+DB.projects.length, pageW/2, 25, {align:'center'});
+  y = 36;
+
+  // ── SUMMARY BOXES ──
+  const active = DB.projects.filter(p=>p.status==='قيد التنفيذ').length;
+  const done = DB.projects.filter(p=>p.status==='مكتمل').length;
+  const planned = DB.projects.filter(p=>p.status==='مخطط').length;
+  const stopped = DB.projects.filter(p=>p.status==='متوقف').length;
+  const avgProg = DB.projects.length ? Math.round(DB.projects.reduce((a,p)=>a+p.prog,0)/DB.projects.length) : 0;
+
+  const boxes = [
+    {label:'Active',val:active,r:26,g:107,b:196},
+    {label:'Completed',val:done,r:45,g:125,b:58},
+    {label:'Planned',val:planned,r:176,g:106,b:0},
+    {label:'Stopped',val:stopped,r:192,g:57,b:43},
+    {label:'Avg Progress',val:avgProg+'%',r:91,g:79,b:207},
+  ];
+  const bw = (pageW - margin*2 - 8*4) / 5;
+  boxes.forEach((b,i)=>{
+    const bx = margin + i*(bw+8);
+    doc.setFillColor(b.r,b.g,b.b);
+    doc.roundedRect(bx, y, bw, 18, 3, 3, 'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(14);
+    doc.setFont('helvetica','bold');
+    doc.text(String(b.val), bx+bw/2, y+10, {align:'center'});
+    doc.setFontSize(7);
+    doc.setFont('helvetica','normal');
+    doc.text(b.label, bx+bw/2, y+16, {align:'center'});
+  });
+  y += 26;
+
+  // ── TABLE HEADER ──
+  doc.setFillColor(240,240,238);
+  doc.rect(margin, y, pageW-margin*2, 8, 'F');
+  doc.setTextColor(80,80,80);
+  doc.setFontSize(8);
+  doc.setFont('helvetica','bold');
+  const cols = [
+    {label:'Project Name', x: margin+2, w:55},
+    {label:'Manager', x: margin+57, w:38},
+    {label:'Status', x: margin+95, w:28},
+    {label:'Progress', x: margin+123, w:25},
+    {label:'End Date', x: margin+148, w:28},
+  ];
+  cols.forEach(c=> doc.text(c.label, c.x+1, y+5.5));
+  y += 8;
+
+  // ── TABLE ROWS ──
+  doc.setFont('helvetica','normal');
+  DB.projects.forEach((p,i)=>{
+    if(y > 265){
+      doc.addPage();
+      y = 20;
+    }
+    const rowH = 10;
+    // Row background
+    if(i%2===0){
+      doc.setFillColor(250,250,248);
+      doc.rect(margin, y, pageW-margin*2, rowH, 'F');
+    }
+    // Status color dot
+    const sc = p.status==='مكتمل'?[45,125,58]:p.status==='قيد التنفيذ'?[26,107,196]:p.status==='متوقف'?[192,57,43]:[176,106,0];
+    doc.setFillColor(...sc);
+    doc.circle(margin+98, y+5, 2, 'F');
+
+    doc.setTextColor(30,30,26);
+    doc.setFontSize(8);
+    // Name (truncate if long)
+    const nm = p.name.length>28?p.name.substring(0,26)+'...':p.name;
+    doc.text(nm, cols[0].x+1, y+6.5);
+    const en = (p.ename||'N/A').length>18?(p.ename||'N/A').substring(0,16)+'...':(p.ename||'N/A');
+    doc.text(en, cols[1].x+1, y+6.5);
+    // Status text
+    const stMap={'مكتمل':'Completed','قيد التنفيذ':'Active','مخطط':'Planned','متوقف':'Stopped'};
+    doc.text(stMap[p.status]||p.status, cols[2].x+5, y+6.5);
+    // Progress bar
+    const barX = cols[3].x+1, barY=y+4, barW=22, barH=3;
+    doc.setFillColor(220,220,218);
+    doc.roundedRect(barX, barY, barW, barH, 1, 1, 'F');
+    if(p.prog>0){
+      doc.setFillColor(...sc);
+      doc.roundedRect(barX, barY, barW*(p.prog/100), barH, 1, 1, 'F');
+    }
+    doc.setTextColor(60,60,60);
+    doc.text(p.prog+'%', barX+barW+1, y+6.5);
+    // End date
+    doc.text(p.end||'—', cols[4].x+1, y+6.5);
+    // Bottom border
+    doc.setDrawColor(220,220,218);
+    doc.line(margin, y+rowH, pageW-margin, y+rowH);
+    y += rowH;
+  });
+
+  // ── PROJECT DETAILS ──
+  y += 8;
+  DB.projects.forEach(p=>{
+    if(y > 250){ doc.addPage(); y = 20; }
+    // Card header
+    doc.setFillColor(3,69,94);
+    doc.roundedRect(margin, y, pageW-margin*2, 8, 2, 2, 'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(9);
+    doc.setFont('helvetica','bold');
+    doc.text(p.name, margin+3, y+5.5);
+    const sc2 = p.status==='مكتمل'?[45,125,58]:p.status==='قيد التنفيذ'?[26,107,196]:p.status==='متوقف'?[192,57,43]:[176,106,0];
+    doc.setFillColor(...sc2);
+    const stLabel = {'مكتمل':'Completed','قيد التنفيذ':'Active','مخطط':'Planned','متوقف':'Stopped'};
+    const stTxt = stLabel[p.status]||p.status;
+    doc.roundedRect(pageW-margin-22, y+1.5, 20, 5, 2, 2, 'F');
+    doc.setFontSize(7);
+    doc.text(stTxt, pageW-margin-12, y+5.5, {align:'center'});
+    y += 10;
+
+    // Details
+    doc.setFillColor(248,248,246);
+    doc.rect(margin, y, pageW-margin*2, 18, 'F');
+    doc.setTextColor(90,90,86);
+    doc.setFontSize(8);
+    doc.setFont('helvetica','normal');
+    doc.text('Manager: '+(p.ename||'N/A'), margin+3, y+5);
+    doc.text('Start: '+(p.start||'N/A'), margin+3, y+11);
+    doc.text('End: '+(p.end||'N/A'), margin+3, y+17);
+    doc.text('Progress: '+p.prog+'%', margin+70, y+5);
+    doc.text('Desc: '+((p.desc||'No description').substring(0,50)), margin+70, y+11);
+    // Progress bar in details
+    const bx2=margin+3, by2=y+13, bw2=60, bh2=2.5;
+    doc.setFillColor(220,220,218);
+    doc.roundedRect(bx2, by2, bw2, bh2, 1, 1, 'F');
+    if(p.prog>0){
+      doc.setFillColor(...sc2);
+      doc.roundedRect(bx2, by2, bw2*(p.prog/100), bh2, 1, 1, 'F');
+    }
+    y += 22;
+  });
+
+  // ── FOOTER ──
+  const totalPages = doc.internal.getNumberOfPages();
+  for(let i=1;i<=totalPages;i++){
+    doc.setPage(i);
+    doc.setFillColor(3,69,94);
+    doc.rect(0, 285, pageW, 12, 'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(8);
+    doc.text('Employee Management System — Confidential', margin, 292);
+    doc.text('Page '+i+' of '+totalPages, pageW-margin, 292, {align:'right'});
+  }
+
+  doc.save('Projects-Report-'+new Date().toISOString().split('T')[0]+'.pdf');
+  showToast('تم تصدير PDF بنجاح ✓');
+}
 </script>
 </body>
 </html>
