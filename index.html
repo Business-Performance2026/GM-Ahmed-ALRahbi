@@ -428,7 +428,7 @@ tr:hover td{background:#fafaf8}
 <!-- FIREBASE SDK -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
-import { getFirestore, collection, doc, onSnapshot, setDoc, deleteDoc, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+import { getDatabase, ref, onValue, set, remove, get } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAFai1p5MC3OQuekVXFZFPFj5OcWlMqOa0",
@@ -442,7 +442,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getDatabase(app);
 
 const AVC = ['av0','av1','av2','av3','av4','av5'];
 let DB = {employees:[],tasks:[],projects:[],initiatives:[],goals:[],vacations:[],daily:[]};
@@ -487,8 +487,14 @@ function startListeners(){
   unsubscribers.forEach(u=>u());
   unsubscribers=[];
   COLLECTIONS.forEach(col=>{
-    const unsub = onSnapshot(collection(db,col), snap=>{
-      DB[col] = snap.docs.map(d=>({id:d.id,...d.data()}));
+    const dbRef = ref(db, col);
+    const unsub = onValue(dbRef, snap=>{
+      const data = snap.val();
+      if(data) {
+        DB[col] = Object.entries(data).map(([id,v])=>({id,...v}));
+      } else {
+        DB[col] = [];
+      }
       setSyncState('ok');
       refreshCurrentView();
     }, err=>{
@@ -508,12 +514,12 @@ async function fbSave(col, item){
   setSyncState('syncing');
   try {
     const {id,...data} = item;
-    await setDoc(doc(db,col,String(id)), data);
+    await set(ref(db, col+'/'+String(id)), data);
     setSyncState('ok');
     showToast('تم الحفظ ✓');
   } catch(e){
     setSyncState('error');
-    showToast('خطأ في الحفظ!');
+    showToast('خطأ في الحفظ! '+e.message);
     console.error(e);
   }
 }
@@ -521,12 +527,12 @@ async function fbSave(col, item){
 async function fbDelete(col, id){
   setSyncState('syncing');
   try {
-    await deleteDoc(doc(db,col,String(id)));
+    await remove(ref(db, col+'/'+String(id)));
     setSyncState('ok');
     showToast('تم الحذف ✓');
   } catch(e){
     setSyncState('error');
-    showToast('خطأ في الحذف!');
+    showToast('خطأ في الحذف! '+e.message);
     console.error(e);
   }
 }
@@ -1047,16 +1053,17 @@ document.addEventListener('DOMContentLoaded',()=>{
     $('loading-ov').querySelector('.loading-txt').textContent='جاري الاتصال بقاعدة البيانات...';
     try {
       for(const col of COLLECTIONS){
-        const snap = await getDocs(collection(db,col));
-        DB[col] = snap.docs.map(d=>({id:d.id,...d.data()}));
+        const snap = await get(ref(db, col));
+        const data = snap.val();
+        DB[col] = data ? Object.entries(data).map(([id,v])=>({id,...v})) : [];
       }
       $('loading-ov').classList.add('hide');
       setSyncState('ok');
     } catch(e){
       console.error('Firebase error:',e);
-      $('loading-ov').querySelector('.loading-txt').textContent='تعذّر الاتصال — تحقق من إعدادات Firestore';
+      $('loading-ov').querySelector('.loading-txt').textContent='تعذّر الاتصال: '+e.message;
       setSyncState('error');
-      setTimeout(()=>$('loading-ov').classList.add('hide'),3000);
+      setTimeout(()=>$('loading-ov').classList.add('hide'),4000);
     }
   };
   loadAll();
