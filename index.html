@@ -635,8 +635,10 @@ function refreshCurrentView(){
   // Always render ALL pages so data is ready when user navigates
   rEmps(); rTasks(); rProjs(); rInits(); rGoals(); rVacs(); rDaily();
   // New sections
-  [1,2,3,4,5].forEach(n=>rNewReq(n));
-  rTInv(); rTDist(); rKPI2(); rNatl(); rPub(); rDevPlan();
+  if(typeof rNewReq === 'function'){
+    [1,2,3,4,5].forEach(n=>rNewReq(n));
+    rTInv(); rTDist(); rKPI2(); rNatl(); rPub(); rDevPlan();
+  }
   kpis();
   // Also render dashboard and current active page
   const adm=$('scr-admin'), emp=$('scr-emp');
@@ -1615,6 +1617,284 @@ function exportProjectsPDF(){
     });
   }, 1200);
 }
+
+
+// ══════════════════════════════════════
+// NEW SECTIONS FUNCTIONS
+// ══════════════════════════════════════
+
+function aPageNew(pg){
+  document.querySelectorAll('#scr-admin .pg').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('#scr-admin .ni').forEach(n=>n.classList.remove('active'));
+  const el=$('ap-'+pg); if(el) el.classList.add('active');
+  const niMap={'r1':'ni-r1','r2':'ni-r2','r3':'ni-r3','r4':'ni-r4','r5':'ni-r5','tinv':'ni-tinv','tdist':'ni-tdist','kpi2':'ni-kpi','natl':'ni-natl','pub':'ni-pub','devplan':'ni-devplan'};
+  const ni=$(niMap[pg]); if(ni) ni.classList.add('active');
+  if(pg==='natl') rNatl();
+}
+
+function saveReq(n){
+  const id=v('r'+n+'-id');
+  const item={
+    id:id||nid(),
+    ref:v('r'+n+'-ref'), recv:v('r'+n+'-recv'), ldate:v('r'+n+'-ldate'),
+    name:v('r'+n+'-name'), subj:v('r'+n+'-subj'), phone:v('r'+n+'-phone'),
+    dept:v('r'+n+'-dept'), rdate:v('r'+n+'-rdate'),
+    deptreply:v('r'+n+'-deptreply'), final:v('r'+n+'-final'),
+    notes:v('r'+n+'-notes')
+  };
+  if(!item.subj){alert('يرجى إدخال الموضوع');return;}
+  fbSave('r'+n, item);
+  closeM('m-r'+n);
+  ['ref','name','subj','phone','dept','notes','id'].forEach(f=>clr(['r'+n+'-'+f]));
+  $('mt-r'+n).textContent='إضافة طلب';
+  $('mb-r'+n).textContent='إضافة';
+}
+
+function editReq(n,id){
+  const item=(DB['r'+n]||[]).find(x=>x.id===id); if(!item)return;
+  sv('r'+n+'-ref',item.ref); sv('r'+n+'-recv',item.recv); sv('r'+n+'-ldate',item.ldate);
+  sv('r'+n+'-name',item.name); sv('r'+n+'-subj',item.subj); sv('r'+n+'-phone',item.phone);
+  sv('r'+n+'-dept',item.dept); sv('r'+n+'-rdate',item.rdate);
+  sv('r'+n+'-deptreply',item.deptreply); sv('r'+n+'-final',item.final);
+  sv('r'+n+'-notes',item.notes); sv('r'+n+'-id',id);
+  $('mt-r'+n).textContent='تعديل الطلب';
+  $('mb-r'+n).textContent='حفظ التعديلات';
+  openM('m-r'+n);
+}
+
+function saveTInv(){
+  const id=v('ti-id');
+  const item={id:id||nid(),emp:v('ti-emp'),task:v('ti-task'),imp:v('ti-imp'),kpi:v('ti-kpi'),freq:v('ti-freq'),dur:v('ti-dur'),start:v('ti-start'),end:v('ti-end'),notes:v('ti-notes')};
+  if(!item.task){alert('يرجى إدخال المهمة');return;}
+  fbSave('tinv',item); closeM('m-tinv');
+  clr(['ti-emp','ti-task','ti-kpi','ti-dur','ti-notes','ti-id']);
+  $('mt-tinv').textContent='إضافة مهمة — حصر المهام';
+  $('mb-tinv').textContent='إضافة';
+}
+function editTInv(id){
+  const item=(DB.tinv||[]).find(x=>x.id===id); if(!item)return;
+  sv('ti-emp',item.emp);sv('ti-task',item.task);sv('ti-imp',item.imp);sv('ti-kpi',item.kpi);
+  sv('ti-freq',item.freq);sv('ti-dur',item.dur);sv('ti-start',item.start);sv('ti-end',item.end);sv('ti-notes',item.notes);sv('ti-id',id);
+  $('mt-tinv').textContent='تعديل المهمة'; $('mb-tinv').textContent='حفظ'; openM('m-tinv');
+}
+
+function saveTDist(){
+  const id=v('td-id');
+  const item={id:id||nid(),task:v('td-task'),emp:v('td-emp'),pri:v('td-pri'),status:v('td-status'),prog:parseInt(v('td-prog'))||0,date:v('td-date')};
+  if(!item.task){alert('يرجى إدخال المهمة');return;}
+  fbSave('tdist',item); closeM('m-tdist');
+  clr(['td-task','td-emp','td-id']); $('td-prog').value='0';
+  $('mt-tdist').textContent='إضافة توزيع مهمة'; $('mb-tdist').textContent='إضافة';
+}
+function editTDist(id){
+  const item=(DB.tdist||[]).find(x=>x.id===id); if(!item)return;
+  sv('td-task',item.task);sv('td-emp',item.emp);sv('td-pri',item.pri);sv('td-status',item.status);sv('td-prog',item.prog);sv('td-date',item.date);sv('td-id',id);
+  $('mt-tdist').textContent='تعديل توزيع المهمة'; $('mb-tdist').textContent='حفظ'; openM('m-tdist');
+}
+
+function saveKPI2(){
+  const id=v('kp-id');
+  const item={id:id||nid(),emp:v('kp-emp'),recv:parseInt(v('kp-recv'))||0,done:parseInt(v('kp-done'))||0,time:v('kp-time'),sat:parseInt(v('kp-sat'))||0,comp:parseInt(v('kp-comp'))||0,rating:v('kp-rating')};
+  if(!item.emp){alert('يرجى إدخال اسم الموظف');return;}
+  fbSave('kpi2',item); closeM('m-kpi2');
+  clr(['kp-emp','kp-time','kp-id']); ['kp-recv','kp-done','kp-sat','kp-comp'].forEach(i=>{$(i).value='0';});
+  $('mt-kpi2').textContent='إضافة بيانات مؤشرات الأداء'; $('mb-kpi2').textContent='إضافة';
+}
+function editKPI2(id){
+  const item=(DB.kpi2||[]).find(x=>x.id===id); if(!item)return;
+  sv('kp-emp',item.emp);sv('kp-recv',item.recv);sv('kp-done',item.done);sv('kp-time',item.time);sv('kp-sat',item.sat);sv('kp-comp',item.comp);sv('kp-rating',item.rating);sv('kp-id',id);
+  $('mt-kpi2').textContent='تعديل بيانات الأداء'; $('mb-kpi2').textContent='حفظ'; openM('m-kpi2');
+}
+
+let currentPeriod='ربع سنوي';
+function setPeriod(p){
+  currentPeriod=p;
+  ['ptab-q','ptab-h','ptab-y'].forEach(id=>{
+    const el=$(id); if(!el)return;
+    const active=(p==='ربع سنوي'&&id==='ptab-q')||(p==='نصف سنوي'&&id==='ptab-h')||(p==='سنوي'&&id==='ptab-y');
+    el.style.background=active?'#fff':'rgba(255,255,255,0.1)';
+    el.style.color=active?'var(--sb)':'#fff';
+  });
+  rNatl();
+}
+
+function saveNatl(){
+  const id=v('nt-id');
+  const rep=parseInt(v('nt-rep'))||0,comp=parseInt(v('nt-comp'))||0,sugg=parseInt(v('nt-sugg'))||0,inq=parseInt(v('nt-inq'))||0;
+  const item={id:id||nid(),period:v('nt-period'),type:v('nt-type'),rep,comp,sugg,inq,total:rep+comp+sugg+inq};
+  if(!item.period){alert('يرجى إدخال الفترة الزمنية');return;}
+  fbSave('natl',item); closeM('m-natl');
+  clr(['nt-period','nt-id']); ['nt-rep','nt-comp','nt-sugg','nt-inq'].forEach(i=>{$(i).value='0';});
+  $('mt-natl').textContent='إضافة بيانات المنصة الوطنية'; $('mb-natl').textContent='إضافة';
+}
+function editNatl(id){
+  const item=(DB.natl||[]).find(x=>x.id===id); if(!item)return;
+  sv('nt-period',item.period);sv('nt-type',item.type);sv('nt-rep',item.rep);sv('nt-comp',item.comp);sv('nt-sugg',item.sugg);sv('nt-inq',item.inq);sv('nt-id',id);
+  $('mt-natl').textContent='تعديل بيانات المنصة'; $('mb-natl').textContent='حفظ'; openM('m-natl');
+}
+
+function savePub(){
+  const id=v('pb-id');
+  const item={id:id||nid(),title:v('pb-title'),type:v('pb-type'),date:v('pb-date'),ref:v('pb-ref'),desc:v('pb-desc')};
+  if(!item.title){alert('يرجى إدخال العنوان');return;}
+  fbSave('pub',item); closeM('m-pub');
+  clr(['pb-title','pb-ref','pb-desc','pb-id']);
+  $('mt-pub').textContent='إضافة منشور / إحصائية'; $('mb-pub').textContent='إضافة';
+}
+function editPub(id){
+  const item=(DB.pub||[]).find(x=>x.id===id); if(!item)return;
+  sv('pb-title',item.title);sv('pb-type',item.type);sv('pb-date',item.date);sv('pb-ref',item.ref);sv('pb-desc',item.desc);sv('pb-id',id);
+  $('mt-pub').textContent='تعديل المنشور'; $('mb-pub').textContent='حفظ'; openM('m-pub');
+}
+
+function saveDevPlan(){
+  const id=v('dp-id');
+  const item={id:id||nid(),title:v('dp-title'),goal:v('dp-goal'),owner:v('dp-owner'),pri:v('dp-pri'),status:v('dp-status'),prog:parseInt(v('dp-prog'))||0,start:v('dp-start'),end:v('dp-end')};
+  if(!item.title){alert('يرجى إدخال البند التطويري');return;}
+  fbSave('devplan',item); closeM('m-devplan');
+  clr(['dp-title','dp-goal','dp-owner','dp-id']); $('dp-prog').value='0';
+  $('mt-devplan').textContent='إضافة بند تطويري'; $('mb-dp').textContent='إضافة';
+}
+function editDevPlan(id){
+  const item=(DB.devplan||[]).find(x=>x.id===id); if(!item)return;
+  sv('dp-title',item.title);sv('dp-goal',item.goal);sv('dp-owner',item.owner);sv('dp-pri',item.pri);sv('dp-status',item.status);sv('dp-prog',item.prog);sv('dp-start',item.start);sv('dp-end',item.end);sv('dp-id',id);
+  $('mt-devplan').textContent='تعديل البند التطويري'; $('mb-dp').textContent='حفظ'; openM('m-devplan');
+}
+
+function delNewItem(col,id){
+  if(!confirm('حذف هذا العنصر؟'))return;
+  fbDelete(col,id);
+}
+
+function sC2(s){
+  if(['عالية','متوقفة','متوقف','ضعيف'].includes(s)) return 'b-red';
+  if(['قيد التنفيذ','جيد','جيد جداً','مخطط'].includes(s)) return 'b-blue';
+  if(['مكتملة','مكتمل','ممتاز'].includes(s)) return 'b-green';
+  if(['متوسطة','مقبول'].includes(s)) return 'b-amber';
+  if(['منخفضة'].includes(s)) return 'b-green';
+  return 'b-gray';
+}
+
+function rNewReq(n){
+  const tb=$('tb-r'+n), data=DB['r'+n]||[];
+  const cols=n===5?11:12;
+  if(!data.length){tb.innerHTML=`<tr><td colspan="${cols}"><div class="emp-st"><i class="ti ti-inbox"></i><p>لا توجد طلبات</p></div></td></tr>`;return;}
+  tb.innerHTML=data.map(r=>`<tr>
+    <td><b>${r.ref||'—'}</b></td><td>${r.recv||'—'}</td><td>${r.ldate||'—'}</td>
+    <td>${r.name||'—'}</td>
+    <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.subj||''}">${r.subj||'—'}</td>
+    <td>${r.phone||'—'}</td><td>${r.dept||'—'}</td>
+    ${n!==5?`<td>${r.rdate||'—'}</td>`:''}
+    <td>${r.deptreply||'—'}</td><td>${r.final||'—'}</td>
+    <td>${r.notes||'—'}</td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editReq(${n},'${r.id}')"><i class="ti ti-edit" style="font-size:12px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delNewItem('r${n}','${r.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
+
+function rTInv(){
+  const tb=$('tb-tinv'),data=DB.tinv||[];
+  if(!data.length){tb.innerHTML='<tr><td colspan="10"><div class="emp-st"><i class="ti ti-list-check"></i><p>لا توجد بيانات</p></div></td></tr>';return;}
+  tb.innerHTML=data.map(t=>`<tr>
+    <td>${t.emp||'—'}</td><td>${t.task||'—'}</td>
+    <td><span class="badge ${sC2(t.imp)}">${t.imp||'—'}</span></td>
+    <td>${t.kpi||'—'}</td><td>${t.freq||'—'}</td><td>${t.dur||'—'}</td>
+    <td>${t.start||'—'}</td><td>${t.end||'—'}</td><td>${t.notes||'—'}</td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editTInv('${t.id}')"><i class="ti ti-edit" style="font-size:12px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delNewItem('tinv','${t.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
+
+function rTDist(){
+  const tb=$('tb-tdist'),data=DB.tdist||[];
+  if(!data.length){tb.innerHTML='<tr><td colspan="7"><div class="emp-st"><i class="ti ti-users-group"></i><p>لا توجد بيانات</p></div></td></tr>';return;}
+  tb.innerHTML=data.map(t=>`<tr>
+    <td>${t.task||'—'}</td><td>${t.emp||'—'}</td>
+    <td><span class="badge ${sC2(t.pri)}">${t.pri||'—'}</span></td>
+    <td><span class="badge ${sC2(t.status)}">${t.status||'—'}</span></td>
+    <td><div style="display:flex;align-items:center;gap:6px">
+      <div class="pb" style="width:70px"><div class="pf" style="width:${t.prog||0}%;background:${(t.prog||0)===100?'var(--green)':'var(--blue)'}"></div></div>
+      <b style="font-size:11px">${t.prog||0}%</b>
+    </div></td>
+    <td>${t.date||'—'}</td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editTDist('${t.id}')"><i class="ti ti-edit" style="font-size:12px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delNewItem('tdist','${t.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
+
+function rKPI2(){
+  const tb=$('tb-kpi2'),data=DB.kpi2||[];
+  if(!data.length){tb.innerHTML='<tr><td colspan="8"><div class="emp-st"><i class="ti ti-chart-bar"></i><p>لا توجد بيانات</p></div></td></tr>';return;}
+  tb.innerHTML=data.map(k=>`<tr>
+    <td><b>${k.emp||'—'}</b></td><td>${k.recv||0}</td><td>${k.done||0}</td><td>${k.time||'—'}</td>
+    <td><div style="display:flex;align-items:center;gap:5px">
+      <div class="pb" style="width:60px"><div class="pf" style="width:${k.sat||0}%;background:${(k.sat||0)>=80?'var(--green)':'var(--amber)'}"></div></div>
+      <span style="font-size:11px">${k.sat||0}%</span>
+    </div></td>
+    <td>${k.comp||0}</td>
+    <td><span class="badge ${sC2(k.rating)}">${k.rating||'—'}</span></td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editKPI2('${k.id}')"><i class="ti ti-edit" style="font-size:12px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delNewItem('kpi2','${k.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
+
+function rNatl(){
+  const tb=$('tb-natl');
+  const data=(DB.natl||[]).filter(x=>x.type===currentPeriod);
+  if(!data.length){tb.innerHTML='<tr><td colspan="8"><div class="emp-st"><i class="ti ti-message-circle"></i><p>لا توجد بيانات للفترة المحددة</p></div></td></tr>';return;}
+  tb.innerHTML=data.map(n=>`<tr>
+    <td><b>${n.period||'—'}</b></td><td><span class="badge b-blue">${n.type||'—'}</span></td>
+    <td>${n.rep||0}</td><td>${n.comp||0}</td><td>${n.sugg||0}</td><td>${n.inq||0}</td>
+    <td><b style="color:var(--blue)">${n.total||0}</b></td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editNatl('${n.id}')"><i class="ti ti-edit" style="font-size:12px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delNewItem('natl','${n.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
+
+function rPub(){
+  const tb=$('tb-pub'),data=DB.pub||[];
+  if(!data.length){tb.innerHTML='<tr><td colspan="6"><div class="emp-st"><i class="ti ti-news"></i><p>لا توجد بيانات</p></div></td></tr>';return;}
+  tb.innerHTML=data.map(p=>`<tr>
+    <td><b>${p.title||'—'}</b></td><td><span class="badge b-blue">${p.type||'—'}</span></td>
+    <td>${p.date||'—'}</td>
+    <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.desc||'—'}</td>
+    <td>${p.ref||'—'}</td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editPub('${p.id}')"><i class="ti ti-edit" style="font-size:12px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delNewItem('pub','${p.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
+
+function rDevPlan(){
+  const tb=$('tb-devplan'),data=DB.devplan||[];
+  if(!data.length){tb.innerHTML='<tr><td colspan="9"><div class="emp-st"><i class="ti ti-rocket"></i><p>لا توجد بيانات</p></div></td></tr>';return;}
+  tb.innerHTML=data.map(d=>`<tr>
+    <td><b>${d.title||'—'}</b></td><td>${d.goal||'—'}</td><td>${d.owner||'—'}</td>
+    <td><span class="badge ${sC2(d.pri)}">${d.pri||'—'}</span></td>
+    <td><span class="badge ${sC2(d.status)}">${d.status||'—'}</span></td>
+    <td><div style="display:flex;align-items:center;gap:5px">
+      <div class="pb" style="width:60px"><div class="pf" style="width:${d.prog||0}%;background:${(d.prog||0)===100?'var(--green)':'var(--blue)'}"></div></div>
+      <b style="font-size:11px">${d.prog||0}%</b>
+    </div></td>
+    <td>${d.start||'—'}</td><td>${d.end||'—'}</td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editDevPlan('${d.id}')"><i class="ti ti-edit" style="font-size:12px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delNewItem('devplan','${d.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
+
 </script>
 
 <!-- ══ NEW SECTION MODALS ══ -->
