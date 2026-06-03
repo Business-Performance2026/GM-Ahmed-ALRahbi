@@ -166,7 +166,7 @@ tr:hover td{background:#fafaf8}
   <div class="lh">
     <div class="lb"><i class="ti ti-building-community"></i></div>
     <h1>نظام إدارة الموظفين</h1>
-    <p>بوابة الدخول الموحدة — مزامنة فورية بين الأجهزة</p>
+    <p>نظام إدارة الموظفين</p>
   </div>
   <div class="lc">
     <div class="fr"><label>اسم المستخدم</label><input id="l-u" placeholder="admin"></div>
@@ -175,10 +175,6 @@ tr:hover td{background:#fafaf8}
     <button class="btn btn-blue" style="width:100%;justify-content:center;padding:11px;font-size:14px" id="login-btn">
       <i class="ti ti-login"></i> تسجيل الدخول
     </button>
-    <div class="hint">
-      <b><i class="ti ti-info-circle" style="font-size:14px;vertical-align:-2px"></i> حسابات تجريبية</b>
-      المدير: <b>admin</b> / <b>admin123</b>
-      <div style="margin-top:4px;color:var(--txt2)">الموظف: يُضاف عند إنشاء موظف جديد</div>
     </div>
   </div>
 </div></div>
@@ -569,7 +565,7 @@ function showScr(id){
 function doLogin(){
   const u=v('l-u').trim(), p=v('l-p').trim();
   $('l-err').style.display='none';
-  if(u==='admin'&&p==='admin123'){
+  if(u==='Ahmed'&&p==='Oman@2020'){
     CU={role:'admin'};
     showScr('scr-admin');
     aPage('dashboard');
@@ -1047,12 +1043,21 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // Load data before showing login
   const loadAll = async () => {
+    $('loading-ov').classList.remove('hide');
+    $('loading-ov').querySelector('.loading-txt').textContent='جاري الاتصال بقاعدة البيانات...';
     try {
       for(const col of COLLECTIONS){
         const snap = await getDocs(collection(db,col));
         DB[col] = snap.docs.map(d=>({id:d.id,...d.data()}));
       }
-    } catch(e){ console.error(e); }
+      $('loading-ov').classList.add('hide');
+      setSyncState('ok');
+    } catch(e){
+      console.error('Firebase error:',e);
+      $('loading-ov').querySelector('.loading-txt').textContent='تعذّر الاتصال — تحقق من إعدادات Firestore';
+      setSyncState('error');
+      setTimeout(()=>$('loading-ov').classList.add('hide'),3000);
+    }
   };
   loadAll();
 
