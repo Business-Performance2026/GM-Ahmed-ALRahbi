@@ -518,6 +518,7 @@ function stopListeners(){
 }
 
 function refreshCurrentView(){
+  if(!CU) return; // Not logged in yet, skip render
   const adm=$('scr-admin'), emp=$('scr-emp');
   if(adm && adm.classList.contains('active')){
     const pages=['dashboard','employees','tasks','projects','initiatives','goals','vacations','daily'];
@@ -538,6 +539,11 @@ function refreshCurrentView(){
   if(emp && emp.classList.contains('active') && CU && CU.role==='employee'){
     const e=DB.employees.find(x=>x.id===CU.id);
     if(e) renderEmpData(e);
+    else {
+      // employee data updated, re-find
+      const empNew=DB.employees.find(x=>x.id===CU.id);
+      if(empNew) buildEmpPortal(empNew);
+    }
   }
   kpis();
 }
@@ -554,19 +560,41 @@ function doLogin(){
   if(u==='Ahmed'&&p==='Oman@2020'){
     CU={role:'admin'};
     showScr('scr-admin');
-    aPage('dashboard');
     initDates();
+    // Start listeners - they will auto-render when data arrives
+    startListeners();
+    // Also render immediately with whatever data we have
+    aPage('dashboard');
     return;
   }
-  const emp=DB.employees.find(e=>e.username===u&&e.password===p);
-  if(emp){
-    CU={role:'employee',id:emp.id};
-    showScr('scr-emp');
-    buildEmpPortal(emp);
-    ePage('home');
-    return;
+  // For employee login, we need to check DB which comes from Firebase
+  // Try to find employee
+  const tryEmpLogin = () => {
+    const emp=DB.employees.find(e=>e.username===u&&e.password===p);
+    if(emp){
+      CU={role:'employee',id:emp.id};
+      showScr('scr-emp');
+      startListeners();
+      buildEmpPortal(emp);
+      ePage('home');
+      return true;
+    }
+    return false;
+  };
+  if(!tryEmpLogin()){
+    // Maybe DB not loaded yet, load once then try
+    firebase.database().ref('/').once('value').then(snap=>{
+      const data = snap.val()||{};
+      COLLECTIONS.forEach(col=>{
+        DB[col] = data[col]
+          ? Object.entries(data[col]).map(([key,val])=>({id:key,...val}))
+          : [];
+      });
+      if(!tryEmpLogin()){
+        $('l-err').style.display='block';
+      }
+    }).catch(()=>{ $('l-err').style.display='block'; });
   }
-  $('l-err').style.display='block';
 }
 
 function logout(){
@@ -985,8 +1013,6 @@ function initDates(){
 
 // ── EVENT LISTENERS ──
 document.addEventListener('DOMContentLoaded',()=>{
-  // Start Firebase listeners immediately
-  startListeners();
   $('loading-ov').classList.add('hide');
   showScr('scr-login');
 
