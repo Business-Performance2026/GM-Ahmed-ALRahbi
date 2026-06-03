@@ -491,7 +491,10 @@ function startListeners(){
     const unsub = onValue(dbRef, snap=>{
       const data = snap.val();
       if(data) {
-        DB[col] = Object.entries(data).map(([id,v])=>({id,...v}));
+        DB[col] = Object.entries(data).map(([key,v])=>{
+          const {_id,...rest} = v||{};
+          return {id: _id||key, ...rest};
+        });
       } else {
         DB[col] = [];
       }
@@ -514,7 +517,7 @@ async function fbSave(col, item){
   setSyncState('syncing');
   try {
     const {id,...data} = item;
-    await set(ref(db, col+'/'+String(id)), data);
+    await set(ref(db, col+'/'+String(id)), {...data, _id: String(id)});
     setSyncState('ok');
     showToast('تم الحفظ ✓');
   } catch(e){
@@ -1055,7 +1058,10 @@ document.addEventListener('DOMContentLoaded',()=>{
       for(const col of COLLECTIONS){
         const snap = await get(ref(db, col));
         const data = snap.val();
-        DB[col] = data ? Object.entries(data).map(([id,v])=>({id,...v})) : [];
+        DB[col] = data ? Object.entries(data).map(([key,v])=>{
+          const {_id,...rest} = v||{};
+          return {id: _id||key, ...rest};
+        }) : [];
       }
       $('loading-ov').classList.add('hide');
       setSyncState('ok');
