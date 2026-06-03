@@ -227,6 +227,25 @@ tr:hover td{background:#fafaf8}
       <div class="sb-sep">التخطيط</div>
       <div class="ni" id="ni-vacations"><i class="ti ti-beach"></i><span>الإجازات</span></div>
       <div class="ni" id="ni-daily"><i class="ti ti-calendar-event"></i><span>الأعمال اليومية</span></div>
+
+      <div class="nav-sep">سجل الطلبات</div>
+      <div class="ni" id="ni-r1"><i class="ti ti-user-star"></i><span>طلبات الوزير</span></div>
+      <div class="ni" id="ni-r2"><i class="ti ti-user-check"></i><span>طلبات الوكيل</span></div>
+      <div class="ni" id="ni-r3"><i class="ti ti-user-cog"></i><span>طلبات مدير المعادن</span></div>
+      <div class="ni" id="ni-r4"><i class="ti ti-building"></i><span>طلبات المديريات</span></div>
+      <div class="ni" id="ni-r5"><i class="ti ti-id-badge"></i><span>طلبات التوظيف</span></div>
+
+      <div class="nav-sep">المؤشرات</div>
+      <div class="ni" id="ni-tinv"><i class="ti ti-list-check"></i><span>حصر المهام</span></div>
+      <div class="ni" id="ni-tdist"><i class="ti ti-users-group"></i><span>توزيع المهام</span></div>
+      <div class="ni" id="ni-kpi"><i class="ti ti-chart-bar"></i><span>مؤشرات الأداء</span></div>
+
+      <div class="nav-sep">المنصة الوطنية</div>
+      <div class="ni" id="ni-natl"><i class="ti ti-message-circle"></i><span>الشكاوي والمقترحات</span></div>
+
+      <div class="nav-sep">بيانات أخرى</div>
+      <div class="ni" id="ni-pub"><i class="ti ti-news"></i><span>المنشورات والإحصائيات</span></div>
+      <div class="ni" id="ni-devplan"><i class="ti ti-rocket"></i><span>الخطة التطويرية</span></div>
     </div>
     <div class="sb-foot">
       <div class="av av0" style="width:34px;height:34px;font-size:13px">م</div>
@@ -327,6 +346,61 @@ tr:hover td{background:#fafaf8}
       <div class="ph"><div><div class="pt">الأعمال اليومية</div></div><button class="btn btn-wh" id="btn-add-daily"><i class="ti ti-plus"></i> إضافة عمل</button></div>
       <div id="g-daily"></div>
     </div>
+
+    <!-- ══ NEW SECTIONS ══ -->
+    <div class="pg" id="ap-r1">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لمعالي الوزير</div></div><button class="btn btn-wh" onclick="openM('m-r1')"><i class="ti ti-plus"></i> إضافة طلب</button></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r1"></tbody></table></div>
+    </div>
+    <div class="pg" id="ap-r2">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لسعادة الوكيل</div></div><button class="btn btn-wh" onclick="openM('m-r2')"><i class="ti ti-plus"></i> إضافة طلب</button></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r2"></tbody></table></div>
+    </div>
+    <div class="pg" id="ap-r3">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لمدير عام المعادن</div></div><button class="btn btn-wh" onclick="openM('m-r3')"><i class="ti ti-plus"></i> إضافة طلب</button></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r3"></tbody></table></div>
+    </div>
+    <div class="pg" id="ap-r4">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة للمديريات والدوائر</div></div><button class="btn btn-wh" onclick="openM('m-r4')"><i class="ti ti-plus"></i> إضافة طلب</button></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r4"></tbody></table></div>
+    </div>
+    <div class="pg" id="ap-r5">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">طلبات التوظيف</div></div><button class="btn btn-wh" onclick="openM('m-r5')"><i class="ti ti-plus"></i> إضافة طلب</button></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r5"></tbody></table></div>
+    </div>
+    <div class="pg" id="ap-tinv">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">حصر المهام</div></div><button class="btn btn-wh" onclick="openM('m-tinv')"><i class="ti ti-plus"></i> إضافة</button></div>
+      <div class="card-flat"><table><thead><tr><th>اسم الموظف</th><th>المهمة</th><th>درجة الأهمية</th><th>مؤشر KPI</th><th>التكرار</th><th>زمن التنفيذ</th><th>تاريخ البدء</th><th>تاريخ الانتهاء</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-tinv"></tbody></table></div>
+    </div>
+    <div class="pg" id="ap-tdist">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">توزيع المهام بين الموظفين</div></div><button class="btn btn-wh" onclick="openM('m-tdist')"><i class="ti ti-plus"></i> إضافة</button></div>
+      <div class="card-flat"><table><thead><tr><th>المهمة</th><th>الموظف</th><th>الأولوية</th><th>الحالة</th><th>نسبة الإنجاز</th><th>تاريخ التحديث</th><th>إجراءات</th></tr></thead><tbody id="tb-tdist"></tbody></table></div>
+    </div>
+    <div class="pg" id="ap-kpi2">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">مؤشرات الأداء</div></div><button class="btn btn-wh" onclick="openM('m-kpi2')"><i class="ti ti-plus"></i> إضافة</button></div>
+      <div class="card-flat"><table><thead><tr><th>اسم الموظف</th><th>طلبات مستلمة</th><th>طلبات منجزة</th><th>متوسط زمن الخدمة</th><th>نسبة رضا %</th><th>عدد الشكاوى</th><th>تقييم الأداء</th><th>إجراءات</th></tr></thead><tbody id="tb-kpi2"></tbody></table></div>
+    </div>
+    <div class="pg" id="ap-natl">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div><div style="font-size:20px;font-weight:800;color:#fff">المنصة الوطنية للمقترحات والشكاوي</div></div>
+        <button class="btn btn-wh" onclick="openM('m-natl')"><i class="ti ti-plus"></i> إضافة</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <button class="btn" id="ptab-q" onclick="setPeriod('ربع سنوي')" style="background:#fff;color:var(--sb);font-weight:700">ربع سنوي</button>
+        <button class="btn btn-wh btn-sm" id="ptab-h" onclick="setPeriod('نصف سنوي')">نصف سنوي</button>
+        <button class="btn btn-wh btn-sm" id="ptab-y" onclick="setPeriod('سنوي')">سنوي</button>
+      </div>
+      <div class="card-flat"><table><thead><tr><th>الفترة</th><th>نوع الفترة</th><th>عدد البلاغات</th><th>عدد الشكاوي</th><th>عدد المقترحات</th><th>عدد الاستفسارات</th><th>الإجمالي</th><th>إجراءات</th></tr></thead><tbody id="tb-natl"></tbody></table></div>
+    </div>
+    <div class="pg" id="ap-pub">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">المنشورات والإحصائيات</div></div><button class="btn btn-wh" onclick="openM('m-pub')"><i class="ti ti-plus"></i> إضافة</button></div>
+      <div class="card-flat"><table><thead><tr><th>العنوان</th><th>النوع</th><th>التاريخ</th><th>الوصف</th><th>المرجع</th><th>إجراءات</th></tr></thead><tbody id="tb-pub"></tbody></table></div>
+    </div>
+    <div class="pg" id="ap-devplan">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الخطة التطويرية</div></div><button class="btn btn-wh" onclick="openM('m-devplan')"><i class="ti ti-plus"></i> إضافة</button></div>
+      <div class="card-flat"><table><thead><tr><th>البند التطويري</th><th>الهدف</th><th>المسؤول</th><th>الأولوية</th><th>الحالة</th><th>نسبة الإنجاز</th><th>تاريخ البدء</th><th>تاريخ الانتهاء</th><th>إجراءات</th></tr></thead><tbody id="tb-devplan"></tbody></table></div>
+    </div>
+
   </div>
 </div>
 </div>
@@ -516,7 +590,7 @@ function setSyncState(state){
   });
 }
 
-const COLLECTIONS = ['employees','tasks','projects','initiatives','goals','vacations','daily'];
+const COLLECTIONS = ['employees','tasks','projects','initiatives','goals','vacations','daily','r1','r2','r3','r4','r5','tinv','tdist','kpi2','natl','pub','devplan'];
 
 // ── FIREBASE SAVE / DELETE ──
 function fbSave(col, item){
@@ -560,6 +634,9 @@ function refreshCurrentView(){
   if(!CU) return;
   // Always render ALL pages so data is ready when user navigates
   rEmps(); rTasks(); rProjs(); rInits(); rGoals(); rVacs(); rDaily();
+  // New sections
+  [1,2,3,4,5].forEach(n=>rNewReq(n));
+  rTInv(); rTDist(); rKPI2(); rNatl(); rPub(); rDevPlan();
   kpis();
   // Also render dashboard and current active page
   const adm=$('scr-admin'), emp=$('scr-emp');
@@ -1115,6 +1192,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   window.updTask=updTask;window.updVac=updVac;
   window.aPage=aPage;window.ePage=ePage;window.openM=openM;window.closeM=closeM;
 
+  // ── NEW SECTIONS NAV ──
+  const newNavMap = {'ni-r1':'r1','ni-r2':'r2','ni-r3':'r3','ni-r4':'r4','ni-r5':'r5','ni-tinv':'tinv','ni-tdist':'tdist','ni-kpi':'kpi2','ni-natl':'natl','ni-pub':'pub','ni-devplan':'devplan'};
+  Object.entries(newNavMap).forEach(([niId,pg])=>{const el=$(niId);if(el)el.addEventListener('click',()=>aPageNew(pg));});
+  [1,2,3,4,5].forEach(n=>{const btn=$('ms-r'+n);if(btn)btn.addEventListener('click',()=>saveReq(n));});
+  [['ms-tinv',saveTInv],['ms-tdist',saveTDist],['ms-kpi2',saveKPI2],['ms-natl',saveNatl],['ms-pub',savePub],['ms-dp',saveDevPlan]].forEach(([id,fn])=>{const el=$(id);if(el)el.addEventListener('click',fn);});
+  window.editReq=editReq;window.editTInv=editTInv;window.editTDist=editTDist;
+  window.editKPI2=editKPI2;window.editNatl=editNatl;window.editPub=editPub;window.editDevPlan=editDevPlan;
+  window.delNewItem=delNewItem;window.setPeriod=setPeriod;
+
   // ── NOTIFICATIONS ──
   $('btn-export-pdf') && $('btn-export-pdf').addEventListener('click', exportProjectsPDF);
   $('notif-btn') && $('notif-btn').addEventListener('click', toggleNotifPanel);
@@ -1356,6 +1442,123 @@ function exportProjectsPDF(){
   <span>نظام إدارة الموظفين — سري وخاص</span>
   <span>${new Date().toLocaleDateString('ar-SA')}</span>
 </div>
+
+<!-- ══ NEW SECTION MODALS ══ -->
+<div class="ov" id="m-r1"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--blue)"><i class="ti ti-user-star"></i></div><span id="mt-r1">إضافة طلب — معالي الوزير</span></div>
+  <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r1-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r1-recv"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r1-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r1-name" placeholder="الاسم"></div></div>
+  <div class="fr"><label>الموضوع *</label><input id="r1-subj" placeholder="موضوع الطلب"></div>
+  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r1-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r1-dept" placeholder="القسم"></div></div>
+  <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r1-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r1-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r1-final"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="r1-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="r1-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-r1')">إلغاء</button><button class="btn btn-blue" id="ms-r1"><i class="ti ti-check"></i> <span id="mb-r1">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-r2"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--teal)"><i class="ti ti-user-check"></i></div><span id="mt-r2">إضافة طلب — سعادة الوكيل</span></div>
+  <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r2-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r2-recv"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r2-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r2-name" placeholder="الاسم"></div></div>
+  <div class="fr"><label>الموضوع *</label><input id="r2-subj" placeholder="موضوع الطلب"></div>
+  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r2-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r2-dept" placeholder="القسم"></div></div>
+  <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r2-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r2-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r2-final"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="r2-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="r2-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-r2')">إلغاء</button><button class="btn btn-blue" id="ms-r2"><i class="ti ti-check"></i> <span id="mb-r2">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-r3"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-user-cog"></i></div><span id="mt-r3">إضافة طلب — مدير عام المعادن</span></div>
+  <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r3-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r3-recv"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r3-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r3-name" placeholder="الاسم"></div></div>
+  <div class="fr"><label>الموضوع *</label><input id="r3-subj" placeholder="موضوع الطلب"></div>
+  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r3-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r3-dept" placeholder="القسم"></div></div>
+  <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r3-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r3-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r3-final"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="r3-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="r3-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-r3')">إلغاء</button><button class="btn btn-blue" id="ms-r3"><i class="ti ti-check"></i> <span id="mb-r3">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-r4"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--amber)"><i class="ti ti-building"></i></div><span id="mt-r4">إضافة طلب — المديريات والدوائر</span></div>
+  <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r4-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r4-recv"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r4-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r4-name" placeholder="الاسم"></div></div>
+  <div class="fr"><label>الموضوع *</label><input id="r4-subj" placeholder="موضوع الطلب"></div>
+  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r4-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r4-dept" placeholder="القسم"></div></div>
+  <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r4-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r4-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r4-final"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="r4-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="r4-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-r4')">إلغاء</button><button class="btn btn-blue" id="ms-r4"><i class="ti ti-check"></i> <span id="mb-r4">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-r5"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--green)"><i class="ti ti-id-badge"></i></div><span id="mt-r5">إضافة طلب توظيف</span></div>
+  <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r5-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r5-recv"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r5-ldate"></div><div class="fr"><label>المواطن</label><input id="r5-name" placeholder="الاسم"></div></div>
+  <div class="fr"><label>الموضوع *</label><input id="r5-subj" placeholder="موضوع الطلب"></div>
+  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r5-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r5-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r5-deptreply"></div><div class="fr"><label>تاريخ الرد</label><input type="date" id="r5-final"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="r5-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="r5-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-r5')">إلغاء</button><button class="btn btn-blue" id="ms-r5"><i class="ti ti-check"></i> <span id="mb-r5">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-tinv"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--blue)"><i class="ti ti-list-check"></i></div><span id="mt-tinv">إضافة مهمة — حصر المهام</span></div>
+  <div class="fg2"><div class="fr"><label>اسم الموظف</label><input id="ti-emp" placeholder="اسم الموظف"></div><div class="fr"><label>المهمة *</label><input id="ti-task" placeholder="وصف المهمة"></div></div>
+  <div class="fg3"><div class="fr"><label>درجة الأهمية</label><select id="ti-imp"><option>عالية</option><option>متوسطة</option><option>منخفضة</option></select></div><div class="fr"><label>مؤشر KPI</label><input id="ti-kpi" placeholder="KPI"></div><div class="fr"><label>التكرار</label><select id="ti-freq"><option>يومي</option><option>أسبوعي</option><option>شهري</option><option>ربع سنوي</option><option>سنوي</option><option>عند الطلب</option></select></div></div>
+  <div class="fg3"><div class="fr"><label>زمن التنفيذ</label><input id="ti-dur" placeholder="30 دقيقة"></div><div class="fr"><label>تاريخ البدء</label><input type="date" id="ti-start"></div><div class="fr"><label>تاريخ الانتهاء</label><input type="date" id="ti-end"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="ti-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="ti-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-tinv')">إلغاء</button><button class="btn btn-blue" id="ms-tinv"><i class="ti ti-check"></i> <span id="mb-tinv">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-tdist"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--teal)"><i class="ti ti-users-group"></i></div><span id="mt-tdist">إضافة توزيع مهمة</span></div>
+  <div class="fg2"><div class="fr"><label>المهمة *</label><input id="td-task" placeholder="وصف المهمة"></div><div class="fr"><label>الموظف</label><input id="td-emp" placeholder="اسم الموظف"></div></div>
+  <div class="fg2"><div class="fr"><label>الأولوية</label><select id="td-pri"><option>عالية</option><option>متوسطة</option><option>منخفضة</option></select></div><div class="fr"><label>الحالة</label><select id="td-status"><option>قيد التنفيذ</option><option>مكتملة</option><option>متوقفة</option><option>لم تبدأ</option></select></div></div>
+  <div class="fg2"><div class="fr"><label>نسبة الإنجاز %</label><input type="number" id="td-prog" min="0" max="100" value="0"></div><div class="fr"><label>تاريخ التحديث</label><input type="date" id="td-date"></div></div>
+  <input type="hidden" id="td-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-tdist')">إلغاء</button><button class="btn btn-blue" id="ms-tdist"><i class="ti ti-check"></i> <span id="mb-tdist">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-kpi2"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-chart-bar"></i></div><span id="mt-kpi2">إضافة بيانات مؤشرات الأداء</span></div>
+  <div class="fg2"><div class="fr"><label>اسم الموظف *</label><input id="kp-emp" placeholder="اسم الموظف"></div><div class="fr"><label>طلبات مستلمة</label><input type="number" id="kp-recv" value="0" min="0"></div></div>
+  <div class="fg2"><div class="fr"><label>طلبات منجزة</label><input type="number" id="kp-done" value="0" min="0"></div><div class="fr"><label>متوسط زمن الخدمة</label><input id="kp-time" placeholder="3 أيام"></div></div>
+  <div class="fg3"><div class="fr"><label>نسبة رضا %</label><input type="number" id="kp-sat" value="0" min="0" max="100"></div><div class="fr"><label>عدد الشكاوى</label><input type="number" id="kp-comp" value="0" min="0"></div><div class="fr"><label>تقييم الأداء</label><select id="kp-rating"><option>ممتاز</option><option>جيد جداً</option><option>جيد</option><option>مقبول</option><option>ضعيف</option></select></div></div>
+  <input type="hidden" id="kp-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-kpi2')">إلغاء</button><button class="btn btn-blue" id="ms-kpi2"><i class="ti ti-check"></i> <span id="mb-kpi2">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-natl"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:#e67e22"><i class="ti ti-message-circle"></i></div><span id="mt-natl">إضافة بيانات المنصة الوطنية</span></div>
+  <div class="fg2"><div class="fr"><label>الفترة الزمنية *</label><input id="nt-period" placeholder="الربع الأول 2026"></div><div class="fr"><label>نوع الفترة</label><select id="nt-type"><option>ربع سنوي</option><option>نصف سنوي</option><option>سنوي</option></select></div></div>
+  <div class="fg2"><div class="fr"><label>عدد البلاغات</label><input type="number" id="nt-rep" value="0" min="0"></div><div class="fr"><label>عدد الشكاوي</label><input type="number" id="nt-comp" value="0" min="0"></div></div>
+  <div class="fg2"><div class="fr"><label>عدد المقترحات</label><input type="number" id="nt-sugg" value="0" min="0"></div><div class="fr"><label>عدد الاستفسارات</label><input type="number" id="nt-inq" value="0" min="0"></div></div>
+  <input type="hidden" id="nt-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-natl')">إلغاء</button><button class="btn btn-blue" id="ms-natl"><i class="ti ti-check"></i> <span id="mb-natl">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-pub"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--blue)"><i class="ti ti-news"></i></div><span id="mt-pub">إضافة منشور / إحصائية</span></div>
+  <div class="fg2"><div class="fr"><label>العنوان *</label><input id="pb-title" placeholder="العنوان"></div><div class="fr"><label>النوع</label><select id="pb-type"><option>منشور</option><option>إحصائية</option><option>تقرير</option><option>نشرة</option></select></div></div>
+  <div class="fg2"><div class="fr"><label>التاريخ</label><input type="date" id="pb-date"></div><div class="fr"><label>الرابط/المرجع</label><input id="pb-ref" placeholder="رابط أو رقم مرجع"></div></div>
+  <div class="fr"><label>الوصف</label><textarea id="pb-desc" placeholder="وصف المحتوى..."></textarea></div>
+  <input type="hidden" id="pb-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-pub')">إلغاء</button><button class="btn btn-blue" id="ms-pub"><i class="ti ti-check"></i> <span id="mb-pub">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-devplan"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--green)"><i class="ti ti-rocket"></i></div><span id="mt-devplan">إضافة بند تطويري</span></div>
+  <div class="fg2"><div class="fr"><label>البند التطويري *</label><input id="dp-title" placeholder="البند"></div><div class="fr"><label>الهدف</label><input id="dp-goal" placeholder="الهدف"></div></div>
+  <div class="fg2"><div class="fr"><label>المسؤول</label><input id="dp-owner" placeholder="اسم المسؤول"></div><div class="fr"><label>الأولوية</label><select id="dp-pri"><option>عالية</option><option>متوسطة</option><option>منخفضة</option></select></div></div>
+  <div class="fg3"><div class="fr"><label>الحالة</label><select id="dp-status"><option>قيد التنفيذ</option><option>مخطط</option><option>مكتمل</option><option>متوقف</option></select></div><div class="fr"><label>نسبة الإنجاز %</label><input type="number" id="dp-prog" value="0" min="0" max="100"></div><div class="fr"><label>تاريخ البدء</label><input type="date" id="dp-start"></div></div>
+  <div class="fr"><label>تاريخ الانتهاء</label><input type="date" id="dp-end"></div>
+  <input type="hidden" id="dp-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-devplan')">إلغاء</button><button class="btn btn-blue" id="ms-dp"><i class="ti ti-check"></i> <span id="mb-dp">إضافة</span></button></div>
+</div></div>
 </body>
 </html>`;
 
@@ -1413,5 +1616,122 @@ function exportProjectsPDF(){
   }, 1200);
 }
 </script>
+
+<!-- ══ NEW SECTION MODALS ══ -->
+<div class="ov" id="m-r1"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--blue)"><i class="ti ti-user-star"></i></div><span id="mt-r1">إضافة طلب — معالي الوزير</span></div>
+  <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r1-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r1-recv"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r1-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r1-name" placeholder="الاسم"></div></div>
+  <div class="fr"><label>الموضوع *</label><input id="r1-subj" placeholder="موضوع الطلب"></div>
+  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r1-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r1-dept" placeholder="القسم"></div></div>
+  <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r1-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r1-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r1-final"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="r1-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="r1-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-r1')">إلغاء</button><button class="btn btn-blue" id="ms-r1"><i class="ti ti-check"></i> <span id="mb-r1">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-r2"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--teal)"><i class="ti ti-user-check"></i></div><span id="mt-r2">إضافة طلب — سعادة الوكيل</span></div>
+  <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r2-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r2-recv"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r2-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r2-name" placeholder="الاسم"></div></div>
+  <div class="fr"><label>الموضوع *</label><input id="r2-subj" placeholder="موضوع الطلب"></div>
+  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r2-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r2-dept" placeholder="القسم"></div></div>
+  <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r2-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r2-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r2-final"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="r2-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="r2-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-r2')">إلغاء</button><button class="btn btn-blue" id="ms-r2"><i class="ti ti-check"></i> <span id="mb-r2">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-r3"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-user-cog"></i></div><span id="mt-r3">إضافة طلب — مدير عام المعادن</span></div>
+  <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r3-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r3-recv"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r3-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r3-name" placeholder="الاسم"></div></div>
+  <div class="fr"><label>الموضوع *</label><input id="r3-subj" placeholder="موضوع الطلب"></div>
+  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r3-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r3-dept" placeholder="القسم"></div></div>
+  <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r3-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r3-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r3-final"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="r3-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="r3-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-r3')">إلغاء</button><button class="btn btn-blue" id="ms-r3"><i class="ti ti-check"></i> <span id="mb-r3">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-r4"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--amber)"><i class="ti ti-building"></i></div><span id="mt-r4">إضافة طلب — المديريات والدوائر</span></div>
+  <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r4-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r4-recv"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r4-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r4-name" placeholder="الاسم"></div></div>
+  <div class="fr"><label>الموضوع *</label><input id="r4-subj" placeholder="موضوع الطلب"></div>
+  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r4-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r4-dept" placeholder="القسم"></div></div>
+  <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r4-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r4-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r4-final"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="r4-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="r4-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-r4')">إلغاء</button><button class="btn btn-blue" id="ms-r4"><i class="ti ti-check"></i> <span id="mb-r4">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-r5"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--green)"><i class="ti ti-id-badge"></i></div><span id="mt-r5">إضافة طلب توظيف</span></div>
+  <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r5-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r5-recv"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r5-ldate"></div><div class="fr"><label>المواطن</label><input id="r5-name" placeholder="الاسم"></div></div>
+  <div class="fr"><label>الموضوع *</label><input id="r5-subj" placeholder="موضوع الطلب"></div>
+  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r5-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r5-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r5-deptreply"></div><div class="fr"><label>تاريخ الرد</label><input type="date" id="r5-final"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="r5-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="r5-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-r5')">إلغاء</button><button class="btn btn-blue" id="ms-r5"><i class="ti ti-check"></i> <span id="mb-r5">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-tinv"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--blue)"><i class="ti ti-list-check"></i></div><span id="mt-tinv">إضافة مهمة — حصر المهام</span></div>
+  <div class="fg2"><div class="fr"><label>اسم الموظف</label><input id="ti-emp" placeholder="اسم الموظف"></div><div class="fr"><label>المهمة *</label><input id="ti-task" placeholder="وصف المهمة"></div></div>
+  <div class="fg3"><div class="fr"><label>درجة الأهمية</label><select id="ti-imp"><option>عالية</option><option>متوسطة</option><option>منخفضة</option></select></div><div class="fr"><label>مؤشر KPI</label><input id="ti-kpi" placeholder="KPI"></div><div class="fr"><label>التكرار</label><select id="ti-freq"><option>يومي</option><option>أسبوعي</option><option>شهري</option><option>ربع سنوي</option><option>سنوي</option><option>عند الطلب</option></select></div></div>
+  <div class="fg3"><div class="fr"><label>زمن التنفيذ</label><input id="ti-dur" placeholder="30 دقيقة"></div><div class="fr"><label>تاريخ البدء</label><input type="date" id="ti-start"></div><div class="fr"><label>تاريخ الانتهاء</label><input type="date" id="ti-end"></div></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="ti-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="ti-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-tinv')">إلغاء</button><button class="btn btn-blue" id="ms-tinv"><i class="ti ti-check"></i> <span id="mb-tinv">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-tdist"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--teal)"><i class="ti ti-users-group"></i></div><span id="mt-tdist">إضافة توزيع مهمة</span></div>
+  <div class="fg2"><div class="fr"><label>المهمة *</label><input id="td-task" placeholder="وصف المهمة"></div><div class="fr"><label>الموظف</label><input id="td-emp" placeholder="اسم الموظف"></div></div>
+  <div class="fg2"><div class="fr"><label>الأولوية</label><select id="td-pri"><option>عالية</option><option>متوسطة</option><option>منخفضة</option></select></div><div class="fr"><label>الحالة</label><select id="td-status"><option>قيد التنفيذ</option><option>مكتملة</option><option>متوقفة</option><option>لم تبدأ</option></select></div></div>
+  <div class="fg2"><div class="fr"><label>نسبة الإنجاز %</label><input type="number" id="td-prog" min="0" max="100" value="0"></div><div class="fr"><label>تاريخ التحديث</label><input type="date" id="td-date"></div></div>
+  <input type="hidden" id="td-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-tdist')">إلغاء</button><button class="btn btn-blue" id="ms-tdist"><i class="ti ti-check"></i> <span id="mb-tdist">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-kpi2"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-chart-bar"></i></div><span id="mt-kpi2">إضافة بيانات مؤشرات الأداء</span></div>
+  <div class="fg2"><div class="fr"><label>اسم الموظف *</label><input id="kp-emp" placeholder="اسم الموظف"></div><div class="fr"><label>طلبات مستلمة</label><input type="number" id="kp-recv" value="0" min="0"></div></div>
+  <div class="fg2"><div class="fr"><label>طلبات منجزة</label><input type="number" id="kp-done" value="0" min="0"></div><div class="fr"><label>متوسط زمن الخدمة</label><input id="kp-time" placeholder="3 أيام"></div></div>
+  <div class="fg3"><div class="fr"><label>نسبة رضا %</label><input type="number" id="kp-sat" value="0" min="0" max="100"></div><div class="fr"><label>عدد الشكاوى</label><input type="number" id="kp-comp" value="0" min="0"></div><div class="fr"><label>تقييم الأداء</label><select id="kp-rating"><option>ممتاز</option><option>جيد جداً</option><option>جيد</option><option>مقبول</option><option>ضعيف</option></select></div></div>
+  <input type="hidden" id="kp-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-kpi2')">إلغاء</button><button class="btn btn-blue" id="ms-kpi2"><i class="ti ti-check"></i> <span id="mb-kpi2">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-natl"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:#e67e22"><i class="ti ti-message-circle"></i></div><span id="mt-natl">إضافة بيانات المنصة الوطنية</span></div>
+  <div class="fg2"><div class="fr"><label>الفترة الزمنية *</label><input id="nt-period" placeholder="الربع الأول 2026"></div><div class="fr"><label>نوع الفترة</label><select id="nt-type"><option>ربع سنوي</option><option>نصف سنوي</option><option>سنوي</option></select></div></div>
+  <div class="fg2"><div class="fr"><label>عدد البلاغات</label><input type="number" id="nt-rep" value="0" min="0"></div><div class="fr"><label>عدد الشكاوي</label><input type="number" id="nt-comp" value="0" min="0"></div></div>
+  <div class="fg2"><div class="fr"><label>عدد المقترحات</label><input type="number" id="nt-sugg" value="0" min="0"></div><div class="fr"><label>عدد الاستفسارات</label><input type="number" id="nt-inq" value="0" min="0"></div></div>
+  <input type="hidden" id="nt-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-natl')">إلغاء</button><button class="btn btn-blue" id="ms-natl"><i class="ti ti-check"></i> <span id="mb-natl">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-pub"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--blue)"><i class="ti ti-news"></i></div><span id="mt-pub">إضافة منشور / إحصائية</span></div>
+  <div class="fg2"><div class="fr"><label>العنوان *</label><input id="pb-title" placeholder="العنوان"></div><div class="fr"><label>النوع</label><select id="pb-type"><option>منشور</option><option>إحصائية</option><option>تقرير</option><option>نشرة</option></select></div></div>
+  <div class="fg2"><div class="fr"><label>التاريخ</label><input type="date" id="pb-date"></div><div class="fr"><label>الرابط/المرجع</label><input id="pb-ref" placeholder="رابط أو رقم مرجع"></div></div>
+  <div class="fr"><label>الوصف</label><textarea id="pb-desc" placeholder="وصف المحتوى..."></textarea></div>
+  <input type="hidden" id="pb-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-pub')">إلغاء</button><button class="btn btn-blue" id="ms-pub"><i class="ti ti-check"></i> <span id="mb-pub">إضافة</span></button></div>
+</div></div>
+
+<div class="ov" id="m-devplan"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--green)"><i class="ti ti-rocket"></i></div><span id="mt-devplan">إضافة بند تطويري</span></div>
+  <div class="fg2"><div class="fr"><label>البند التطويري *</label><input id="dp-title" placeholder="البند"></div><div class="fr"><label>الهدف</label><input id="dp-goal" placeholder="الهدف"></div></div>
+  <div class="fg2"><div class="fr"><label>المسؤول</label><input id="dp-owner" placeholder="اسم المسؤول"></div><div class="fr"><label>الأولوية</label><select id="dp-pri"><option>عالية</option><option>متوسطة</option><option>منخفضة</option></select></div></div>
+  <div class="fg3"><div class="fr"><label>الحالة</label><select id="dp-status"><option>قيد التنفيذ</option><option>مخطط</option><option>مكتمل</option><option>متوقف</option></select></div><div class="fr"><label>نسبة الإنجاز %</label><input type="number" id="dp-prog" value="0" min="0" max="100"></div><div class="fr"><label>تاريخ البدء</label><input type="date" id="dp-start"></div></div>
+  <div class="fr"><label>تاريخ الانتهاء</label><input type="date" id="dp-end"></div>
+  <input type="hidden" id="dp-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-devplan')">إلغاء</button><button class="btn btn-blue" id="ms-dp"><i class="ti ti-check"></i> <span id="mb-dp">إضافة</span></button></div>
+</div></div>
 </body>
 </html>
