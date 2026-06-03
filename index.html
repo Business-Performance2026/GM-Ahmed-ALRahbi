@@ -426,10 +426,9 @@ tr:hover td{background:#fafaf8}
 </div></div>
 
 <!-- FIREBASE SDK -->
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
-import { getDatabase, ref, onValue, set, remove, get } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
-
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyAFai1p5MC3OQuekVXFZFPFj5OcWlMqOa0",
   authDomain: "ahmed-alrahbi.firebaseapp.com",
@@ -437,28 +436,26 @@ const firebaseConfig = {
   projectId: "ahmed-alrahbi",
   storageBucket: "ahmed-alrahbi.firebasestorage.app",
   messagingSenderId: "717294506589",
-  appId: "1:717294506589:web:029cb601fa5af881d073b4",
-  measurementId: "G-L5QWCKD3H9"
+  appId: "1:717294506589:web:029cb601fa5af881d073b4"
 };
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
 const AVC = ['av0','av1','av2','av3','av4','av5'];
 let DB = {employees:[],tasks:[],projects:[],initiatives:[],goals:[],vacations:[],daily:[]};
 let CU = null, CS = 0, charts = {};
-let unsubscribers = [];
+let listeners = {};
 
 const $ = id => document.getElementById(id);
 const v = id => ($( id)||{}).value||'';
-const sv = (id,val) => { const e=$(id); if(e) e.value=val||''; };
+const sv = (id,val) => { const e=$(id); if(e) e.value=(val||''); };
 const clr = ids => ids.forEach(id => { const e=$(id); if(e) e.value=''; });
 const avc = i => AVC[((i%6)+6)%6];
 const ini = (f,l) => (f[0]||'').toUpperCase()+(l[0]||'').toUpperCase();
 const tod = () => new Date().toISOString().split('T')[0];
 const ddays = (a,b) => Math.max(1,Math.round((new Date(b)-new Date(a))/86400000)+1);
 const strs = n => '★'.repeat(n)+'☆'.repeat(5-n);
-const nid = () => Date.now().toString(36) + Math.random().toString(36).substr(2,5);
+const nid = () => db.ref().push().key;
 
 function pC(p){return p==='عالية'?'b-red':p==='متوسطة'?'b-amber':'b-green';}
 function sC(s){
@@ -480,64 +477,44 @@ function setSyncState(state){
   });
 }
 
-// ── FIRESTORE LISTENERS ──
 const COLLECTIONS = ['employees','tasks','projects','initiatives','goals','vacations','daily'];
 
+// ── FIREBASE SAVE / DELETE ──
+function fbSave(col, item){
+  setSyncState('syncing');
+  const {id, ...data} = item;
+  return db.ref(col+'/'+id).set(data)
+    .then(()=>{ setSyncState('ok'); showToast('تم الحفظ ✓'); })
+    .catch(e=>{ setSyncState('error'); showToast('خطأ: '+e.message); console.error(e); });
+}
+
+function fbDelete(col, id){
+  setSyncState('syncing');
+  return db.ref(col+'/'+id).remove()
+    .then(()=>{ setSyncState('ok'); showToast('تم الحذف ✓'); })
+    .catch(e=>{ setSyncState('error'); showToast('خطأ: '+e.message); });
+}
+
+// ── REALTIME LISTENERS ──
 function startListeners(){
-  unsubscribers.forEach(u=>u());
-  unsubscribers=[];
+  stopListeners();
   COLLECTIONS.forEach(col=>{
-    const dbRef = ref(db, col);
-    const unsub = onValue(dbRef, snap=>{
+    const ref = db.ref(col);
+    ref.on('value', snap=>{
       const data = snap.val();
-      if(data) {
-        DB[col] = Object.entries(data).map(([key,v])=>{
-          const {_id,...rest} = v||{};
-          return {id: _id||key, ...rest};
-        });
-      } else {
-        DB[col] = [];
-      }
+      DB[col] = data
+        ? Object.entries(data).map(([key,val])=>({id:key,...val}))
+        : [];
       setSyncState('ok');
       refreshCurrentView();
-    }, err=>{
-      console.error(err);
-      setSyncState('error');
-    });
-    unsubscribers.push(unsub);
+    }, err=>{ setSyncState('error'); console.error(err); });
+    listeners[col] = ref;
   });
 }
 
 function stopListeners(){
-  unsubscribers.forEach(u=>u());
-  unsubscribers=[];
-}
-
-async function fbSave(col, item){
-  setSyncState('syncing');
-  try {
-    const {id,...data} = item;
-    await set(ref(db, col+'/'+String(id)), {...data, _id: String(id)});
-    setSyncState('ok');
-    showToast('تم الحفظ ✓');
-  } catch(e){
-    setSyncState('error');
-    showToast('خطأ في الحفظ! '+e.message);
-    console.error(e);
-  }
-}
-
-async function fbDelete(col, id){
-  setSyncState('syncing');
-  try {
-    await remove(ref(db, col+'/'+String(id)));
-    setSyncState('ok');
-    showToast('تم الحذف ✓');
-  } catch(e){
-    setSyncState('error');
-    showToast('خطأ في الحذف! '+e.message);
-    console.error(e);
-  }
+  Object.values(listeners).forEach(r=>r.off());
+  listeners={};
 }
 
 function refreshCurrentView(){
@@ -579,7 +556,6 @@ function doLogin(){
     showScr('scr-admin');
     aPage('dashboard');
     initDates();
-    startListeners();
     return;
   }
   const emp=DB.employees.find(e=>e.username===u&&e.password===p);
@@ -588,7 +564,6 @@ function doLogin(){
     showScr('scr-emp');
     buildEmpPortal(emp);
     ePage('home');
-    startListeners();
     return;
   }
   $('l-err').style.display='block';
@@ -623,8 +598,8 @@ function ePage(pg){
 
 function buildEmpPortal(emp){
   const idx=DB.employees.findIndex(e=>e.id===emp.id);
-  const a=avc(idx), i=ini(emp.fname,emp.lname);
-  $('ep-sub').innerHTML=emp.title+' <span class="sync-dot" id="sync-dot-emp"></span>';
+  const a=avc(idx>=0?idx:0), i=ini(emp.fname,emp.lname);
+  $('ep-sub').textContent=emp.title||'';
   ['ep-av-sb','ep-av'].forEach(id=>{
     const el=$(id); if(!el)return;
     el.className='av '+a;
@@ -632,10 +607,10 @@ function buildEmpPortal(emp){
     el.textContent=i;
   });
   $('ep-nm-sb').textContent=emp.fname+' '+emp.lname;
-  $('ep-tt-sb').textContent=emp.title;
+  $('ep-tt-sb').textContent=emp.title||'';
   $('ep-fn').textContent=emp.fname+' '+emp.lname;
-  $('ep-jt').textContent=emp.title;
-  $('ep-dp').textContent=emp.dept;
+  $('ep-jt').textContent=emp.title||'';
+  $('ep-dp').textContent=emp.dept||'';
   $('ep-ph').textContent=emp.phone||'—';
   $('ep-em').textContent=emp.email||'—';
   $('ep-jn').textContent=emp.join||'—';
@@ -691,8 +666,8 @@ document.querySelectorAll('#s-row span').forEach(s=>{
 });
 
 // ── EDIT ──
-function setMM(k,t,b){$(('mt-'+k)).textContent=t;$(('mb-'+k)).textContent=b;}
-function resetMM(k,t,b){$(('mt-'+k)).textContent=t;$(('mb-'+k)).textContent=b;}
+function setMM(k,t,b){$('mt-'+k).textContent=t;$('mb-'+k).textContent=b;}
+function resetMM(k,t,b){$('mt-'+k).textContent=t;$('mb-'+k).textContent=b;}
 
 function editEmp(id){
   const e=DB.employees.find(x=>x.id===id); if(!e)return;
@@ -715,8 +690,8 @@ function editProj(id){
 function editInit(id){
   const i=DB.initiatives.find(x=>x.id===id); if(!i)return;
   sv('if-tt',i.title);sv('if-ds',i.desc);sv('if-em',i.eid);sv('if-ct',i.cat);sv('if-id',id);
-  CS=i.stars;
-  document.querySelectorAll('#s-row span').forEach((s,idx)=>s.classList.toggle('on',idx<i.stars));
+  CS=i.stars||0;
+  document.querySelectorAll('#s-row span').forEach((s,idx)=>s.classList.toggle('on',idx<(i.stars||0)));
   const lb=['ضعيف','مقبول','جيد','جيد جداً','ممتاز'];
   $('s-lbl').textContent=i.stars?(i.stars+'/5 — '+lb[i.stars-1]):'لم يتم التقييم';
   setMM('init','تعديل المبادرة','حفظ');openM('m-init');
@@ -738,72 +713,72 @@ function editDaily(id){
 }
 
 // ── SAVE ──
-async function saveEmp(){
+function saveEmp(){
   const fn=v('ef-fn'),ln=v('ef-ln'),tt=v('ef-tt'),dp=v('ef-dp'),ph=v('ef-ph'),em=v('ef-em'),jn=v('ef-jn'),st=v('ef-st'),us=v('ef-us'),pw=v('ef-pw'),eid=v('ef-id');
   if(!fn||!ln||!tt){alert('يرجى ملء الاسم والمسمى');return;}
   if(!us||!pw){alert('يرجى إدخال بيانات الدخول');return;}
   const dup=DB.employees.find(e=>e.username===us&&e.id!==eid);
   if(dup){alert('اسم المستخدم مستخدم مسبقاً');return;}
   const id=eid||nid();
-  await fbSave('employees',{id,fname:fn,lname:ln,title:tt,dept:dp,phone:ph,email:em,join:jn,status:st,username:us,password:pw});
+  fbSave('employees',{id,fname:fn,lname:ln,title:tt,dept:dp,phone:ph,email:em,join:jn,status:st,username:us,password:pw});
   closeM('m-emp');clr(['ef-fn','ef-ln','ef-tt','ef-ph','ef-em','ef-us','ef-pw','ef-id']);
   resetMM('emp','إضافة موظف جديد','إضافة الموظف');
 }
-async function saveTask(){
+function saveTask(){
   const tt=v('tf-tt'),ds=v('tf-ds'),eid=v('tf-em'),pr=v('tf-pr'),du=v('tf-du'),tid=v('tf-id');
   if(!tt||!eid){alert('يرجى ملء العنوان واختيار موظف');return;}
   const emp=DB.employees.find(e=>e.id===eid);
   const en=emp?emp.fname+' '+emp.lname:'';
   const existing=tid?DB.tasks.find(x=>x.id===tid):null;
   const id=tid||nid();
-  await fbSave('tasks',{id,title:tt,desc:ds,eid,ename:en,priority:pr,due:du,status:existing?existing.status:'قيد التنفيذ'});
+  fbSave('tasks',{id,title:tt,desc:ds,eid,ename:en,priority:pr,due:du,status:existing?existing.status:'قيد التنفيذ'});
   closeM('m-task');clr(['tf-tt','tf-ds','tf-id']);resetMM('task','توكيل مهمة','توكيل');
 }
-async function saveProj(){
+function saveProj(){
   const nm=v('pf-nm'),ds=v('pf-ds'),eid=v('pf-em'),st=v('pf-st'),s1=v('pf-s1'),s2=v('pf-s2'),pg=Math.min(100,Math.max(0,parseInt(v('pf-pg'))||0)),pid=v('pf-id');
   if(!nm){alert('يرجى إدخال اسم المشروع');return;}
   const emp=DB.employees.find(e=>e.id===eid);
   const en=emp?emp.fname+' '+emp.lname:'غير محدد';
   const id=pid||nid();
-  await fbSave('projects',{id,name:nm,desc:ds,eid,ename:en,status:st,start:s1,end:s2,prog:pg});
+  fbSave('projects',{id,name:nm,desc:ds,eid,ename:en,status:st,start:s1,end:s2,prog:pg});
   closeM('m-proj');clr(['pf-nm','pf-ds','pf-pg','pf-id']);resetMM('proj','إضافة مشروع','إضافة');
 }
-async function saveInit(){
+function saveInit(){
   const tt=v('if-tt'),ds=v('if-ds'),eid=v('if-em'),ct=v('if-ct'),iid=v('if-id');
   if(!tt){alert('يرجى إدخال العنوان');return;}
   const emp=DB.employees.find(e=>e.id===eid);
   const en=emp?emp.fname+' '+emp.lname:'';
   const id=iid||nid();
-  await fbSave('initiatives',{id,title:tt,desc:ds,eid,ename:en,stars:CS,cat:ct});
+  fbSave('initiatives',{id,title:tt,desc:ds,eid,ename:en,stars:CS,cat:ct});
   CS=0;document.querySelectorAll('#s-row span').forEach(s=>s.classList.remove('on'));$('s-lbl').textContent='لم يتم التقييم';
   closeM('m-init');clr(['if-tt','if-ds','if-id']);resetMM('init','إضافة مبادرة','إضافة');
 }
-async function saveGoal(){
+function saveGoal(){
   const tt=v('gf-tt'),ds=v('gf-ds'),eid=v('gf-em'),ct=v('gf-ct'),du=v('gf-du'),pg=Math.min(100,Math.max(0,parseInt(v('gf-pg'))||0)),gid=v('gf-id');
   if(!tt){alert('يرجى إدخال العنوان');return;}
   const emp=DB.employees.find(e=>e.id===eid);
   const en=emp?emp.fname+' '+emp.lname:'';
   const id=gid||nid();
-  await fbSave('goals',{id,title:tt,desc:ds,eid,ename:en,cat:ct,due:du,prog:pg});
+  fbSave('goals',{id,title:tt,desc:ds,eid,ename:en,cat:ct,due:du,prog:pg});
   closeM('m-goal');clr(['gf-tt','gf-ds','gf-pg','gf-id']);resetMM('goal','إضافة هدف','إضافة');
 }
-async function saveVac(){
+function saveVac(){
   const eid=v('vf-em'),tp=v('vf-tp'),fr=v('vf-fr'),to=v('vf-to'),nt=v('vf-nt'),vid=v('vf-id');
   if(!eid||!fr||!to){alert('يرجى اختيار موظف وتحديد الفترة');return;}
   const emp=DB.employees.find(e=>e.id===eid);
   const en=emp?emp.fname+' '+emp.lname:'';
   const id=vid||nid();
   const existing=vid?DB.vacations.find(x=>x.id===vid):null;
-  await fbSave('vacations',{id,eid,ename:en,type:tp,from:fr,to:to,days:ddays(fr,to),notes:nt,status:existing?existing.status:'مخطط'});
+  fbSave('vacations',{id,eid,ename:en,type:tp,from:fr,to:to,days:ddays(fr,to),notes:nt,status:existing?existing.status:'مخطط'});
   closeM('m-vac');clr(['vf-nt','vf-id']);resetMM('vac','جدولة إجازة','جدولة');
 }
-async function saveDaily(){
+function saveDaily(){
   const tt=v('df-tt'),eid=v('df-em'),dt=v('df-dt'),fr=v('df-fr'),to=v('df-to'),st=v('df-st'),did=v('df-id');
   if(!tt){alert('يرجى إدخال وصف العمل');return;}
   const emp=DB.employees.find(e=>e.id===eid);
   const en=emp?emp.fname+' '+emp.lname:'';
   const id=did||nid();
-  await fbSave('daily',{id,title:tt,eid,ename:en,date:dt,from:fr,to:to,status:st});
+  fbSave('daily',{id,title:tt,eid,ename:en,date:dt,from:fr,to:to,status:st});
   closeM('m-daily');clr(['df-tt','df-id']);resetMM('daily','إضافة عمل يومي','إضافة');
 }
 
@@ -816,17 +791,19 @@ function rEmps(){
     <td>${e.title}</td><td><span class="badge b-blue">${e.dept}</span></td>
     <td style="font-size:12px;color:var(--txt2);direction:ltr;text-align:right">${e.username}</td>
     <td>${e.phone||'—'}</td><td><span class="badge ${sC(e.status)}">${e.status}</span></td>
-    <td><div class="act-btns"><button class="btn btn-sm btn-grn" onclick="editEmp('${e.id}')"><i class="ti ti-edit" style="font-size:13px"></i></button><button class="btn btn-sm btn-red" onclick="delEmp('${e.id}')"><i class="ti ti-trash" style="font-size:13px"></i></button></div></td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editEmp('${e.id}')"><i class="ti ti-edit" style="font-size:13px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delEmp('${e.id}')"><i class="ti ti-trash" style="font-size:13px"></i></button>
+    </div></td>
   </tr>`).join('');
 }
-async function delEmp(id){
+function delEmp(id){
   if(!confirm('حذف الموظف وجميع بياناته؟'))return;
-  await fbDelete('employees',id);
+  fbDelete('employees',id);
   const related=['tasks','goals','initiatives','vacations','daily'];
-  for(const col of related){
-    const items=DB[col].filter(x=>x.eid===id);
-    for(const item of items) await fbDelete(col,item.id);
-  }
+  related.forEach(col=>{
+    DB[col].filter(x=>x.eid===id).forEach(item=>fbDelete(col,item.id));
+  });
 }
 
 function rTasks(){
@@ -840,12 +817,15 @@ function rTasks(){
       <option ${t.status==='مكتمل'?'selected':''}>مكتمل</option>
       <option ${t.status==='متوقف'?'selected':''}>متوقف</option>
     </select></td>
-    <td><div class="act-btns"><button class="btn btn-sm btn-grn" onclick="editTask('${t.id}')"><i class="ti ti-edit" style="font-size:13px"></i></button><button class="btn btn-sm btn-red" onclick="delItem('tasks','${t.id}')"><i class="ti ti-trash" style="font-size:13px"></i></button></div></td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editTask('${t.id}')"><i class="ti ti-edit" style="font-size:13px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delItem('tasks','${t.id}')"><i class="ti ti-trash" style="font-size:13px"></i></button>
+    </div></td>
   </tr>`).join('');
 }
-async function updTask(id,val){
+function updTask(id,val){
   const t=DB.tasks.find(x=>x.id===id);
-  if(t) await fbSave('tasks',{...t,status:val});
+  if(t){const {id:tid,...data}=t; db.ref('tasks/'+id).update({status:val}).then(()=>showToast('تم التحديث ✓'));}
 }
 
 function rProjs(){
@@ -872,9 +852,9 @@ function rInits(){
     <div style="display:flex;justify-content:space-between;margin-bottom:8px"><b>${i.title}</b><span class="badge b-amber">${i.cat}</span></div>
     <div style="font-size:12px;color:var(--txt2);margin-bottom:10px">${i.desc||''}</div>
     <div style="font-size:12px;margin-bottom:10px"><i class="ti ti-user" style="font-size:13px;color:var(--txt3)"></i> ${i.ename||'—'}</div>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="color:#f5a623;font-size:20px;letter-spacing:2px">${strs(i.stars)}</span><b>${i.stars}/5</b></div>
-    <div class="pb"><div class="pf" style="width:${Math.round((i.stars/5)*100)}%;background:#f5a623"></div></div>
-    <div style="font-size:11px;color:var(--amber);font-weight:700;margin-top:4px">${Math.round((i.stars/5)*100)}%</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="color:#f5a623;font-size:20px;letter-spacing:2px">${strs(i.stars||0)}</span><b>${i.stars||0}/5</b></div>
+    <div class="pb"><div class="pf" style="width:${Math.round(((i.stars||0)/5)*100)}%;background:#f5a623"></div></div>
+    <div style="font-size:11px;color:var(--amber);font-weight:700;margin-top:4px">${Math.round(((i.stars||0)/5)*100)}%</div>
     <div style="display:flex;gap:6px;margin-top:12px;justify-content:flex-end">
       <button class="btn btn-sm btn-grn" onclick="editInit('${i.id}')"><i class="ti ti-edit" style="font-size:13px"></i> تعديل</button>
       <button class="btn btn-sm btn-red" onclick="delItem('initiatives','${i.id}')"><i class="ti ti-trash" style="font-size:13px"></i></button>
@@ -891,7 +871,10 @@ function rGoals(){
       <div style="font-size:12px;color:var(--txt2);margin-bottom:7px">${gl.ename||'—'}${gl.due?' · '+gl.due:''}</div>
       <div style="display:flex;align-items:center;gap:10px"><div class="pb" style="flex:1"><div class="pf" style="width:${gl.prog}%;background:${gl.prog===100?'var(--green)':'var(--blue)'}"></div></div><b style="font-size:13px;min-width:38px">${gl.prog}%</b></div>
     </div>
-    <div class="act-btns"><button class="btn btn-sm btn-grn" onclick="editGoal('${gl.id}')"><i class="ti ti-edit" style="font-size:13px"></i></button><button class="btn btn-sm btn-red" onclick="delItem('goals','${gl.id}')"><i class="ti ti-trash" style="font-size:13px"></i></button></div>
+    <div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editGoal('${gl.id}')"><i class="ti ti-edit" style="font-size:13px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delItem('goals','${gl.id}')"><i class="ti ti-trash" style="font-size:13px"></i></button>
+    </div>
   </div>`).join('')+'</div>';
 }
 
@@ -905,12 +888,14 @@ function rVacs(){
       <option ${vv.status==='موافق عليها'?'selected':''}>موافق عليها</option>
       <option ${vv.status==='مرفوضة'?'selected':''}>مرفوضة</option>
     </select></td>
-    <td><div class="act-btns"><button class="btn btn-sm btn-grn" onclick="editVac('${vv.id}')"><i class="ti ti-edit" style="font-size:13px"></i></button><button class="btn btn-sm btn-red" onclick="delItem('vacations','${vv.id}')"><i class="ti ti-trash" style="font-size:13px"></i></button></div></td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editVac('${vv.id}')"><i class="ti ti-edit" style="font-size:13px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delItem('vacations','${vv.id}')"><i class="ti ti-trash" style="font-size:13px"></i></button>
+    </div></td>
   </tr>`).join('');
 }
-async function updVac(id,val){
-  const vv=DB.vacations.find(x=>x.id===id);
-  if(vv) await fbSave('vacations',{...vv,status:val});
+function updVac(id,val){
+  db.ref('vacations/'+id).update({status:val}).then(()=>showToast('تم التحديث ✓'));
 }
 
 function rDaily(){renderDailyList('g-daily',DB.daily,true);}
@@ -932,9 +917,9 @@ function renderDailyList(elId,data,showEdit){
     </div>`).join('');
 }
 
-async function delItem(col,id){
+function delItem(col,id){
   if(!confirm('حذف هذا العنصر؟'))return;
-  await fbDelete(col,id);
+  fbDelete(col,id);
 }
 
 // ── KPIs ──
@@ -946,16 +931,16 @@ function kpis(){
   $('k-emp-t').textContent=ne?DB.employees.filter(e=>e.status==='نشط').length+' نشط':'';
   $('k-proj-t').textContent=np?DB.projects.filter(p=>p.prog===100).length+' مكتمل':'';
   $('k-task-t').textContent=nt?DB.tasks.filter(t=>t.status==='مكتمل').length+' مكتملة':'';
-  $('k-init-t').textContent=ni?'متوسط '+Math.round(DB.initiatives.reduce((a,i)=>a+i.stars,0)/ni*10)/10+' ★':'';
+  $('k-init-t').textContent=ni?'متوسط '+Math.round(DB.initiatives.reduce((a,i)=>a+(i.stars||0),0)/ni*10)/10+' ★':'';
 }
 
 // ── CHARTS ──
 function buildCharts(){
   const c1=$('ch-tasks'),c2=$('ch-proj'),c3=$('ch-dept');
   if(!c1||!c2||!c3)return;
-  if(charts.t)charts.t.destroy();
-  if(charts.p)charts.p.destroy();
-  if(charts.d)charts.d.destroy();
+  if(charts.t){charts.t.destroy();charts.t=null;}
+  if(charts.p){charts.p.destroy();charts.p=null;}
+  if(charts.d){charts.d.destroy();charts.d=null;}
   const tD=DB.tasks.filter(t=>t.status==='مكتمل').length;
   const tA=DB.tasks.filter(t=>t.status==='قيد التنفيذ').length;
   const tS=DB.tasks.filter(t=>t.status==='متوقف').length;
@@ -966,7 +951,7 @@ function buildCharts(){
   const depts={};DB.employees.forEach(e=>{depts[e.dept]=(depts[e.dept]||0)+1;});
   const dkeys=Object.keys(depts);
   const dcols=['#1a6bc4','#2d7d3a','#b06a00','#5b4fcf','#0f7a6e','#c0392b','#e67e22'];
-  charts.d=new Chart(c3,{type:'doughnut',data:{labels:dkeys.length?dkeys:['لا توجد بيانات'],datasets:[{data:dkeys.length?Object.values(depts):[1],backgroundColor:dkeys.length?dcols:['#ccc'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:6,boxWidth:10}}}}});
+  charts.d=new Chart(c3,{type:'doughnut',data:{labels:dkeys.length?dkeys:['لا توجد'],datasets:[{data:dkeys.length?Object.values(depts):[1],backgroundColor:dkeys.length?dcols:['#ccc'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:6,boxWidth:10}}}}});
 }
 
 // ── DASHBOARD ──
@@ -980,7 +965,7 @@ function renderDash(){
     ?DB.goals.slice(-4).reverse().map(g=>`<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span style="font-weight:600">${g.title}</span><b style="color:${g.prog===100?'var(--green)':'var(--blue)'}">${g.prog}%</b></div><div class="pb"><div class="pf" style="width:${g.prog}%;background:${g.prog===100?'var(--green)':'var(--blue)'}"></div></div><div style="font-size:11px;color:var(--txt2);margin-top:2px">${g.ename||'—'}</div></div>`).join('')
     :'<div class="emp-st"><i class="ti ti-target"></i><p>لا توجد أهداف</p></div>';
   $('d-init').innerHTML=DB.initiatives.length
-    ?DB.initiatives.slice(-4).reverse().map(i=>`<div class="dr"><div class="dr-m"><div class="dr-t">${i.title}</div><div class="dr-s">${i.ename||'—'}</div></div><span style="color:#f5a623;font-size:15px;letter-spacing:1px">${strs(i.stars)}</span></div>`).join('')
+    ?DB.initiatives.slice(-4).reverse().map(i=>`<div class="dr"><div class="dr-m"><div class="dr-t">${i.title}</div><div class="dr-s">${i.ename||'—'}</div></div><span style="color:#f5a623;font-size:15px;letter-spacing:1px">${strs(i.stars||0)}</span></div>`).join('')
     :'<div class="emp-st"><i class="ti ti-bulb"></i><p>لا توجد مبادرات</p></div>';
   const up=DB.vacations.filter(vv=>vv.from>=tod()).slice(0,4);
   $('d-vac').innerHTML=up.length
@@ -1000,8 +985,11 @@ function initDates(){
 
 // ── EVENT LISTENERS ──
 document.addEventListener('DOMContentLoaded',()=>{
+  // Start Firebase listeners immediately
+  startListeners();
   $('loading-ov').classList.add('hide');
   showScr('scr-login');
+
   $('login-btn').addEventListener('click',doLogin);
   $('l-p').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
   $('l-u').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
@@ -1050,37 +1038,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   $('ms-vac').addEventListener('click',saveVac);
   $('ms-daily').addEventListener('click',saveDaily);
 
-  // Load data before showing login
-  const loadAll = async () => {
-    $('loading-ov').classList.remove('hide');
-    $('loading-ov').querySelector('.loading-txt').textContent='جاري الاتصال بقاعدة البيانات...';
-    try {
-      for(const col of COLLECTIONS){
-        const snap = await get(ref(db, col));
-        const data = snap.val();
-        DB[col] = data ? Object.entries(data).map(([key,v])=>{
-          const {_id,...rest} = v||{};
-          return {id: _id||key, ...rest};
-        }) : [];
-      }
-      $('loading-ov').classList.add('hide');
-      setSyncState('ok');
-    } catch(e){
-      console.error('Firebase error:',e);
-      $('loading-ov').querySelector('.loading-txt').textContent='تعذّر الاتصال: '+e.message;
-      setSyncState('error');
-      setTimeout(()=>$('loading-ov').classList.add('hide'),4000);
-    }
-  };
-  loadAll();
-
-  // expose global functions for inline onclick
-  window.editEmp=editEmp; window.editTask=editTask; window.editProj=editProj;
-  window.editInit=editInit; window.editGoal=editGoal; window.editVac=editVac; window.editDaily=editDaily;
-  window.delEmp=delEmp; window.delItem=delItem;
-  window.updTask=updTask; window.updVac=updVac;
-  window.showScr=showScr; window.openM=openM; window.closeM=closeM;
-  window.aPage=aPage; window.ePage=ePage;
+  // Expose for inline onclick
+  window.editEmp=editEmp;window.editTask=editTask;window.editProj=editProj;
+  window.editInit=editInit;window.editGoal=editGoal;window.editVac=editVac;window.editDaily=editDaily;
+  window.delEmp=delEmp;window.delItem=delItem;
+  window.updTask=updTask;window.updVac=updVac;
+  window.aPage=aPage;window.ePage=ePage;window.openM=openM;window.closeM=closeM;
 });
 </script>
 </body>
