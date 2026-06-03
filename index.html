@@ -221,7 +221,7 @@ tr:hover td{background:#fafaf8}
       <div class="ni" id="ni-employees"><i class="ti ti-users"></i><span>الموظفون</span></div>
       <div class="ni" id="ni-tasks"><i class="ti ti-checklist"></i><span>المهام</span></div>
       <div class="ni" id="ni-projects"><i class="ti ti-folders"></i><span>المشاريع</span></div>
-      <div class="sb-sep">التطوير والأداء</div>
+      <div class="sb-sep">الأداء والمبادرات</div>
       <div class="ni" id="ni-initiatives"><i class="ti ti-bulb"></i><span>المبادرات</span></div>
       <div class="ni" id="ni-goals"><i class="ti ti-target"></i><span>الأهداف</span></div>
       <div class="sb-sep">التخطيط</div>
@@ -259,12 +259,14 @@ tr:hover td{background:#fafaf8}
         <div><div class="pt">لوحة التحكم</div><div class="ps" id="dash-dt"></div></div>
         <div style="display:flex;gap:8px;align-items:center">
           <button class="btn btn-wh btn-sm" id="btn-req-pdf"><i class="ti ti-file-type-pdf"></i> تقرير الطلبات</button>
+          <button class="btn btn-wh btn-sm" id="btn-new-emp"><i class="ti ti-user-plus"></i> موظف جديد</button>
+          <button class="btn btn-wh btn-sm" id="btn-new-task"><i class="ti ti-plus"></i> مهمة جديدة</button>
           <div class="notif-wrap">
             <button class="notif-btn" id="notif-btn" title="الإشعارات">
               <i class="ti ti-bell" style="font-size:17px"></i>
               <span class="notif-badge" id="notif-badge">0</span>
             </button>
-            <div class="notif-panel" id="notif-panel">
+            <div class="notif-panel" id="notif-panel" style="left:auto;right:0">
               <div class="notif-head">
                 <span><i class="ti ti-bell" style="font-size:14px;vertical-align:-2px;margin-left:5px"></i>الإشعارات</span>
                 <button class="btn btn-sm" id="notif-clear" style="font-size:11px;padding:3px 8px">مسح الكل</button>
@@ -272,8 +274,6 @@ tr:hover td{background:#fafaf8}
               <div id="notif-list"><div class="notif-empty">لا توجد إشعارات</div></div>
             </div>
           </div>
-          <button class="btn btn-wh btn-sm" id="btn-new-emp"><i class="ti ti-user-plus"></i> موظف جديد</button>
-          <button class="btn btn-wh btn-sm" id="btn-new-task"><i class="ti ti-plus"></i> مهمة جديدة</button>
         </div>
       </div>
       <div class="kpi-grid">
@@ -354,23 +354,48 @@ tr:hover td{background:#fafaf8}
 
     <!-- ══ NEW SECTIONS ══ -->
     <div class="pg" id="ap-r1">
-      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لمعالي الوزير</div></div><button class="btn btn-wh" onclick="openM('m-r1')"><i class="ti ti-plus"></i> إضافة طلب</button></div>
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لمعالي الوزير</div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r1','الطلبات الموجهة لمعالي الوزير')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
+          <button class="btn btn-wh" onclick="openM('m-r1')"><i class="ti ti-plus"></i> إضافة طلب</button>
+        </div>
+      </div>
       <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r1"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r2">
-      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لسعادة الوكيل</div></div><button class="btn btn-wh" onclick="openM('m-r2')"><i class="ti ti-plus"></i> إضافة طلب</button></div>
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لسعادة الوكيل</div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r2','الطلبات الموجهة لسعادة الوكيل')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
+          <button class="btn btn-wh" onclick="openM('m-r2')"><i class="ti ti-plus"></i> إضافة طلب</button>
+        </div>
+      </div>
       <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r2"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r3">
-      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لمدير عام المعادن</div></div><button class="btn btn-wh" onclick="openM('m-r3')"><i class="ti ti-plus"></i> إضافة طلب</button></div>
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لمدير عام المعادن</div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r3','الطلبات الموجهة لمدير عام المعادن')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
+          <button class="btn btn-wh" onclick="openM('m-r3')"><i class="ti ti-plus"></i> إضافة طلب</button>
+        </div>
+      </div>
       <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r3"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r4">
-      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة للمديريات والدوائر</div></div><button class="btn btn-wh" onclick="openM('m-r4')"><i class="ti ti-plus"></i> إضافة طلب</button></div>
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة للمديريات والدوائر</div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r4','الطلبات الموجهة للمديريات والدوائر')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
+          <button class="btn btn-wh" onclick="openM('m-r4')"><i class="ti ti-plus"></i> إضافة طلب</button>
+        </div>
+      </div>
       <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r4"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r5">
-      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">طلبات التوظيف</div></div><button class="btn btn-wh" onclick="openM('m-r5')"><i class="ti ti-plus"></i> إضافة طلب</button></div>
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">طلبات التوظيف</div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r5','طلبات التوظيف')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
+          <button class="btn btn-wh" onclick="openM('m-r5')"><i class="ti ti-plus"></i> إضافة طلب</button>
+        </div>
+      </div>
       <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r5"></tbody></table></div>
     </div>
     <div class="pg" id="ap-tinv">
@@ -2121,6 +2146,150 @@ table td,table th{padding:7px 10px;border-bottom:1px solid #e0dedd;vertical-alig
       doc.save('تقرير-الطلبات-'+new Date().toISOString().split('T')[0]+'.pdf');
       document.body.removeChild(iframe);
       showToast('تم تصدير تقرير الطلبات ✓');
+    }).catch(e=>{document.body.removeChild(iframe);showToast('خطأ: '+e.message);});
+  },1200);
+}
+
+
+
+// ══ SINGLE REQUEST TYPE PDF ══
+function exportSingleReqPDF(key, title){
+  const data = DB[key]||[];
+  if(!data.length){showToast('لا توجد طلبات للتصدير');return;}
+  showToast('جاري إنشاء التقرير...');
+
+  const colorMap={
+    r1:[26,107,196], r2:[15,122,110], r3:[91,79,207],
+    r4:[176,106,0],  r5:[45,125,58]
+  };
+  const cc = colorMap[key]||[3,69,94];
+  const colorStr = `rgb(${cc[0]},${cc[1]},${cc[2]})`;
+  const colorBg = `rgba(${cc[0]},${cc[1]},${cc[2]},0.08)`;
+
+  const withFinal = data.filter(r=>r.final).length;
+  const withDept  = data.filter(r=>r.deptreply&&!r.final).length;
+  const pending   = data.filter(r=>!r.deptreply&&!r.final).length;
+  const pct = Math.round((withFinal/data.length)*100);
+
+  const isR5 = key==='r5';
+  const rows = data.map((r,i)=>`<tr style="background:${i%2===0?'#fff':'#f9f8f6'}">
+    <td style="text-align:center;color:#9a9a96;font-size:10px">${i+1}</td>
+    <td><b>${r.ref||'—'}</b></td>
+    <td>${r.recv||'—'}</td>
+    <td>${r.name||'—'}</td>
+    <td>${r.subj||'—'}</td>
+    <td>${r.phone||'—'}</td>
+    <td>${r.dept||'—'}</td>
+    ${!isR5?`<td>${r.rdate||'—'}</td>`:''}
+    <td>${r.deptreply||'—'}</td>
+    <td>${r.final?`<span style="color:#2d7d3a;font-weight:700">${r.final}</span>`:'<span style="color:#b06a00;font-size:10px">قيد المعالجة</span>'}</td>
+    <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.notes||'—'}</td>
+  </tr>`).join('');
+
+  const printHTML=`<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head><meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1c1c1a;padding:0;direction:rtl;font-size:12px}
+.header{background:${colorStr};color:#fff;padding:20px 26px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:18px;font-weight:900}
+.header p{font-size:11px;opacity:.75;margin-top:3px}
+.header .meta{text-align:left;font-size:12px}
+.stats-bar{background:${colorBg};padding:16px 26px;border-bottom:3px solid ${colorStr};display:flex;gap:16px;align-items:center}
+.stat{text-align:center;min-width:80px}
+.stat-n{font-size:24px;font-weight:900;color:${colorStr};line-height:1}
+.stat-l{font-size:10px;color:#5a5a56;margin-top:3px;font-weight:600}
+.stat-divider{width:1px;background:#e0dedd;height:40px}
+.progress-wrap{flex:1;margin:0 16px}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:4px}
+.progress-bar{background:#e0dedd;border-radius:4px;height:10px;overflow:hidden}
+.progress-fill{height:10px;border-radius:4px;background:${colorStr}}
+.content{padding:18px 26px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:${colorStr};color:#fff;padding:9px 10px;text-align:right;font-weight:700;font-size:10px}
+td{padding:8px 10px;border-bottom:1px solid #e0dedd;vertical-align:middle}
+.footer{background:${colorStr};color:#fff;padding:10px 26px;display:flex;justify-content:space-between;font-size:10px;margin-top:16px}
+</style></head>
+<body>
+<div class="header">
+  <div>
+    <h1>${title}</h1>
+    <p>سجل الطلبات — نظام إدارة الطلبات والمؤشرات</p>
+  </div>
+  <div class="meta">
+    <div style="opacity:.75">تاريخ التقرير: ${new Date().toLocaleDateString('ar-SA')}</div>
+    <div style="font-size:18px;font-weight:900;margin-top:4px">${data.length} طلب</div>
+  </div>
+</div>
+<div class="stats-bar">
+  <div class="stat"><div class="stat-n">${data.length}</div><div class="stat-l">إجمالي الطلبات</div></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><div class="stat-n" style="color:#2d7d3a">${withFinal}</div><div class="stat-l">مكتمل الرد النهائي</div></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><div class="stat-n" style="color:#1a6bc4">${withDept}</div><div class="stat-l">رد التقسيم فقط</div></div>
+  <div class="stat-divider"></div>
+  <div class="stat"><div class="stat-n" style="color:#b06a00">${pending}</div><div class="stat-l">قيد المعالجة</div></div>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>نسبة الإنجاز</span><span>${pct}%</span></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+  </div>
+</div>
+<div class="content">
+  <table>
+    <thead><tr>
+      <th style="width:30px;text-align:center">#</th>
+      <th>رقم المرجع</th>
+      <th>تاريخ الاستلام</th>
+      <th>المواطن/الشركة</th>
+      <th>الموضوع</th>
+      <th>رقم التواصل</th>
+      <th>التقسيم المعني</th>
+      ${!isR5?'<th>تاريخ الإحالة</th>':''}
+      <th>تاريخ رد التقسيم</th>
+      <th>تاريخ الرد النهائي</th>
+      <th>ملاحظات</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+</div>
+<div class="footer">
+  <span>نظام إدارة الطلبات والمؤشرات — سري وخاص</span>
+  <span>إجمالي: ${data.length} طلب | ${new Date().toLocaleDateString('ar-SA')}</span>
+</div>
+</body></html>`;
+
+  const iframe=document.createElement('iframe');
+  iframe.style.cssText='position:fixed;top:-9999px;left:-9999px;width:1100px;height:1400px;border:none;visibility:hidden';
+  document.body.appendChild(iframe);
+  iframe.contentDocument.open();
+  iframe.contentDocument.write(printHTML);
+  iframe.contentDocument.close();
+
+  setTimeout(()=>{
+    html2canvas(iframe.contentDocument.body,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#fff',width:1100,windowWidth:1100}).then(canvas=>{
+      const {jsPDF}=window.jspdf;
+      const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+      const imgW=297, imgH=(canvas.height*imgW)/canvas.width, pageH=210;
+      if(imgH<=pageH){
+        doc.addImage(canvas.toDataURL('image/jpeg',0.95),'JPEG',0,0,imgW,imgH);
+      } else {
+        let yPos=0,pg=0;
+        while(yPos<imgH){
+          if(pg>0) doc.addPage();
+          const sh=Math.min(pageH,imgH-yPos);
+          const sc=document.createElement('canvas');
+          sc.width=canvas.width; sc.height=(sh/imgH)*canvas.height;
+          sc.getContext('2d').drawImage(canvas,0,(yPos/imgH)*canvas.height,canvas.width,sc.height,0,0,canvas.width,sc.height);
+          doc.addImage(sc.toDataURL('image/jpeg',0.95),'JPEG',0,0,imgW,sh);
+          yPos+=sh; pg++;
+        }
+      }
+      const nameMap={r1:'الوزير',r2:'الوكيل',r3:'المعادن',r4:'المديريات',r5:'التوظيف'};
+      doc.save(`تقرير-طلبات-${nameMap[key]||key}-${new Date().toISOString().split('T')[0]}.pdf`);
+      document.body.removeChild(iframe);
+      showToast('تم تصدير التقرير ✓');
     }).catch(e=>{document.body.removeChild(iframe);showToast('خطأ: '+e.message);});
   },1200);
 }
