@@ -6,6 +6,7 @@
 <title>نظام إدارة الموظفين</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -1270,175 +1271,146 @@ function toggleNotifPanel(){
 // ── PDF EXPORT ──
 function exportProjectsPDF(){
   if(!DB.projects.length){showToast('لا توجد مشاريع للتصدير');return;}
-  showToast('جاري إنشاء PDF...');
+  showToast('جاري إنشاء التقرير...');
 
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
-
-  const pageW = doc.internal.pageSize.getWidth();
-  const margin = 15;
-  let y = margin;
-
-  // ── HEADER ──
-  doc.setFillColor(3, 69, 94);
-  doc.rect(0, 0, pageW, 28, 'F');
-  doc.setTextColor(255,255,255);
-  doc.setFontSize(16);
-  doc.setFont('helvetica','bold');
-  doc.text('Projects Report', pageW/2, 12, {align:'center'});
-  doc.setFontSize(9);
-  doc.setFont('helvetica','normal');
-  doc.text('Generated: '+new Date().toLocaleDateString('en-GB'), pageW/2, 20, {align:'center'});
-  doc.text('Total Projects: '+DB.projects.length, pageW/2, 25, {align:'center'});
-  y = 36;
-
-  // ── SUMMARY BOXES ──
+  // Build an Arabic HTML page to capture
   const active = DB.projects.filter(p=>p.status==='قيد التنفيذ').length;
-  const done = DB.projects.filter(p=>p.status==='مكتمل').length;
-  const planned = DB.projects.filter(p=>p.status==='مخطط').length;
-  const stopped = DB.projects.filter(p=>p.status==='متوقف').length;
-  const avgProg = DB.projects.length ? Math.round(DB.projects.reduce((a,p)=>a+p.prog,0)/DB.projects.length) : 0;
+  const done   = DB.projects.filter(p=>p.status==='مكتمل').length;
+  const planned= DB.projects.filter(p=>p.status==='مخطط').length;
+  const stopped= DB.projects.filter(p=>p.status==='متوقف').length;
+  const avgProg= DB.projects.length ? Math.round(DB.projects.reduce((a,p)=>a+p.prog,0)/DB.projects.length) : 0;
 
-  const boxes = [
-    {label:'Active',val:active,r:26,g:107,b:196},
-    {label:'Completed',val:done,r:45,g:125,b:58},
-    {label:'Planned',val:planned,r:176,g:106,b:0},
-    {label:'Stopped',val:stopped,r:192,g:57,b:43},
-    {label:'Avg Progress',val:avgProg+'%',r:91,g:79,b:207},
-  ];
-  const bw = (pageW - margin*2 - 8*4) / 5;
-  boxes.forEach((b,i)=>{
-    const bx = margin + i*(bw+8);
-    doc.setFillColor(b.r,b.g,b.b);
-    doc.roundedRect(bx, y, bw, 18, 3, 3, 'F');
-    doc.setTextColor(255,255,255);
-    doc.setFontSize(14);
-    doc.setFont('helvetica','bold');
-    doc.text(String(b.val), bx+bw/2, y+10, {align:'center'});
-    doc.setFontSize(7);
-    doc.setFont('helvetica','normal');
-    doc.text(b.label, bx+bw/2, y+16, {align:'center'});
-  });
-  y += 26;
+  const sC = s => s==='مكتمل'?'#2d7d3a':s==='قيد التنفيذ'?'#1a6bc4':s==='متوقف'?'#c0392b':'#b06a00';
+  const sBg= s => s==='مكتمل'?'#e0f0e3':s==='قيد التنفيذ'?'#deeaf8':s==='متوقف'?'#fce8e6':'#fdf0dc';
 
-  // ── TABLE HEADER ──
-  doc.setFillColor(240,240,238);
-  doc.rect(margin, y, pageW-margin*2, 8, 'F');
-  doc.setTextColor(80,80,80);
-  doc.setFontSize(8);
-  doc.setFont('helvetica','bold');
-  const cols = [
-    {label:'Project Name', x: margin+2, w:55},
-    {label:'Manager', x: margin+57, w:38},
-    {label:'Status', x: margin+95, w:28},
-    {label:'Progress', x: margin+123, w:25},
-    {label:'End Date', x: margin+148, w:28},
-  ];
-  cols.forEach(c=> doc.text(c.label, c.x+1, y+5.5));
-  y += 8;
+  const rows = DB.projects.map(p=>`
+    <tr>
+      <td style="font-weight:700;font-size:13px">${p.name}</td>
+      <td>${p.ename||'—'}</td>
+      <td><span style="background:${sBg(p.status)};color:${sC(p.status)};padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600">${p.status}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;background:#e0dedd;border-radius:4px;height:8px;min-width:80px">
+            <div style="width:${p.prog}%;background:${sC(p.status)};height:8px;border-radius:4px"></div>
+          </div>
+          <span style="font-weight:700;font-size:12px;min-width:32px">${p.prog}%</span>
+        </div>
+      </td>
+      <td>${p.start||'—'}</td>
+      <td>${p.end||'—'}</td>
+      <td>${p.desc||'—'}</td>
+    </tr>`).join('');
 
-  // ── TABLE ROWS ──
-  doc.setFont('helvetica','normal');
-  DB.projects.forEach((p,i)=>{
-    if(y > 265){
-      doc.addPage();
-      y = 20;
-    }
-    const rowH = 10;
-    // Row background
-    if(i%2===0){
-      doc.setFillColor(250,250,248);
-      doc.rect(margin, y, pageW-margin*2, rowH, 'F');
-    }
-    // Status color dot
-    const sc = p.status==='مكتمل'?[45,125,58]:p.status==='قيد التنفيذ'?[26,107,196]:p.status==='متوقف'?[192,57,43]:[176,106,0];
-    doc.setFillColor(...sc);
-    doc.circle(margin+98, y+5, 2, 'F');
+  const printHTML = `<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1c1c1a;padding:0;direction:rtl}
+  .header{background:#03455E;color:#fff;padding:24px 30px;display:flex;justify-content:space-between;align-items:center}
+  .header h1{font-size:22px;font-weight:900}
+  .header p{font-size:12px;opacity:.8;margin-top:4px}
+  .header .date{font-size:12px;opacity:.7;text-align:left}
+  .stats{display:flex;gap:12px;padding:20px 30px;background:#f4f3ef}
+  .stat{flex:1;background:#fff;border-radius:10px;padding:14px;text-align:center;border:1px solid #e0dedd}
+  .stat .num{font-size:26px;font-weight:900}
+  .stat .lbl{font-size:11px;color:#6a6a66;margin-top:3px;font-weight:600}
+  .section{padding:20px 30px}
+  .section-title{font-size:14px;font-weight:700;color:#03455E;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #03455E}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{background:#03455E;color:#fff;padding:10px 12px;text-align:right;font-weight:700;font-size:11px}
+  td{padding:10px 12px;border-bottom:1px solid #e0dedd;vertical-align:middle}
+  tr:nth-child(even) td{background:#f9f8f6}
+  .footer{background:#03455E;color:#fff;padding:12px 30px;display:flex;justify-content:space-between;font-size:11px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>تقرير المشاريع</h1>
+    <p>نظام إدارة الموظفين</p>
+  </div>
+  <div class="date">
+    <div>تاريخ التقرير</div>
+    <div style="font-weight:700;font-size:14px;margin-top:4px">${new Date().toLocaleDateString('ar-SA')}</div>
+    <div style="margin-top:4px">إجمالي المشاريع: ${DB.projects.length}</div>
+  </div>
+</div>
+<div class="stats">
+  <div class="stat"><div class="num" style="color:#1a6bc4">${active}</div><div class="lbl">قيد التنفيذ</div></div>
+  <div class="stat"><div class="num" style="color:#2d7d3a">${done}</div><div class="lbl">مكتملة</div></div>
+  <div class="stat"><div class="num" style="color:#b06a00">${planned}</div><div class="lbl">مخططة</div></div>
+  <div class="stat"><div class="num" style="color:#c0392b">${stopped}</div><div class="lbl">متوقفة</div></div>
+  <div class="stat"><div class="num" style="color:#5b4fcf">${avgProg}%</div><div class="lbl">متوسط الإنجاز</div></div>
+</div>
+<div class="section">
+  <div class="section-title">تفاصيل جميع المشاريع</div>
+  <table>
+    <thead><tr><th>اسم المشروع</th><th>المسؤول</th><th>الحالة</th><th>نسبة الإنجاز</th><th>تاريخ البدء</th><th>تاريخ الانتهاء</th><th>الوصف</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+</div>
+<div class="footer">
+  <span>نظام إدارة الموظفين — سري وخاص</span>
+  <span>${new Date().toLocaleDateString('ar-SA')}</span>
+</div>
+</body>
+</html>`;
 
-    doc.setTextColor(30,30,26);
-    doc.setFontSize(8);
-    // Name (truncate if long)
-    const nm = p.name.length>28?p.name.substring(0,26)+'...':p.name;
-    doc.text(nm, cols[0].x+1, y+6.5);
-    const en = (p.ename||'N/A').length>18?(p.ename||'N/A').substring(0,16)+'...':(p.ename||'N/A');
-    doc.text(en, cols[1].x+1, y+6.5);
-    // Status text
-    const stMap={'مكتمل':'Completed','قيد التنفيذ':'Active','مخطط':'Planned','متوقف':'Stopped'};
-    doc.text(stMap[p.status]||p.status, cols[2].x+5, y+6.5);
-    // Progress bar
-    const barX = cols[3].x+1, barY=y+4, barW=22, barH=3;
-    doc.setFillColor(220,220,218);
-    doc.roundedRect(barX, barY, barW, barH, 1, 1, 'F');
-    if(p.prog>0){
-      doc.setFillColor(...sc);
-      doc.roundedRect(barX, barY, barW*(p.prog/100), barH, 1, 1, 'F');
-    }
-    doc.setTextColor(60,60,60);
-    doc.text(p.prog+'%', barX+barW+1, y+6.5);
-    // End date
-    doc.text(p.end||'—', cols[4].x+1, y+6.5);
-    // Bottom border
-    doc.setDrawColor(220,220,218);
-    doc.line(margin, y+rowH, pageW-margin, y+rowH);
-    y += rowH;
-  });
+  // Create hidden iframe to render Arabic HTML
+  const iframe = document.createElement('iframe');
+  iframe.style.cssText='position:fixed;top:-9999px;left:-9999px;width:900px;height:1200px;border:none;visibility:hidden';
+  document.body.appendChild(iframe);
+  iframe.contentDocument.open();
+  iframe.contentDocument.write(printHTML);
+  iframe.contentDocument.close();
 
-  // ── PROJECT DETAILS ──
-  y += 8;
-  DB.projects.forEach(p=>{
-    if(y > 250){ doc.addPage(); y = 20; }
-    // Card header
-    doc.setFillColor(3,69,94);
-    doc.roundedRect(margin, y, pageW-margin*2, 8, 2, 2, 'F');
-    doc.setTextColor(255,255,255);
-    doc.setFontSize(9);
-    doc.setFont('helvetica','bold');
-    doc.text(p.name, margin+3, y+5.5);
-    const sc2 = p.status==='مكتمل'?[45,125,58]:p.status==='قيد التنفيذ'?[26,107,196]:p.status==='متوقف'?[192,57,43]:[176,106,0];
-    doc.setFillColor(...sc2);
-    const stLabel = {'مكتمل':'Completed','قيد التنفيذ':'Active','مخطط':'Planned','متوقف':'Stopped'};
-    const stTxt = stLabel[p.status]||p.status;
-    doc.roundedRect(pageW-margin-22, y+1.5, 20, 5, 2, 2, 'F');
-    doc.setFontSize(7);
-    doc.text(stTxt, pageW-margin-12, y+5.5, {align:'center'});
-    y += 10;
+  // Wait for fonts to load then capture
+  setTimeout(()=>{
+    html2canvas(iframe.contentDocument.body, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      width: 900,
+      windowWidth: 900
+    }).then(canvas=>{
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+      const imgW = 210;
+      const imgH = (canvas.height * imgW) / canvas.width;
+      const pageH = 295;
 
-    // Details
-    doc.setFillColor(248,248,246);
-    doc.rect(margin, y, pageW-margin*2, 18, 'F');
-    doc.setTextColor(90,90,86);
-    doc.setFontSize(8);
-    doc.setFont('helvetica','normal');
-    doc.text('Manager: '+(p.ename||'N/A'), margin+3, y+5);
-    doc.text('Start: '+(p.start||'N/A'), margin+3, y+11);
-    doc.text('End: '+(p.end||'N/A'), margin+3, y+17);
-    doc.text('Progress: '+p.prog+'%', margin+70, y+5);
-    doc.text('Desc: '+((p.desc||'No description').substring(0,50)), margin+70, y+11);
-    // Progress bar in details
-    const bx2=margin+3, by2=y+13, bw2=60, bh2=2.5;
-    doc.setFillColor(220,220,218);
-    doc.roundedRect(bx2, by2, bw2, bh2, 1, 1, 'F');
-    if(p.prog>0){
-      doc.setFillColor(...sc2);
-      doc.roundedRect(bx2, by2, bw2*(p.prog/100), bh2, 1, 1, 'F');
-    }
-    y += 22;
-  });
-
-  // ── FOOTER ──
-  const totalPages = doc.internal.getNumberOfPages();
-  for(let i=1;i<=totalPages;i++){
-    doc.setPage(i);
-    doc.setFillColor(3,69,94);
-    doc.rect(0, 285, pageW, 12, 'F');
-    doc.setTextColor(255,255,255);
-    doc.setFontSize(8);
-    doc.text('Employee Management System — Confidential', margin, 292);
-    doc.text('Page '+i+' of '+totalPages, pageW-margin, 292, {align:'right'});
-  }
-
-  doc.save('Projects-Report-'+new Date().toISOString().split('T')[0]+'.pdf');
-  showToast('تم تصدير PDF بنجاح ✓');
+      if(imgH <= pageH){
+        doc.addImage(canvas.toDataURL('image/jpeg',0.95),'JPEG',0,0,imgW,imgH);
+      } else {
+        // Multi-page support
+        let yPos = 0;
+        let pageNum = 0;
+        while(yPos < imgH){
+          if(pageNum > 0) doc.addPage();
+          const sliceH = Math.min(pageH, imgH - yPos);
+          const sliceCanvas = document.createElement('canvas');
+          sliceCanvas.width = canvas.width;
+          sliceCanvas.height = (sliceH / imgH) * canvas.height;
+          const ctx = sliceCanvas.getContext('2d');
+          ctx.drawImage(canvas, 0, (yPos/imgH)*canvas.height, canvas.width, sliceCanvas.height, 0, 0, canvas.width, sliceCanvas.height);
+          doc.addImage(sliceCanvas.toDataURL('image/jpeg',0.95),'JPEG',0,0,imgW,sliceH);
+          yPos += sliceH;
+          pageNum++;
+        }
+      }
+      doc.save('تقرير-المشاريع-'+new Date().toISOString().split('T')[0]+'.pdf');
+      document.body.removeChild(iframe);
+      showToast('تم تصدير PDF بنجاح ✓');
+    }).catch(e=>{
+      document.body.removeChild(iframe);
+      showToast('خطأ في التصدير: '+e.message);
+      console.error(e);
+    });
+  }, 1200);
 }
 </script>
 </body>
