@@ -538,11 +538,9 @@ function refreshCurrentView(){
   }
   if(emp && emp.classList.contains('active') && CU && CU.role==='employee'){
     const e=DB.employees.find(x=>x.id===CU.id);
-    if(e) renderEmpData(e);
-    else {
-      // employee data updated, re-find
-      const empNew=DB.employees.find(x=>x.id===CU.id);
-      if(empNew) buildEmpPortal(empNew);
+    if(e){
+      buildEmpPortal(e);
+      renderEmpData(e);
     }
   }
   kpis();
@@ -559,20 +557,18 @@ function doLogin(){
   $('l-err').style.display='none';
   if(u==='Ahmed'&&p==='Oman@2020'){
     CU={role:'admin'};
+    sessionStorage.setItem('cu', JSON.stringify(CU));
     showScr('scr-admin');
     initDates();
-    // Start listeners - they will auto-render when data arrives
     startListeners();
-    // Also render immediately with whatever data we have
     aPage('dashboard');
     return;
   }
-  // For employee login, we need to check DB which comes from Firebase
-  // Try to find employee
   const tryEmpLogin = () => {
     const emp=DB.employees.find(e=>e.username===u&&e.password===p);
     if(emp){
       CU={role:'employee',id:emp.id};
+      sessionStorage.setItem('cu', JSON.stringify(CU));
       showScr('scr-emp');
       startListeners();
       buildEmpPortal(emp);
@@ -582,7 +578,6 @@ function doLogin(){
     return false;
   };
   if(!tryEmpLogin()){
-    // Maybe DB not loaded yet, load once then try
     firebase.database().ref('/').once('value').then(snap=>{
       const data = snap.val()||{};
       COLLECTIONS.forEach(col=>{
@@ -600,6 +595,7 @@ function doLogin(){
 function logout(){
   stopListeners();
   CU=null;
+  sessionStorage.removeItem('cu');
   clr(['l-u','l-p']);
   $('l-err').style.display='none';
   showScr('scr-login');
@@ -1014,7 +1010,29 @@ function initDates(){
 // ── EVENT LISTENERS ──
 document.addEventListener('DOMContentLoaded',()=>{
   $('loading-ov').classList.add('hide');
-  showScr('scr-login');
+
+  // Restore session after page refresh
+  const savedCU = sessionStorage.getItem('cu');
+  if(savedCU){
+    try{
+      CU = JSON.parse(savedCU);
+      startListeners(); // This will fetch data AND render via refreshCurrentView
+      if(CU.role==='admin'){
+        showScr('scr-admin');
+        initDates();
+        aPage('dashboard');
+      } else if(CU.role==='employee'){
+        showScr('scr-emp');
+        // buildEmpPortal will be called once data arrives in refreshCurrentView
+        ePage('home');
+      }
+    } catch(e){
+      sessionStorage.removeItem('cu');
+      showScr('scr-login');
+    }
+  } else {
+    showScr('scr-login');
+  }
 
   $('login-btn').addEventListener('click',doLogin);
   $('l-p').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
