@@ -226,12 +226,13 @@ tr:hover td{background:#fafaf8}
       <div class="ni" id="ni-goals"><i class="ti ti-target"></i><span>الأهداف</span></div>
       <div class="sb-sep">التخطيط</div>
       <div class="ni" id="ni-vacations"><i class="ti ti-beach"></i><span>الإجازات</span></div>
-      <div class="ni" id="ni-daily"><i class="ti ti-calendar-event"></i><span>الأعمال اليومية</span></div>
+      <div class="ni" id="ni-daily"><i class="ti ti-calendar-event"></i><span>الأعمال الوظيفية</span></div>
+      <div class="ni" id="ni-attend"><i class="ti ti-clock"></i><span>الحضور والانصراف</span></div>
 
       <div class="nav-sep" style="color:rgba(255,220,100,0.85)">سجل الطلبات</div>
       <div class="ni" id="ni-r1"><i class="ti ti-user-star"></i><span>طلبات الوزير</span></div>
       <div class="ni" id="ni-r2"><i class="ti ti-user-check"></i><span>طلبات الوكيل</span></div>
-      <div class="ni" id="ni-r3"><i class="ti ti-user-cog"></i><span>طلبات مدير المعادن</span></div>
+      <div class="ni" id="ni-r3"><i class="ti ti-user-cog"></i><span>طلبات المدير</span></div>
       <div class="ni" id="ni-r4"><i class="ti ti-building"></i><span>طلبات المديريات</span></div>
       <div class="ni" id="ni-r5"><i class="ti ti-id-badge"></i><span>طلبات التوظيف</span></div>
 
@@ -242,6 +243,7 @@ tr:hover td{background:#fafaf8}
 
       <div class="nav-sep" style="color:rgba(255,170,100,0.85)">المنصة الوطنية</div>
       <div class="ni" id="ni-natl"><i class="ti ti-message-circle"></i><span>الشكاوي والمقترحات</span></div>
+      <div class="ni" id="ni-comp"><i class="ti ti-alert-triangle"></i><span>الشكاوي والتظلمات</span></div>
 
       <div class="nav-sep" style="color:rgba(180,150,255,0.85)">بيانات أخرى</div>
       <div class="ni" id="ni-pub"><i class="ti ti-news"></i><span>المنشورات والإحصائيات</span></div>
@@ -323,7 +325,12 @@ tr:hover td{background:#fafaf8}
       <div class="card-t"><table><thead><tr><th>الموظف</th><th>المسمى</th><th>القسم</th><th>اسم الدخول</th><th>الهاتف</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="t-emp"></tbody></table></div>
     </div>
     <div class="pg" id="ap-tasks">
-      <div class="ph"><div><div class="pt">المهام</div></div><button class="btn btn-wh" id="btn-add-task"><i class="ti ti-plus"></i> توكيل مهمة</button></div>
+      <div class="ph"><div><div class="pt">المهام</div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" id="btn-assign-task"><i class="ti ti-user-check"></i> إسناد مهمة لموظف</button>
+          <button class="btn btn-wh" id="btn-add-task"><i class="ti ti-plus"></i> توكيل مهمة</button>
+        </div>
+      </div>
       <div class="card-t"><table><thead><tr><th>المهمة</th><th>الموظف</th><th>الأولوية</th><th>الموعد</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="t-task"></tbody></table></div>
     </div>
     <div class="pg" id="ap-projects">
@@ -348,7 +355,7 @@ tr:hover td{background:#fafaf8}
       <div class="card-t"><table><thead><tr><th>الموظف</th><th>النوع</th><th>من</th><th>إلى</th><th>أيام</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="t-vac"></tbody></table></div>
     </div>
     <div class="pg" id="ap-daily">
-      <div class="ph"><div><div class="pt">الأعمال اليومية</div></div><button class="btn btn-wh" id="btn-add-daily"><i class="ti ti-plus"></i> إضافة عمل</button></div>
+      <div class="ph"><div><div class="pt">الأعمال الوظيفية</div></div><button class="btn btn-wh" id="btn-add-daily"><i class="ti ti-plus"></i> إضافة عمل</button></div>
       <div id="g-daily"></div>
     </div>
 
@@ -360,7 +367,7 @@ tr:hover td{background:#fafaf8}
           <button class="btn btn-wh" onclick="openM('m-r1')"><i class="ti ti-plus"></i> إضافة طلب</button>
         </div>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r1"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th></tr></thead><tbody id="tb-r1"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r2">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لسعادة الوكيل</div></div>
@@ -369,7 +376,7 @@ tr:hover td{background:#fafaf8}
           <button class="btn btn-wh" onclick="openM('m-r2')"><i class="ti ti-plus"></i> إضافة طلب</button>
         </div>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r2"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th></tr></thead><tbody id="tb-r2"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r3">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لمدير عام المعادن</div></div>
@@ -378,7 +385,7 @@ tr:hover td{background:#fafaf8}
           <button class="btn btn-wh" onclick="openM('m-r3')"><i class="ti ti-plus"></i> إضافة طلب</button>
         </div>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r3"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th></tr></thead><tbody id="tb-r3"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r4">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة للمديريات والدوائر</div></div>
@@ -387,7 +394,7 @@ tr:hover td{background:#fafaf8}
           <button class="btn btn-wh" onclick="openM('m-r4')"><i class="ti ti-plus"></i> إضافة طلب</button>
         </div>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r4"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th></tr></thead><tbody id="tb-r4"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r5">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">طلبات التوظيف</div></div>
@@ -396,19 +403,19 @@ tr:hover td{background:#fafaf8}
           <button class="btn btn-wh" onclick="openM('m-r5')"><i class="ti ti-plus"></i> إضافة طلب</button>
         </div>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r5"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد</th><th>مدة الإنجاز</th><th>ملاحظات</th></tr></thead><tbody id="tb-r5"></tbody></table></div>
     </div>
     <div class="pg" id="ap-tinv">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">حصر المهام</div></div><button class="btn btn-wh" onclick="openM('m-tinv')"><i class="ti ti-plus"></i> إضافة</button></div>
-      <div class="card-flat"><table><thead><tr><th>اسم الموظف</th><th>المهمة</th><th>درجة الأهمية</th><th>مؤشر KPI</th><th>التكرار</th><th>زمن التنفيذ</th><th>تاريخ البدء</th><th>تاريخ الانتهاء</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-tinv"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>اسم الموظف</th><th>المهمة</th><th>درجة الأهمية</th><th>مؤشر KPI</th><th>التكرار</th><th>زمن التنفيذ</th><th>تاريخ البدء</th><th>تاريخ الانتهاء</th><th>ملاحظات</th><th>ملاحظات / إجراءات</th></tr></thead><tbody id="tb-tinv"></tbody></table></div>
     </div>
     <div class="pg" id="ap-tdist">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">توزيع المهام بين الموظفين</div></div><button class="btn btn-wh" onclick="openM('m-tdist')"><i class="ti ti-plus"></i> إضافة</button></div>
-      <div class="card-flat"><table><thead><tr><th>المهمة</th><th>الموظف</th><th>الأولوية</th><th>الحالة</th><th>نسبة الإنجاز</th><th>تاريخ التحديث</th><th>إجراءات</th></tr></thead><tbody id="tb-tdist"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>المهمة</th><th>الموظف</th><th>الأولوية</th><th>الحالة</th><th>نسبة الإنجاز</th><th>تاريخ التحديث</th><th>ملاحظات / إجراءات</th></tr></thead><tbody id="tb-tdist"></tbody></table></div>
     </div>
     <div class="pg" id="ap-kpi2">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">مؤشرات الأداء</div></div><button class="btn btn-wh" onclick="openM('m-kpi2')"><i class="ti ti-plus"></i> إضافة</button></div>
-      <div class="card-flat"><table><thead><tr><th>اسم الموظف</th><th>طلبات مستلمة</th><th>طلبات منجزة</th><th>متوسط زمن الخدمة</th><th>نسبة رضا %</th><th>عدد الشكاوى</th><th>تقييم الأداء</th><th>إجراءات</th></tr></thead><tbody id="tb-kpi2"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>اسم الموظف</th><th>طلبات مستلمة</th><th>طلبات منجزة</th><th>متوسط زمن الخدمة</th><th>نسبة رضا %</th><th>عدد الشكاوى</th><th>تقييم الأداء</th><th>ملاحظات / إجراءات</th></tr></thead><tbody id="tb-kpi2"></tbody></table></div>
     </div>
     <div class="pg" id="ap-natl">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
@@ -420,15 +427,54 @@ tr:hover td{background:#fafaf8}
         <button class="btn btn-wh btn-sm" id="ptab-h" onclick="setPeriod('نصف سنوي')">نصف سنوي</button>
         <button class="btn btn-wh btn-sm" id="ptab-y" onclick="setPeriod('سنوي')">سنوي</button>
       </div>
-      <div class="card-flat"><table><thead><tr><th>الفترة</th><th>نوع الفترة</th><th>عدد البلاغات</th><th>عدد الشكاوي</th><th>عدد المقترحات</th><th>عدد الاستفسارات</th><th>الإجمالي</th><th>إجراءات</th></tr></thead><tbody id="tb-natl"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>الفترة</th><th>نوع الفترة</th><th>عدد البلاغات</th><th>عدد الشكاوي</th><th>عدد المقترحات</th><th>عدد الاستفسارات</th><th>الإجمالي</th><th>ملاحظات / إجراءات</th></tr></thead><tbody id="tb-natl"></tbody></table></div>
     </div>
     <div class="pg" id="ap-pub">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">المنشورات والإحصائيات</div></div><button class="btn btn-wh" onclick="openM('m-pub')"><i class="ti ti-plus"></i> إضافة</button></div>
-      <div class="card-flat"><table><thead><tr><th>العنوان</th><th>النوع</th><th>التاريخ</th><th>الوصف</th><th>المرجع</th><th>إجراءات</th></tr></thead><tbody id="tb-pub"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>العنوان</th><th>النوع</th><th>التاريخ</th><th>الوصف</th><th>المرجع</th><th>ملاحظات / إجراءات</th></tr></thead><tbody id="tb-pub"></tbody></table></div>
     </div>
     <div class="pg" id="ap-devplan">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الخطة التطويرية</div></div><button class="btn btn-wh" onclick="openM('m-devplan')"><i class="ti ti-plus"></i> إضافة</button></div>
-      <div class="card-flat"><table><thead><tr><th>البند التطويري</th><th>الهدف</th><th>المسؤول</th><th>الأولوية</th><th>الحالة</th><th>نسبة الإنجاز</th><th>تاريخ البدء</th><th>تاريخ الانتهاء</th><th>إجراءات</th></tr></thead><tbody id="tb-devplan"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>البند التطويري</th><th>الهدف</th><th>المسؤول</th><th>الأولوية</th><th>الحالة</th><th>نسبة الإنجاز</th><th>تاريخ البدء</th><th>تاريخ الانتهاء</th><th>ملاحظات / إجراءات</th></tr></thead><tbody id="tb-devplan"></tbody></table></div>
+    </div>
+
+    <!-- ATTENDANCE PAGE -->
+    <div class="pg" id="ap-attend">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div><div style="font-size:20px;font-weight:800;color:#fff">الحضور والانصراف</div></div>
+        <button class="btn btn-wh" onclick="openM('m-attend')"><i class="ti ti-plus"></i> إضافة سجل</button>
+      </div>
+      <div class="card-flat"><table><thead><tr>
+        <th>الموظف</th><th>التاريخ</th><th>وقت الحضور</th><th>وقت الانصراف</th><th>ساعات العمل</th><th>الحالة</th><th>ملاحظات</th><th>ملاحظات / إجراءات</th>
+      </tr></thead><tbody id="tb-attend"></tbody></table></div>
+    </div>
+
+    <!-- COMPLAINTS PAGE -->
+    <div class="pg" id="ap-comp">
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div><div style="font-size:20px;font-weight:800;color:#fff">الشكاوي والتظلمات</div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportCompPDF()"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
+          <button class="btn btn-wh" onclick="openM('m-comp')"><i class="ti ti-plus"></i> إضافة شكوى</button>
+        </div>
+      </div>
+      <!-- Charts inside complaints page -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px">
+        <div class="card"><div style="font-size:12px;font-weight:700;color:var(--txt);margin-bottom:12px;display:flex;align-items:center;gap:6px"><i class="ti ti-chart-donut" style="font-size:14px"></i>حالة المعالجة</div><div style="position:relative;height:140px"><canvas id="comp-ch1"></canvas></div></div>
+        <div class="card"><div style="font-size:12px;font-weight:700;color:var(--txt);margin-bottom:12px;display:flex;align-items:center;gap:6px"><i class="ti ti-chart-bar" style="font-size:14px"></i>نسبة الإنجاز</div><div style="position:relative;height:140px"><canvas id="comp-ch2"></canvas></div></div>
+        <div class="card">
+          <div style="font-size:12px;font-weight:700;color:var(--txt);margin-bottom:12px">إحصائيات سريعة</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;color:var(--txt2)">إجمالي الشكاوي</span><b id="comp-total" style="font-size:18px;color:var(--blue)">0</b></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;color:var(--txt2)">تمت معالجتها</span><b id="comp-done" style="font-size:18px;color:var(--green)">0</b></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;color:var(--txt2)">قيد المعالجة</span><b id="comp-pend" style="font-size:18px;color:var(--amber)">0</b></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;color:var(--txt2)">متوسط الإنجاز</span><b id="comp-avg" style="font-size:18px;color:var(--purple)">0%</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-flat"><table><thead><tr>
+        <th>م</th><th>اسم الشركة/المؤسسة</th><th>موضوع الشكوى</th><th>النتيجة النهائية</th><th>هل تمت معالجتها</th><th>وقت البدء</th><th>وقت الانتهاء</th><th>نسبة الإنجاز</th><th>الإنجاز الفعلي</th><th>ملاحظات / إجراءات</th>
+      </tr></thead><tbody id="tb-comp"></tbody></table></div>
     </div>
 
   </div>
@@ -508,6 +554,16 @@ tr:hover td{background:#fafaf8}
   <input type="hidden" id="ef-id">
   <div class="modal-foot"><button class="btn" id="mc-emp">إلغاء</button><button class="btn btn-blue" id="ms-emp"><i class="ti ti-check"></i> <span id="mb-emp">إضافة الموظف</span></button></div>
 </div></div>
+<!-- ASSIGN TASK MODAL -->
+<div class="ov" id="m-assign"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--green)"><i class="ti ti-user-check"></i></div><span>إسناد مهمة لموظف</span></div>
+  <div class="fr"><label>اختر المهمة *</label><select id="asn-task"><option value="">-- اختر مهمة --</option></select></div>
+  <div class="fr"><label>اختر الموظف *</label><select id="asn-emp"><option value="">-- اختر موظف --</option></select></div>
+  <div class="fg2"><div class="fr"><label>الأولوية</label><select id="asn-pri"><option>عالية</option><option>متوسطة</option><option>منخفضة</option></select></div><div class="fr"><label>الموعد النهائي</label><input type="date" id="asn-due"></div></div>
+  <div class="fr"><label>ملاحظات الإسناد</label><textarea id="asn-notes" placeholder="تعليمات خاصة..."></textarea></div>
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-assign')">إلغاء</button><button class="btn btn-blue" id="ms-assign"><i class="ti ti-send"></i> إسناد</button></div>
+</div></div>
+
 <div class="ov" id="m-task"><div class="modal">
   <div class="modal-title"><div class="mtic" style="background:var(--amber)"><i class="ti ti-checklist"></i></div><span id="mt-task">توكيل مهمة</span></div>
   <div class="fr"><label>العنوان *</label><input id="tf-tt" placeholder="اسم المهمة..."></div>
@@ -620,7 +676,7 @@ function setSyncState(state){
   });
 }
 
-const COLLECTIONS = ['employees','tasks','projects','initiatives','goals','vacations','daily','r1','r2','r3','r4','r5','tinv','tdist','kpi2','natl','pub','devplan'];
+const COLLECTIONS = ['employees','tasks','projects','initiatives','goals','vacations','daily','r1','r2','r3','r4','r5','tinv','tdist','kpi2','natl','pub','devplan','comp','attend'];
 
 // ── FIREBASE SAVE / DELETE ──
 function fbSave(col, item){
@@ -668,6 +724,7 @@ function refreshCurrentView(){
   if(typeof rNewReq === 'function'){
     [1,2,3,4,5].forEach(n=>rNewReq(n));
     rTInv(); rTDist(); rKPI2(); rNatl(); rPub(); rDevPlan();
+    rComp(); rAttend();
   }
   kpis();
   // Also render dashboard and current active page
@@ -1118,6 +1175,8 @@ function renderDash(){
   kpis();
   setTimeout(buildCharts,80);
   renderReqCards();
+  renderDurationStats();
+  renderDashComp();
   $('d-proj').innerHTML=DB.projects.length
     ?DB.projects.slice(-5).reverse().map(p=>`<div class="dr"><div class="dr-m"><div class="dr-t">${p.name}</div><div class="dr-s">${p.ename}</div></div><div style="width:72px"><div class="pb"><div class="pf" style="width:${p.prog}%;background:${p.prog===100?'var(--green)':'var(--blue)'}"></div></div><div style="font-size:10px;font-weight:700;color:var(--txt2);margin-top:2px;text-align:left">${p.prog}%</div></div><span class="badge ${sC(p.status)}" style="flex-shrink:0">${p.status}</span></div>`).join('')
     :'<div class="emp-st"><i class="ti ti-folders"></i><p>لا توجد مشاريع</p></div>';
@@ -1231,6 +1290,26 @@ document.addEventListener('DOMContentLoaded',()=>{
   [1,2,3,4,5].forEach(n=>{const btn=$('ms-r'+n);if(btn)btn.addEventListener('click',()=>saveReq(n));});
   [['ms-tinv',saveTInv],['ms-tdist',saveTDist],['ms-kpi2',saveKPI2],['ms-natl',saveNatl],['ms-pub',savePub],['ms-dp',saveDevPlan]].forEach(([id,fn])=>{const el=$(id);if(el)el.addEventListener('click',fn);});
   window.editReq=editReq;window.editTInv=editTInv;window.editTDist=editTDist;
+  window.editComp=editComp;window.editAttend=editAttend;
+  window.exportCompPDF=exportCompPDF;
+
+  // New nav items
+  const ni_comp=$('ni-comp');if(ni_comp)ni_comp.addEventListener('click',()=>aPageNew('comp'));
+  const ni_attend=$('ni-attend');if(ni_attend)ni_attend.addEventListener('click',()=>aPageNew('attend'));
+
+  // New save buttons
+  const ms_comp=$('ms-comp');if(ms_comp)ms_comp.addEventListener('click',saveComp);
+  const ms_attend=$('ms-attend');if(ms_attend)ms_attend.addEventListener('click',saveAttend);
+  const ms_assign=$('ms-assign');if(ms_assign)ms_assign.addEventListener('click',saveAssign);
+  const btn_assign=$('btn-assign-task');if(btn_assign)btn_assign.addEventListener('click',openAssign);
+
+  // Refresh selects for attendance
+  const origRefreshSel=refreshSel;
+  refreshSel=function(){
+    origRefreshSel();
+    const atEmp=$('at-emp');
+    if(atEmp){atEmp.innerHTML='<option value="">-- اختر موظف --</option>'+DB.employees.map(e=>`<option value="${e.id}">${e.fname} ${e.lname}</option>`).join('');}
+  };
   window.editKPI2=editKPI2;window.editNatl=editNatl;window.editPub=editPub;window.editDevPlan=editDevPlan;
   window.delNewItem=delNewItem;window.setPeriod=setPeriod;
 
@@ -1477,6 +1556,30 @@ function exportProjectsPDF(){
   <span>${new Date().toLocaleDateString('ar-SA')}</span>
 </div>
 
+<!-- ATTENDANCE MODAL -->
+<div class="ov" id="m-attend"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--teal)"><i class="ti ti-clock"></i></div><span id="mt-attend">إضافة سجل حضور وانصراف</span></div>
+  <div class="fg2"><div class="fr"><label>الموظف *</label><select id="at-emp"><option value="">-- اختر موظف --</option></select></div><div class="fr"><label>التاريخ *</label><input type="date" id="at-date"></div></div>
+  <div class="fg2"><div class="fr"><label>وقت الحضور</label><input type="time" id="at-in"></div><div class="fr"><label>وقت الانصراف</label><input type="time" id="at-out"></div></div>
+  <div class="fg2"><div class="fr"><label>الحالة</label><select id="at-status"><option>حاضر</option><option>غائب</option><option>إجازة</option><option>تأخير</option><option>انصراف مبكر</option></select></div><div class="fr"><label>ملاحظات</label><input id="at-notes" placeholder="..."></div></div>
+  <input type="hidden" id="at-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-attend')">إلغاء</button><button class="btn btn-blue" id="ms-attend"><i class="ti ti-check"></i> <span id="mb-attend">إضافة</span></button></div>
+</div></div>
+
+<!-- COMPLAINTS MODAL -->
+<div class="ov" id="m-comp"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--red)"><i class="ti ti-alert-triangle"></i></div><span id="mt-comp">إضافة شكوى / تظلم</span></div>
+  <div class="fg2"><div class="fr"><label>م (الرقم التسلسلي)</label><input id="cp-seq" placeholder="1"></div><div class="fr"><label>اسم الشركة / المؤسسة *</label><input id="cp-name" placeholder="اسم الشركة"></div></div>
+  <div class="fr"><label>موضوع الشكوى *</label><textarea id="cp-subj" placeholder="موضوع الشكوى..."></textarea></div>
+  <div class="fr"><label>النتيجة النهائية</label><input id="cp-result" placeholder="النتيجة النهائية..."></div>
+  <div class="fg2"><div class="fr"><label>هل تمت معالجتها</label><select id="cp-done"><option>نعم</option><option>لا</option><option>جزئياً</option></select></div><div class="fr"><label>نسبة الإنجاز %</label><input type="number" id="cp-prog" min="0" max="100" value="0"></div></div>
+  <div class="fg2"><div class="fr"><label>وقت البدء</label><input type="date" id="cp-start"></div><div class="fr"><label>وقت الانتهاء</label><input type="date" id="cp-end"></div></div>
+  <div class="fr"><label>الإنجاز الفعلي</label><textarea id="cp-actual" placeholder="وصف الإنجاز الفعلي..."></textarea></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="cp-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="cp-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-comp')">إلغاء</button><button class="btn btn-blue" id="ms-comp"><i class="ti ti-check"></i> <span id="mb-comp">إضافة</span></button></div>
+</div></div>
+
 <!-- ══ NEW SECTION MODALS ══ -->
 <div class="ov" id="m-r1"><div class="modal">
   <div class="modal-title"><div class="mtic" style="background:var(--blue)"><i class="ti ti-user-star"></i></div><span id="mt-r1">إضافة طلب — معالي الوزير</span></div>
@@ -1503,7 +1606,7 @@ function exportProjectsPDF(){
 </div></div>
 
 <div class="ov" id="m-r3"><div class="modal">
-  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-user-cog"></i></div><span id="mt-r3">إضافة طلب — مدير عام المعادن</span></div>
+  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-user-cog"></i></div><span id="mt-r3">إضافة طلب — المدير</span></div>
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r3-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r3-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r3-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r3-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r3-subj" placeholder="موضوع الطلب"></div>
@@ -1659,7 +1762,7 @@ function aPageNew(pg){
   document.querySelectorAll('#scr-admin .pg').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('#scr-admin .ni').forEach(n=>n.classList.remove('active'));
   const el=$('ap-'+pg); if(el) el.classList.add('active');
-  const niMap={'r1':'ni-r1','r2':'ni-r2','r3':'ni-r3','r4':'ni-r4','r5':'ni-r5','tinv':'ni-tinv','tdist':'ni-tdist','kpi2':'ni-kpi','natl':'ni-natl','pub':'ni-pub','devplan':'ni-devplan'};
+  const niMap={'r1':'ni-r1','r2':'ni-r2','r3':'ni-r3','r4':'ni-r4','r5':'ni-r5','tinv':'ni-tinv','tdist':'ni-tdist','kpi2':'ni-kpi','natl':'ni-natl','pub':'ni-pub','devplan':'ni-devplan','comp':'ni-comp','attend':'ni-attend'};
   const ni=$(niMap[pg]); if(ni) ni.classList.add('active');
   if(pg==='natl') rNatl();
 }
@@ -1807,23 +1910,43 @@ function sC2(s){
   return 'b-gray';
 }
 
+function calcDuration(recv, final){
+  if(!recv || !final) return '—';
+  const d1=new Date(recv), d2=new Date(final);
+  if(isNaN(d1)||isNaN(d2)) return '—';
+  const days=Math.round((d2-d1)/(1000*60*60*24));
+  if(days<0) return '—';
+  if(days===0) return 'نفس اليوم';
+  if(days===1) return 'يوم واحد';
+  if(days<=10) return days+' أيام';
+  return days+' يوم';
+}
+function durColor(recv, final){
+  if(!recv||!final) return '#9a9a96';
+  const days=Math.round((new Date(final)-new Date(recv))/(1000*60*60*24));
+  if(days<=3) return '#2d7d3a';
+  if(days<=7) return '#1a6bc4';
+  if(days<=14) return '#b06a00';
+  return '#c0392b';
+}
 function rNewReq(n){
   const tb=$('tb-r'+n), data=DB['r'+n]||[];
   const cols=n===5?11:12;
   if(!data.length){tb.innerHTML=`<tr><td colspan="${cols}"><div class="emp-st"><i class="ti ti-inbox"></i><p>لا توجد طلبات</p></div></td></tr>`;return;}
-  tb.innerHTML=data.map(r=>`<tr>
+  tb.innerHTML=data.map(r=>{
+    const dur=calcDuration(r.recv,r.final);
+    const dc=durColor(r.recv,r.final);
+    return `<tr>
     <td><b>${r.ref||'—'}</b></td><td>${r.recv||'—'}</td><td>${r.ldate||'—'}</td>
     <td>${r.name||'—'}</td>
     <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.subj||''}">${r.subj||'—'}</td>
     <td>${r.phone||'—'}</td><td>${r.dept||'—'}</td>
     ${n!==5?`<td>${r.rdate||'—'}</td>`:''}
     <td>${r.deptreply||'—'}</td><td>${r.final||'—'}</td>
+    <td><b style="color:${dc}">${dur}</b></td>
     <td>${r.notes||'—'}</td>
-    <td><div class="act-btns">
-      <button class="btn btn-sm btn-grn" onclick="editReq(${n},'${r.id}')"><i class="ti ti-edit" style="font-size:12px"></i></button>
-      <button class="btn btn-sm btn-red" onclick="delNewItem('r${n}','${r.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>
-    </div></td>
-  </tr>`).join('');
+  </tr>`;
+  }).join('');
 }
 
 function rTInv(){
@@ -1937,7 +2060,7 @@ function renderReqCards(){
   const configs=[
     {key:'r1',label:'طلبات معالي الوزير',icon:'ti-user-star',color:'#1a6bc4',bg:'#deeaf8'},
     {key:'r2',label:'طلبات سعادة الوكيل',icon:'ti-user-check',color:'#0f7a6e',bg:'#daf2ef'},
-    {key:'r3',label:'طلبات مدير المعادن',icon:'ti-user-cog',color:'#5b4fcf',bg:'#eceafb'},
+    {key:'r3',label:'طلبات المدير',icon:'ti-user-cog',color:'#5b4fcf',bg:'#eceafb'},
     {key:'r4',label:'طلبات المديريات',icon:'ti-building',color:'#b06a00',bg:'#fdf0dc'},
     {key:'r5',label:'طلبات التوظيف',icon:'ti-id-badge',color:'#2d7d3a',bg:'#e0f0e3'},
   ];
@@ -2294,7 +2417,318 @@ td{padding:8px 10px;border-bottom:1px solid #e0dedd;vertical-align:middle}
   },1200);
 }
 
+
+
+// ══════════════════════════════════════
+// COMPLAINTS, ATTENDANCE, ASSIGN, DURATION STATS
+// ══════════════════════════════════════
+
+// Add new collections to Firebase
+// (handled by adding to COLLECTIONS array)
+
+// ── COMPLAINTS ──
+function saveComp(){
+  const id=v('cp-id');
+  const item={id:id||nid(),seq:v('cp-seq'),name:v('cp-name'),subj:v('cp-subj'),result:v('cp-result'),done:v('cp-done'),prog:parseInt(v('cp-prog'))||0,start:v('cp-start'),end:v('cp-end'),actual:v('cp-actual'),notes:v('cp-notes')};
+  if(!item.name){alert('يرجى إدخال اسم الشركة/المؤسسة');return;}
+  fbSave('comp',item);closeM('m-comp');
+  clr(['cp-seq','cp-name','cp-subj','cp-result','cp-actual','cp-notes','cp-id']);$('cp-prog').value='0';
+  $('mt-comp').textContent='إضافة شكوى / تظلم';$('mb-comp').textContent='إضافة';
+}
+function editComp(id){
+  const item=(DB.comp||[]).find(x=>x.id===id);if(!item)return;
+  sv('cp-seq',item.seq);sv('cp-name',item.name);sv('cp-subj',item.subj);sv('cp-result',item.result);
+  sv('cp-done',item.done);sv('cp-prog',item.prog);sv('cp-start',item.start);sv('cp-end',item.end);
+  sv('cp-actual',item.actual);sv('cp-notes',item.notes);sv('cp-id',id);
+  $('mt-comp').textContent='تعديل الشكوى';$('mb-comp').textContent='حفظ';openM('m-comp');
+}
+
+let compCharts={};
+function rComp(){
+  const tb=$('tb-comp'),data=DB.comp||[];
+  // Update stats
+  const total=data.length;
+  const done=data.filter(x=>x.done==='نعم').length;
+  const pend=data.filter(x=>x.done!=='نعم').length;
+  const avg=total?Math.round(data.reduce((a,x)=>a+(x.prog||0),0)/total):0;
+  const el1=$('comp-total'),el2=$('comp-done'),el3=$('comp-pend'),el4=$('comp-avg');
+  if(el1)el1.textContent=total;if(el2)el2.textContent=done;if(el3)el3.textContent=pend;if(el4)el4.textContent=avg+'%';
+
+  // Charts
+  const c1=$('comp-ch1'),c2=$('comp-ch2');
+  if(c1){
+    if(compCharts.c1){compCharts.c1.destroy();compCharts.c1=null;}
+    const partial=data.filter(x=>x.done==='جزئياً').length;
+    compCharts.c1=new Chart(c1,{type:'doughnut',data:{labels:['تمت معالجتها','جزئياً','قيد المعالجة'],datasets:[{data:[done,partial,pend-(partial)],backgroundColor:['#2d7d3a','#1a6bc4','#b06a00'],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:9},padding:5,boxWidth:8}}}}});
+  }
+  if(c2&&data.length){
+    if(compCharts.c2){compCharts.c2.destroy();compCharts.c2=null;}
+    const labels=data.slice(0,8).map(x=>(x.name||'').substring(0,8)+'…');
+    const vals=data.slice(0,8).map(x=>x.prog||0);
+    compCharts.c2=new Chart(c2,{type:'bar',data:{labels,datasets:[{label:'%',data:vals,backgroundColor:vals.map(v=>v===100?'rgba(45,125,58,0.8)':'rgba(26,107,196,0.8)'),borderRadius:5,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100,ticks:{font:{size:9}}},x:{ticks:{font:{size:8}},grid:{display:false}}}}});
+  }
+
+  if(!data.length){tb.innerHTML='<tr><td colspan="10"><div class="emp-st"><i class="ti ti-alert-triangle"></i><p>لا توجد شكاوي</p></div></td></tr>';return;}
+  tb.innerHTML=data.map(x=>`<tr>
+    <td>${x.seq||'—'}</td><td><b>${x.name||'—'}</b></td>
+    <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${x.subj||'—'}</td>
+    <td>${x.result||'—'}</td>
+    <td><span class="badge ${x.done==='نعم'?'b-green':x.done==='جزئياً'?'b-blue':'b-amber'}">${x.done||'—'}</span></td>
+    <td>${x.start||'—'}</td><td>${x.end||'—'}</td>
+    <td><div style="display:flex;align-items:center;gap:5px">
+      <div class="pb" style="width:60px"><div class="pf" style="width:${x.prog||0}%;background:${(x.prog||0)===100?'var(--green)':'var(--blue)'}"></div></div>
+      <b style="font-size:11px">${x.prog||0}%</b>
+    </div></td>
+    <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${x.actual||'—'}</td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editComp('${x.id}')"><i class="ti ti-edit" style="font-size:12px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delNewItem('comp','${x.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
+
+// ── ATTENDANCE ──
+function saveAttend(){
+  const id=v('at-id');
+  const empId=v('at-emp');
+  const emp=DB.employees.find(e=>e.id===empId);
+  const timeIn=v('at-in'),timeOut=v('at-out');
+  let hours='—';
+  if(timeIn&&timeOut){
+    const [h1,m1]=timeIn.split(':').map(Number);
+    const [h2,m2]=timeOut.split(':').map(Number);
+    const mins=(h2*60+m2)-(h1*60+m1);
+    if(mins>0) hours=Math.floor(mins/60)+'h '+( mins%60)+'m';
+  }
+  const item={id:id||nid(),empId,ename:emp?emp.fname+' '+emp.lname:'',date:v('at-date'),timeIn,timeOut,hours,status:v('at-status'),notes:v('at-notes')};
+  if(!item.empId||!item.date){alert('يرجى اختيار الموظف والتاريخ');return;}
+  fbSave('attend',item);closeM('m-attend');
+  clr(['at-notes','at-id']);
+  $('mt-attend').textContent='إضافة سجل حضور وانصراف';$('mb-attend').textContent='إضافة';
+}
+function editAttend(id){
+  const item=(DB.attend||[]).find(x=>x.id===id);if(!item)return;
+  sv('at-emp',item.empId);sv('at-date',item.date);sv('at-in',item.timeIn);sv('at-out',item.timeOut);sv('at-status',item.status);sv('at-notes',item.notes);sv('at-id',id);
+  $('mt-attend').textContent='تعديل سجل الحضور';$('mb-attend').textContent='حفظ';openM('m-attend');
+}
+function rAttend(){
+  const tb=$('tb-attend'),data=DB.attend||[];
+  if(!data.length){tb.innerHTML='<tr><td colspan="8"><div class="emp-st"><i class="ti ti-clock"></i><p>لا توجد سجلات</p></div></td></tr>';return;}
+  const sorted=[...data].sort((a,b)=>b.date?.localeCompare(a.date||'')||0);
+  tb.innerHTML=sorted.map(x=>`<tr>
+    <td><b>${x.ename||'—'}</b></td><td>${x.date||'—'}</td>
+    <td>${x.timeIn||'—'}</td><td>${x.timeOut||'—'}</td>
+    <td><b style="color:var(--blue)">${x.hours||'—'}</b></td>
+    <td><span class="badge ${x.status==='حاضر'?'b-green':x.status==='غائب'?'b-red':x.status==='تأخير'?'b-amber':'b-blue'}">${x.status||'—'}</span></td>
+    <td>${x.notes||'—'}</td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" onclick="editAttend('${x.id}')"><i class="ti ti-edit" style="font-size:12px"></i></button>
+      <button class="btn btn-sm btn-red" onclick="delNewItem('attend','${x.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
+
+// ── ASSIGN TASK ──
+function openAssign(){
+  // Populate tasks select
+  const taskSel=$('asn-task');
+  if(taskSel){
+    taskSel.innerHTML='<option value="">-- اختر مهمة --</option>'+DB.tasks.map(t=>`<option value="${t.id}">${t.title}</option>`).join('');
+  }
+  const empSel=$('asn-emp');
+  if(empSel){
+    empSel.innerHTML='<option value="">-- اختر موظف --</option>'+DB.employees.map(e=>`<option value="${e.id}">${e.fname} ${e.lname}</option>`).join('');
+  }
+  openM('m-assign');
+}
+function saveAssign(){
+  const tid=v('asn-task'),eid=v('asn-emp');
+  if(!tid||!eid){alert('يرجى اختيار المهمة والموظف');return;}
+  const task=DB.tasks.find(t=>t.id===tid);
+  const emp=DB.employees.find(e=>e.id===eid);
+  if(!task||!emp)return;
+  // Update task with new employee
+  const updated={...task,eid,ename:emp.fname+' '+emp.lname,priority:v('asn-pri')||task.priority};
+  if(v('asn-due')) updated.due=v('asn-due');
+  fbSave('tasks',updated);
+  closeM('m-assign');showToast('تم إسناد المهمة لـ '+emp.fname+' ✓');
+  clr(['asn-notes']);
+}
+
+// ── DURATION STATS FOR DASHBOARD ──
+function calcAllDurations(){
+  const allReqs=[...DB.r1,...DB.r2,...DB.r3,...DB.r4,...DB.r5];
+  const completed=allReqs.filter(r=>r.recv&&r.final);
+  if(!completed.length) return null;
+  const durations=completed.map(r=>Math.round((new Date(r.final)-new Date(r.recv))/(1000*60*60*24))).filter(d=>d>=0);
+  const avg=Math.round(durations.reduce((a,b)=>a+b,0)/durations.length);
+  const max=Math.max(...durations);
+  const min=Math.min(...durations);
+  const fast=durations.filter(d=>d<=3).length;
+  const mid=durations.filter(d=>d>3&&d<=7).length;
+  const slow=durations.filter(d=>d>7&&d<=14).length;
+  const verySlow=durations.filter(d=>d>14).length;
+  return {avg,max,min,fast,mid,slow,verySlow,total:durations.length};
+}
+
+let durationChart=null;
+function renderDurationStats(){
+  const stats=calcAllDurations();
+  const container=$('dash-duration');
+  if(!container) return;
+  if(!stats){container.innerHTML='<div class="emp-st"><i class="ti ti-clock"></i><p>لا توجد بيانات مدة الإنجاز</p></div>';return;}
+  container.innerHTML=`
+    <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:60px;text-align:center;background:#deeaf8;border-radius:10px;padding:10px">
+        <div style="font-size:20px;font-weight:900;color:var(--blue)">${stats.avg}</div>
+        <div style="font-size:10px;color:var(--txt2);font-weight:600">متوسط الأيام</div>
+      </div>
+      <div style="flex:1;min-width:60px;text-align:center;background:#e0f0e3;border-radius:10px;padding:10px">
+        <div style="font-size:20px;font-weight:900;color:var(--green)">${stats.fast}</div>
+        <div style="font-size:10px;color:var(--txt2);font-weight:600">1-3 أيام</div>
+      </div>
+      <div style="flex:1;min-width:60px;text-align:center;background:#fdf0dc;border-radius:10px;padding:10px">
+        <div style="font-size:20px;font-weight:900;color:var(--amber)">${stats.slow}</div>
+        <div style="font-size:10px;color:var(--txt2);font-weight:600">8-14 يوم</div>
+      </div>
+      <div style="flex:1;min-width:60px;text-align:center;background:#fce8e6;border-radius:10px;padding:10px">
+        <div style="font-size:20px;font-weight:900;color:var(--red)">${stats.verySlow}</div>
+        <div style="font-size:10px;color:var(--txt2);font-weight:600">أكثر من 14</div>
+      </div>
+    </div>
+    <div style="position:relative;height:110px"><canvas id="dur-chart"></canvas></div>`;
+
+  setTimeout(()=>{
+    const c=$('dur-chart');
+    if(!c) return;
+    if(durationChart){durationChart.destroy();durationChart=null;}
+    durationChart=new Chart(c,{type:'bar',data:{
+      labels:['1-3 أيام','4-7 أيام','8-14 يوم','+14 يوم'],
+      datasets:[{label:'عدد الطلبات',data:[stats.fast,stats.mid,stats.slow,stats.verySlow],
+        backgroundColor:['rgba(45,125,58,0.8)','rgba(26,107,196,0.8)','rgba(176,106,0,0.8)','rgba(192,57,43,0.8)'],
+        borderRadius:5,borderWidth:0}]
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{y:{beginAtZero:true,ticks:{font:{size:8}},grid:{color:'rgba(0,0,0,0.05)'}},x:{ticks:{font:{size:8}},grid:{display:false}}}}});
+  },100);
+}
+
+// ── COMPLAINTS DASHBOARD CHART ──
+let dashCompChart=null;
+function renderDashComp(){
+  const container=$('dash-comp-mini');
+  if(!container) return;
+  const data=DB.comp||[];
+  if(!data.length){container.innerHTML='<div class="emp-st"><i class="ti ti-alert-triangle"></i><p>لا توجد شكاوي</p></div>';return;}
+  const done=data.filter(x=>x.done==='نعم').length;
+  const partial=data.filter(x=>x.done==='جزئياً').length;
+  const pend=data.filter(x=>x.done!=='نعم'&&x.done!=='جزئياً').length;
+  const avg=Math.round(data.reduce((a,x)=>a+(x.prog||0),0)/data.length);
+  container.innerHTML=`
+    <div style="display:flex;gap:8px;margin-bottom:10px">
+      <div style="flex:1;text-align:center;background:#e0f0e3;border-radius:8px;padding:8px">
+        <div style="font-size:18px;font-weight:900;color:var(--green)">${done}</div><div style="font-size:10px;color:var(--txt2)">معالجة</div>
+      </div>
+      <div style="flex:1;text-align:center;background:#fdf0dc;border-radius:8px;padding:8px">
+        <div style="font-size:18px;font-weight:900;color:var(--amber)">${pend}</div><div style="font-size:10px;color:var(--txt2)">قيد المعالجة</div>
+      </div>
+      <div style="flex:1;text-align:center;background:#deeaf8;border-radius:8px;padding:8px">
+        <div style="font-size:18px;font-weight:900;color:var(--blue)">${avg}%</div><div style="font-size:10px;color:var(--txt2)">متوسط إنجاز</div>
+      </div>
+    </div>
+    <div style="position:relative;height:90px"><canvas id="dash-comp-chart"></canvas></div>`;
+  setTimeout(()=>{
+    const c=$('dash-comp-chart');if(!c)return;
+    if(dashCompChart){dashCompChart.destroy();dashCompChart=null;}
+    dashCompChart=new Chart(c,{type:'doughnut',data:{labels:['معالجة','جزئياً','قيد المعالجة'],datasets:[{data:[done,partial,pend],backgroundColor:['#2d7d3a','#1a6bc4','#b06a00'],borderWidth:0,hoverOffset:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:9},padding:4,boxWidth:8}}}}});
+  },100);
+}
+
+// ── PDF FOR COMPLAINTS ──
+function exportCompPDF(){
+  const data=DB.comp||[];
+  if(!data.length){showToast('لا توجد بيانات للتصدير');return;}
+  showToast('جاري إنشاء تقرير الشكاوي...');
+  const done=data.filter(x=>x.done==='نعم').length;
+  const avg=Math.round(data.reduce((a,x)=>a+(x.prog||0),0)/data.length);
+  const rows=data.map((x,i)=>`<tr style="background:${i%2===0?'#fff':'#f9f8f6'}">
+    <td style="text-align:center">${x.seq||i+1}</td>
+    <td><b>${x.name||'—'}</b></td>
+    <td>${x.subj||'—'}</td>
+    <td>${x.result||'—'}</td>
+    <td><span style="background:${x.done==='نعم'?'#e0f0e3':x.done==='جزئياً'?'#deeaf8':'#fdf0dc'};color:${x.done==='نعم'?'#2d7d3a':x.done==='جزئياً'?'#1a6bc4':'#b06a00'};padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700">${x.done||'—'}</span></td>
+    <td>${x.start||'—'}</td><td>${x.end||'—'}</td>
+    <td><b style="color:${(x.prog||0)===100?'#2d7d3a':'#1a6bc4'}">${x.prog||0}%</b></td>
+    <td>${x.actual||'—'}</td>
+  </tr>`).join('');
+
+  const printHTML=`<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">
+<style>@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1c1c1a;direction:rtl;font-size:12px}
+.header{background:#c0392b;color:#fff;padding:20px 26px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:18px;font-weight:900}.header p{font-size:11px;opacity:.75;margin-top:3px}
+.stats{background:#fce8e6;padding:14px 26px;display:flex;gap:16px;border-bottom:3px solid #c0392b}
+.stat{text-align:center;min-width:70px}.stat-n{font-size:22px;font-weight:900;color:#c0392b}.stat-l{font-size:10px;color:#5a5a56;margin-top:2px}
+.content{padding:16px 26px}table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:#c0392b;color:#fff;padding:8px 10px;text-align:right;font-size:10px;font-weight:700}
+td{padding:7px 10px;border-bottom:1px solid #e0dedd;vertical-align:middle}
+.footer{background:#c0392b;color:#fff;padding:10px 26px;display:flex;justify-content:space-between;font-size:10px;margin-top:14px}
+</style></head><body>
+<div class="header"><div><h1>تقرير الشكاوي والتظلمات</h1><p>نظام إدارة الطلبات والمؤشرات</p></div>
+<div style="text-align:left;font-size:12px"><div style="opacity:.75">${new Date().toLocaleDateString('ar-SA')}</div><div style="font-size:16px;font-weight:900;margin-top:4px">${data.length} شكوى</div></div></div>
+<div class="stats">
+  <div class="stat"><div class="stat-n">${data.length}</div><div class="stat-l">إجمالي</div></div>
+  <div class="stat"><div class="stat-n" style="color:#2d7d3a">${done}</div><div class="stat-l">معالجة</div></div>
+  <div class="stat"><div class="stat-n" style="color:#b06a00">${data.length-done}</div><div class="stat-l">قيد المعالجة</div></div>
+  <div class="stat"><div class="stat-n" style="color:#1a6bc4">${avg}%</div><div class="stat-l">متوسط الإنجاز</div></div>
+</div>
+<div class="content">
+<table><thead><tr><th>#</th><th>اسم الشركة/المؤسسة</th><th>موضوع الشكوى</th><th>النتيجة النهائية</th><th>المعالجة</th><th>وقت البدء</th><th>وقت الانتهاء</th><th>نسبة الإنجاز</th><th>الإنجاز الفعلي</th></tr></thead><tbody>${rows}</tbody></table>
+</div>
+<div class="footer"><span>نظام إدارة الطلبات والمؤشرات — سري وخاص</span><span>${new Date().toLocaleDateString('ar-SA')}</span></div>
+</body></html>`;
+
+  const iframe=document.createElement('iframe');
+  iframe.style.cssText='position:fixed;top:-9999px;left:-9999px;width:1000px;height:1400px;border:none;visibility:hidden';
+  document.body.appendChild(iframe);
+  iframe.contentDocument.open();iframe.contentDocument.write(printHTML);iframe.contentDocument.close();
+  setTimeout(()=>{
+    html2canvas(iframe.contentDocument.body,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#fff',width:1000,windowWidth:1000}).then(canvas=>{
+      const {jsPDF}=window.jspdf;
+      const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+      const imgW=210,imgH=(canvas.height*imgW)/canvas.width,pageH=295;
+      if(imgH<=pageH){doc.addImage(canvas.toDataURL('image/jpeg',0.95),'JPEG',0,0,imgW,imgH);}
+      else{let y=0,pg=0;while(y<imgH){if(pg>0)doc.addPage();const sh=Math.min(pageH,imgH-y);const sc=document.createElement('canvas');sc.width=canvas.width;sc.height=(sh/imgH)*canvas.height;sc.getContext('2d').drawImage(canvas,0,(y/imgH)*canvas.height,canvas.width,sc.height,0,0,canvas.width,sc.height);doc.addImage(sc.toDataURL('image/jpeg',0.95),'JPEG',0,0,imgW,sh);y+=sh;pg++;}}
+      doc.save('تقرير-الشكاوي-'+new Date().toISOString().split('T')[0]+'.pdf');
+      document.body.removeChild(iframe);showToast('تم تصدير تقرير الشكاوي ✓');
+    }).catch(e=>{document.body.removeChild(iframe);showToast('خطأ: '+e.message);});
+  },1200);
+}
+
 </script>
+
+<!-- ATTENDANCE MODAL -->
+<div class="ov" id="m-attend"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--teal)"><i class="ti ti-clock"></i></div><span id="mt-attend">إضافة سجل حضور وانصراف</span></div>
+  <div class="fg2"><div class="fr"><label>الموظف *</label><select id="at-emp"><option value="">-- اختر موظف --</option></select></div><div class="fr"><label>التاريخ *</label><input type="date" id="at-date"></div></div>
+  <div class="fg2"><div class="fr"><label>وقت الحضور</label><input type="time" id="at-in"></div><div class="fr"><label>وقت الانصراف</label><input type="time" id="at-out"></div></div>
+  <div class="fg2"><div class="fr"><label>الحالة</label><select id="at-status"><option>حاضر</option><option>غائب</option><option>إجازة</option><option>تأخير</option><option>انصراف مبكر</option></select></div><div class="fr"><label>ملاحظات</label><input id="at-notes" placeholder="..."></div></div>
+  <input type="hidden" id="at-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-attend')">إلغاء</button><button class="btn btn-blue" id="ms-attend"><i class="ti ti-check"></i> <span id="mb-attend">إضافة</span></button></div>
+</div></div>
+
+<!-- COMPLAINTS MODAL -->
+<div class="ov" id="m-comp"><div class="modal">
+  <div class="modal-title"><div class="mtic" style="background:var(--red)"><i class="ti ti-alert-triangle"></i></div><span id="mt-comp">إضافة شكوى / تظلم</span></div>
+  <div class="fg2"><div class="fr"><label>م (الرقم التسلسلي)</label><input id="cp-seq" placeholder="1"></div><div class="fr"><label>اسم الشركة / المؤسسة *</label><input id="cp-name" placeholder="اسم الشركة"></div></div>
+  <div class="fr"><label>موضوع الشكوى *</label><textarea id="cp-subj" placeholder="موضوع الشكوى..."></textarea></div>
+  <div class="fr"><label>النتيجة النهائية</label><input id="cp-result" placeholder="النتيجة النهائية..."></div>
+  <div class="fg2"><div class="fr"><label>هل تمت معالجتها</label><select id="cp-done"><option>نعم</option><option>لا</option><option>جزئياً</option></select></div><div class="fr"><label>نسبة الإنجاز %</label><input type="number" id="cp-prog" min="0" max="100" value="0"></div></div>
+  <div class="fg2"><div class="fr"><label>وقت البدء</label><input type="date" id="cp-start"></div><div class="fr"><label>وقت الانتهاء</label><input type="date" id="cp-end"></div></div>
+  <div class="fr"><label>الإنجاز الفعلي</label><textarea id="cp-actual" placeholder="وصف الإنجاز الفعلي..."></textarea></div>
+  <div class="fr"><label>ملاحظات</label><textarea id="cp-notes" placeholder="..."></textarea></div>
+  <input type="hidden" id="cp-id">
+  <div class="modal-footer"><button class="btn" onclick="closeM('m-comp')">إلغاء</button><button class="btn btn-blue" id="ms-comp"><i class="ti ti-check"></i> <span id="mb-comp">إضافة</span></button></div>
+</div></div>
 
 <!-- ══ NEW SECTION MODALS ══ -->
 <div class="ov" id="m-r1"><div class="modal">
@@ -2322,7 +2756,7 @@ td{padding:8px 10px;border-bottom:1px solid #e0dedd;vertical-align:middle}
 </div></div>
 
 <div class="ov" id="m-r3"><div class="modal">
-  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-user-cog"></i></div><span id="mt-r3">إضافة طلب — مدير عام المعادن</span></div>
+  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-user-cog"></i></div><span id="mt-r3">إضافة طلب — المدير</span></div>
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r3-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r3-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r3-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r3-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r3-subj" placeholder="موضوع الطلب"></div>
