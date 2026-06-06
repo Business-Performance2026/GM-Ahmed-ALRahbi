@@ -321,7 +321,12 @@ tr:hover td{background:#fafaf8}
       </div>
     </div>
     <div class="pg" id="ap-employees">
-      <div class="ph"><div><div class="pt">الموظفون</div></div><button class="btn btn-wh" id="btn-add-emp"><i class="ti ti-user-plus"></i> إضافة موظف</button></div>
+      <div class="ph"><div><div class="pt">الموظفون</div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportEmployeesExcel()"><i class="ti ti-file-spreadsheet"></i> Excel</button>
+          <button class="btn btn-wh" id="btn-add-emp"><i class="ti ti-user-plus"></i> إضافة موظف</button>
+        </div>
+      </div>
       <div class="card-t"><table><thead><tr><th>الموظف</th><th>المسمى</th><th>القسم</th><th>اسم الدخول</th><th>الهاتف</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="t-emp"></tbody></table></div>
     </div>
     <div class="pg" id="ap-tasks">
@@ -363,47 +368,122 @@ tr:hover td{background:#fafaf8}
     <div class="pg" id="ap-r1">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لمعالي الوزير</div></div>
         <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportReqExcel(1)"><i class="ti ti-file-spreadsheet"></i> Excel</button>
           <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r1','الطلبات الموجهة لمعالي الوزير')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
           <button class="btn btn-wh" onclick="openM('m-r1')"><i class="ti ti-plus"></i> إضافة طلب</button>
         </div>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th></tr></thead><tbody id="tb-r1"></tbody></table></div>
+      <!-- Date Filter Bar -->
+      <div style="background:rgba(255,255,255,0.12);border-radius:var(--r2);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-size:12px;font-weight:700;color:#fff;flex-shrink:0"><i class="ti ti-filter" style="font-size:14px;vertical-align:-2px"></i> تصفية:</span>
+        <select id="ftype-r1" style="padding:6px 10px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-family:inherit" onchange="updateFilterInput('r1')">
+          <option value="">-- كل السجلات --</option>
+          <option value="year">سنة</option>
+          <option value="month">شهر</option>
+          <option value="day">يوم محدد</option>
+          <option value="week">أسبوع</option>
+        </select>
+        <input id="fval-r1" type="text" placeholder="أدخل القيمة..." style="padding:6px 10px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-family:inherit;width:160px;display:none" oninput="applyReqFilter('r1')">
+        <button class="btn btn-sm" onclick="clearReqFilter('r1')" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i class="ti ti-x" style="font-size:12px"></i> مسح</button>
+        <span id="fcount-r1" style="font-size:11px;color:rgba(255,255,255,0.7);margin-right:auto"></span>
+      </div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r1"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r2">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لسعادة الوكيل</div></div>
         <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportReqExcel(2)"><i class="ti ti-file-spreadsheet"></i> Excel</button>
           <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r2','الطلبات الموجهة لسعادة الوكيل')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
           <button class="btn btn-wh" onclick="openM('m-r2')"><i class="ti ti-plus"></i> إضافة طلب</button>
         </div>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th></tr></thead><tbody id="tb-r2"></tbody></table></div>
+      <!-- Date Filter Bar -->
+      <div style="background:rgba(255,255,255,0.12);border-radius:var(--r2);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-size:12px;font-weight:700;color:#fff;flex-shrink:0"><i class="ti ti-filter" style="font-size:14px;vertical-align:-2px"></i> تصفية:</span>
+        <select id="ftype-r2" style="padding:6px 10px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-family:inherit" onchange="updateFilterInput('r2')">
+          <option value="">-- كل السجلات --</option>
+          <option value="year">سنة</option>
+          <option value="month">شهر</option>
+          <option value="day">يوم محدد</option>
+          <option value="week">أسبوع</option>
+        </select>
+        <input id="fval-r2" type="text" placeholder="أدخل القيمة..." style="padding:6px 10px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-family:inherit;width:160px;display:none" oninput="applyReqFilter('r2')">
+        <button class="btn btn-sm" onclick="clearReqFilter('r2')" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i class="ti ti-x" style="font-size:12px"></i> مسح</button>
+        <span id="fcount-r2" style="font-size:11px;color:rgba(255,255,255,0.7);margin-right:auto"></span>
+      </div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r2"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r3">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة لمدير عام المعادن</div></div>
         <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportReqExcel(3)"><i class="ti ti-file-spreadsheet"></i> Excel</button>
           <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r3','الطلبات الموجهة لمدير عام المعادن')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
           <button class="btn btn-wh" onclick="openM('m-r3')"><i class="ti ti-plus"></i> إضافة طلب</button>
         </div>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th></tr></thead><tbody id="tb-r3"></tbody></table></div>
+      <!-- Date Filter Bar -->
+      <div style="background:rgba(255,255,255,0.12);border-radius:var(--r2);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-size:12px;font-weight:700;color:#fff;flex-shrink:0"><i class="ti ti-filter" style="font-size:14px;vertical-align:-2px"></i> تصفية:</span>
+        <select id="ftype-r3" style="padding:6px 10px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-family:inherit" onchange="updateFilterInput('r3')">
+          <option value="">-- كل السجلات --</option>
+          <option value="year">سنة</option>
+          <option value="month">شهر</option>
+          <option value="day">يوم محدد</option>
+          <option value="week">أسبوع</option>
+        </select>
+        <input id="fval-r3" type="text" placeholder="أدخل القيمة..." style="padding:6px 10px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-family:inherit;width:160px;display:none" oninput="applyReqFilter('r3')">
+        <button class="btn btn-sm" onclick="clearReqFilter('r3')" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i class="ti ti-x" style="font-size:12px"></i> مسح</button>
+        <span id="fcount-r3" style="font-size:11px;color:rgba(255,255,255,0.7);margin-right:auto"></span>
+      </div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r3"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r4">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">الطلبات الموجهة للمديريات والدوائر</div></div>
         <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportReqExcel(4)"><i class="ti ti-file-spreadsheet"></i> Excel</button>
           <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r4','الطلبات الموجهة للمديريات والدوائر')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
           <button class="btn btn-wh" onclick="openM('m-r4')"><i class="ti ti-plus"></i> إضافة طلب</button>
         </div>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th></tr></thead><tbody id="tb-r4"></tbody></table></div>
+      <!-- Date Filter Bar -->
+      <div style="background:rgba(255,255,255,0.12);border-radius:var(--r2);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-size:12px;font-weight:700;color:#fff;flex-shrink:0"><i class="ti ti-filter" style="font-size:14px;vertical-align:-2px"></i> تصفية:</span>
+        <select id="ftype-r4" style="padding:6px 10px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-family:inherit" onchange="updateFilterInput('r4')">
+          <option value="">-- كل السجلات --</option>
+          <option value="year">سنة</option>
+          <option value="month">شهر</option>
+          <option value="day">يوم محدد</option>
+          <option value="week">أسبوع</option>
+        </select>
+        <input id="fval-r4" type="text" placeholder="أدخل القيمة..." style="padding:6px 10px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-family:inherit;width:160px;display:none" oninput="applyReqFilter('r4')">
+        <button class="btn btn-sm" onclick="clearReqFilter('r4')" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i class="ti ti-x" style="font-size:12px"></i> مسح</button>
+        <span id="fcount-r4" style="font-size:11px;color:rgba(255,255,255,0.7);margin-right:auto"></span>
+      </div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r4"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r5">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">طلبات التوظيف</div></div>
         <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportReqExcel(5)"><i class="ti ti-file-spreadsheet"></i> Excel</button>
           <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r5','طلبات التوظيف')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
           <button class="btn btn-wh" onclick="openM('m-r5')"><i class="ti ti-plus"></i> إضافة طلب</button>
         </div>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد</th><th>مدة الإنجاز</th><th>ملاحظات</th></tr></thead><tbody id="tb-r5"></tbody></table></div>
+      <!-- Date Filter Bar -->
+      <div style="background:rgba(255,255,255,0.12);border-radius:var(--r2);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-size:12px;font-weight:700;color:#fff;flex-shrink:0"><i class="ti ti-filter" style="font-size:14px;vertical-align:-2px"></i> تصفية:</span>
+        <select id="ftype-r5" style="padding:6px 10px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-family:inherit" onchange="updateFilterInput('r5')">
+          <option value="">-- كل السجلات --</option>
+          <option value="year">سنة</option>
+          <option value="month">شهر</option>
+          <option value="day">يوم محدد</option>
+          <option value="week">أسبوع</option>
+        </select>
+        <input id="fval-r5" type="text" placeholder="أدخل القيمة..." style="padding:6px 10px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-family:inherit;width:160px;display:none" oninput="applyReqFilter('r5')">
+        <button class="btn btn-sm" onclick="clearReqFilter('r5')" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i class="ti ti-x" style="font-size:12px"></i> مسح</button>
+        <span id="fcount-r5" style="font-size:11px;color:rgba(255,255,255,0.7);margin-right:auto"></span>
+      </div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r5"></tbody></table></div>
     </div>
     <div class="pg" id="ap-tinv">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">حصر المهام</div></div><button class="btn btn-wh" onclick="openM('m-tinv')"><i class="ti ti-plus"></i> إضافة</button></div>
@@ -454,6 +534,7 @@ tr:hover td{background:#fafaf8}
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
         <div><div style="font-size:20px;font-weight:800;color:#fff">الشكاوي والتظلمات</div></div>
         <div style="display:flex;gap:8px">
+          <button class="btn btn-wh btn-sm" onclick="exportCompExcel()"><i class="ti ti-file-spreadsheet"></i> Excel</button>
           <button class="btn btn-wh btn-sm" onclick="exportCompPDF()"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
           <button class="btn btn-wh" onclick="openM('m-comp')"><i class="ti ti-plus"></i> إضافة شكوى</button>
         </div>
@@ -550,6 +631,28 @@ tr:hover td{background:#fafaf8}
   <div class="li-box" style="margin-bottom:4px">
     <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:6px"><i class="ti ti-lock" style="font-size:13px"></i>بيانات تسجيل الدخول</div>
     <div class="fg2"><div class="fr"><label>اسم المستخدم *</label><input id="ef-us" placeholder="username"></div><div class="fr"><label>كلمة السر *</label><input id="ef-pw" placeholder="password"></div></div>
+  </div>
+  <div style="background:#eceafb;border-radius:var(--r);padding:14px;border:1.5px solid rgba(91,79,207,0.2);margin-bottom:4px">
+    <div style="font-size:12px;font-weight:700;color:#5b4fcf;margin-bottom:10px"><i class="ti ti-shield" style="font-size:13px;vertical-align:-1px"></i> صلاحيات الأقسام</div>
+    <div style="font-size:11px;color:#5a5a56;margin-bottom:8px">حدد الأقسام التي يمكن للموظف الوصول إليها:</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="tasks"> المهام</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="goals"> الأهداف</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="initiatives"> المبادرات</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="vacations"> الإجازات</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="daily"> الأعمال الوظيفية</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="attend"> الحضور والانصراف</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="r1"> طلبات الوزير</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="r2"> طلبات الوكيل</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="r3"> طلبات المدير</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="r4"> طلبات المديريات</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="r5"> طلبات التوظيف</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="comp"> الشكاوي والتظلمات</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="natl"> المنصة الوطنية</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="tinv"> حصر المهام</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="kpi2"> مؤشرات الأداء</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="devplan"> الخطة التطويرية</label>
+    </div>
   </div>
   <input type="hidden" id="ef-id">
   <div class="modal-foot"><button class="btn" id="mc-emp">إلغاء</button><button class="btn btn-blue" id="ms-emp"><i class="ti ti-check"></i> <span id="mb-emp">إضافة الموظف</span></button></div>
@@ -749,7 +852,7 @@ function doLogin(){
   $('l-err').style.display='none';
   if(u==='Ahmed'&&p==='Oman@2020'){
     CU={role:'admin'};
-    sessionStorage.setItem('cu', JSON.stringify(CU));
+    localStorage.setItem('cu', JSON.stringify(CU));
     showScr('scr-admin');
     initDates();
     startListeners();
@@ -760,7 +863,7 @@ function doLogin(){
     const emp=DB.employees.find(e=>e.username===u&&e.password===p);
     if(emp){
       CU={role:'employee',id:emp.id};
-      sessionStorage.setItem('cu', JSON.stringify(CU));
+      localStorage.setItem('cu', JSON.stringify(CU));
       showScr('scr-emp');
       startListeners();
       buildEmpPortal(emp);
@@ -787,7 +890,7 @@ function doLogin(){
 function logout(){
   stopListeners();
   CU=null;
-  sessionStorage.removeItem('cu');
+  localStorage.removeItem('cu');
   clr(['l-u','l-p']);
   $('l-err').style.display='none';
   showScr('scr-login');
@@ -1207,7 +1310,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   $('loading-ov').classList.add('hide');
 
   // Restore session after page refresh
-  const savedCU = sessionStorage.getItem('cu');
+  const savedCU = localStorage.getItem('cu');
   if(savedCU){
     try{
       CU = JSON.parse(savedCU);
@@ -1222,7 +1325,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         ePage('home');
       }
     } catch(e){
-      sessionStorage.removeItem('cu');
+      localStorage.removeItem('cu');
       showScr('scr-login');
     }
   } else {
@@ -1283,6 +1386,28 @@ document.addEventListener('DOMContentLoaded',()=>{
   window.delEmp=delEmp;window.delItem=delItem;
   window.updTask=updTask;window.updVac=updVac;
   window.aPage=aPage;window.ePage=ePage;window.openM=openM;window.closeM=closeM;
+  // Override fbSave for permissions
+  const realFbSave=fbSave;
+  fbSave=function(col,item){
+    if(col==='employees'&&window._pendingPerms!==undefined){
+      item={...item,perms:window._pendingPerms};
+      delete window._pendingPerms;
+    }
+    return realFbSave(col,item);
+  };
+  // Apply perms when employee logs in
+  const origBuildEmpPortal=buildEmpPortal;
+  buildEmpPortal=function(emp){
+    origBuildEmpPortal(emp);
+    applyEmpPerms(emp);
+  };
+  window.applyEmpPerms=applyEmpPerms;
+  window.exportReqExcel=exportReqExcel;
+  window.exportCompExcel=exportCompExcel;
+  window.exportEmployeesExcel=exportEmployeesExcel;
+  window.updateFilterInput=updateFilterInput;
+  window.applyReqFilter=applyReqFilter;
+  window.clearReqFilter=clearReqFilter;
 
   // ── NEW SECTIONS NAV ──
   const newNavMap = {'ni-r1':'r1','ni-r2':'r2','ni-r3':'r3','ni-r4':'r4','ni-r5':'r5','ni-tinv':'tinv','ni-tdist':'tdist','ni-kpi':'kpi2','ni-natl':'natl','ni-pub':'pub','ni-devplan':'devplan'};
@@ -1330,7 +1455,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 // ── NOTIFICATIONS SYSTEM ──
-let notifRead = JSON.parse(sessionStorage.getItem('notif_read')||'[]');
+let notifRead = JSON.parse(localStorage.getItem('notif_read')||'[]');
 
 function checkNotifications(){
   if(!CU || CU.role!=='admin') return;
@@ -1444,7 +1569,7 @@ function renderNotifications(notifs){
 function markRead(id){
   if(!notifRead.includes(id)){
     notifRead.push(id);
-    sessionStorage.setItem('notif_read', JSON.stringify(notifRead));
+    localStorage.setItem('notif_read', JSON.stringify(notifRead));
   }
   checkNotifications();
 }
@@ -1456,7 +1581,7 @@ function clearNotifs(){
   DB.vacations.forEach(v=>ids.push('vac_'+v.id));
   DB.goals.forEach(g=>ids.push('goal_'+g.id));
   notifRead = ids;
-  sessionStorage.setItem('notif_read', JSON.stringify(notifRead));
+  localStorage.setItem('notif_read', JSON.stringify(notifRead));
   checkNotifications();
 }
 
@@ -1750,7 +1875,7 @@ function exportProjectsPDF(){
       showToast('خطأ في التصدير: '+e.message);
       console.error(e);
     });
-  }, 1200);
+  }, 3000);
 }
 
 
@@ -1931,20 +2056,39 @@ function durColor(recv, final){
 }
 function rNewReq(n){
   const tb=$('tb-r'+n), data=DB['r'+n]||[];
-  const cols=n===5?11:12;
-  if(!data.length){tb.innerHTML=`<tr><td colspan="${cols}"><div class="emp-st"><i class="ti ti-inbox"></i><p>لا توجد طلبات</p></div></td></tr>`;return;}
-  tb.innerHTML=data.map(r=>{
+  let filtered=data;
+  // Apply date filter if active
+  const filterKey='req_filter_'+n;
+  const fv=window[filterKey];
+  if(fv&&fv.type&&fv.value){
+    filtered=data.filter(r=>{
+      if(!r.recv) return false;
+      const d=new Date(r.recv);
+      if(fv.type==='year') return d.getFullYear()===parseInt(fv.value);
+      if(fv.type==='month'){const[y,m]=fv.value.split('-');return d.getFullYear()===parseInt(y)&&d.getMonth()+1===parseInt(m);}
+      if(fv.type==='day') return r.recv===fv.value;
+      if(fv.type==='week'){const wd=new Date(fv.value);const we=new Date(wd);we.setDate(we.getDate()+6);return d>=wd&&d<=we;}
+      return true;
+    });
+  }
+  const cols=n===5?12:13;
+  if(!filtered.length){tb.innerHTML=`<tr><td colspan="${cols}"><div class="emp-st"><i class="ti ti-inbox"></i><p>لا توجد طلبات</p></div></td></tr>`;return;}
+  tb.innerHTML=filtered.map(r=>{
     const dur=calcDuration(r.recv,r.final);
     const dc=durColor(r.recv,r.final);
     return `<tr>
     <td><b>${r.ref||'—'}</b></td><td>${r.recv||'—'}</td><td>${r.ldate||'—'}</td>
     <td>${r.name||'—'}</td>
-    <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.subj||''}">${r.subj||'—'}</td>
+    <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.subj||''}">${r.subj||'—'}</td>
     <td>${r.phone||'—'}</td><td>${r.dept||'—'}</td>
     ${n!==5?`<td>${r.rdate||'—'}</td>`:''}
     <td>${r.deptreply||'—'}</td><td>${r.final||'—'}</td>
-    <td><b style="color:${dc}">${dur}</b></td>
+    <td><b style="color:${dc};white-space:nowrap">${dur}</b></td>
     <td>${r.notes||'—'}</td>
+    <td><div class="act-btns">
+      <button class="btn btn-sm btn-grn" title="تعديل" onclick="editReq(${n},'${r.id}')"><i class="ti ti-edit" style="font-size:12px"></i></button>
+      <button class="btn btn-sm btn-red" title="حذف" onclick="delNewItem('r${n}','${r.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>
+    </div></td>
   </tr>`;
   }).join('');
 }
@@ -2390,8 +2534,9 @@ td{padding:8px 10px;border-bottom:1px solid #e0dedd;vertical-align:middle}
   iframe.contentDocument.write(printHTML);
   iframe.contentDocument.close();
 
+  // Wait for fonts to load properly
   setTimeout(()=>{
-    html2canvas(iframe.contentDocument.body,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#fff',width:1100,windowWidth:1100}).then(canvas=>{
+    html2canvas(iframe.contentDocument.body,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#fff',letterSpacing:0,width:1100,windowWidth:1100}).then(canvas=>{
       const {jsPDF}=window.jspdf;
       const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
       const imgW=297, imgH=(canvas.height*imgW)/canvas.width, pageH=210;
@@ -2702,6 +2847,199 @@ td{padding:7px 10px;border-bottom:1px solid #e0dedd;vertical-align:middle}
       document.body.removeChild(iframe);showToast('تم تصدير تقرير الشكاوي ✓');
     }).catch(e=>{document.body.removeChild(iframe);showToast('خطأ: '+e.message);});
   },1200);
+}
+
+
+
+// ══════════════════════════════════════
+// FILTER, PERMISSIONS, EXCEL EXPORT
+// ══════════════════════════════════════
+
+// ── DATE FILTER FOR REQUESTS ──
+function updateFilterInput(key){
+  const type=document.getElementById('ftype-'+key)?.value;
+  const inp=document.getElementById('fval-'+key);
+  if(!inp) return;
+  if(!type){inp.style.display='none';inp.value='';applyReqFilter(key);return;}
+  inp.style.display='block';
+  if(type==='year'){inp.type='number';inp.placeholder='مثال: 2026';}
+  else if(type==='month'){inp.type='month';inp.placeholder='';}
+  else if(type==='day'){inp.type='date';inp.placeholder='';}
+  else if(type==='week'){inp.type='week';inp.placeholder='';}
+  applyReqFilter(key);
+}
+function applyReqFilter(key){
+  const type=document.getElementById('ftype-'+key)?.value;
+  const val=document.getElementById('fval-'+key)?.value||'';
+  if(type&&val){
+    let weekDate=null;
+    if(type==='week'){
+      // convert week input (2026-W01) to date
+      const [y,w]=val.split('-W').map(Number);
+      const jan4=new Date(y,0,4);
+      const startOfWeek=new Date(jan4.getTime()-((jan4.getDay()||7)-1)*86400000+(w-1)*7*86400000);
+      weekDate=startOfWeek.toISOString().split('T')[0];
+    }
+    window['req_filter_'+key]={type,value:type==='week'?weekDate:val};
+  } else {
+    window['req_filter_'+key]=null;
+  }
+  rNewReq(parseInt(key.replace('r',''))||key);
+  // Update count display
+  const cnt=document.getElementById('fcount-'+key);
+  if(cnt){
+    const n=parseInt(key.replace('r',''));
+    const total=(DB['r'+n]||[]).length;
+    const shown=document.getElementById('tb-r'+n)?.querySelectorAll('tr:not(.empty-row)').length||0;
+    if(window['req_filter_'+key]){
+      cnt.textContent='يعرض نتائج مصفاة من '+total+' طلب';
+    } else {
+      cnt.textContent='إجمالي: '+total+' طلب';
+    }
+  }
+}
+function clearReqFilter(key){
+  const ft=document.getElementById('ftype-'+key);
+  const fv=document.getElementById('fval-'+key);
+  if(ft) ft.value='';
+  if(fv){fv.style.display='none';fv.value='';}
+  window['req_filter_'+key]=null;
+  rNewReq(parseInt(key.replace('r',''))||key);
+  const cnt=document.getElementById('fcount-'+key);
+  if(cnt) cnt.textContent='';
+}
+
+// ── EXCEL EXPORT ──
+function exportExcel(data, headers, filename){
+  if(!data||!data.length){showToast('لا توجد بيانات للتصدير');return;}
+  // Build CSV with BOM for Arabic support
+  const bom='﻿';
+  const rows=[headers.join(','),...data.map(row=>headers.map(h=>{
+    const val=String(row[h]||'').replace(/,/g,' ').replace(/
+/g,' ');
+    return '"'+val+'"';
+  }).join(','))];
+  const csv=bom+rows.join('
+');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=filename+'.csv';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+  showToast('تم تصدير Excel ✓');
+}
+
+function exportReqExcel(n){
+  const data=DB['r'+n]||[];
+  if(!data.length){showToast('لا توجد بيانات');return;}
+  const keys=['ref','recv','ldate','name','subj','phone','dept','rdate','deptreply','final','notes'];
+  const headers=['رقم المرجع','تاريخ الاستلام','تاريخ الخطاب','المواطن/الشركة','الموضوع','رقم التواصل','التقسيم المعني','تاريخ الإحالة','تاريخ رد التقسيم','تاريخ الرد النهائي','ملاحظات'];
+  const mapped=data.map(r=>{const o={};headers.forEach((h,i)=>o[h]=r[keys[i]]||'');return o;});
+  const nameMap={1:'الوزير',2:'الوكيل',3:'المدير',4:'المديريات',5:'التوظيف'};
+  exportExcel(mapped,headers,'طلبات-'+nameMap[n]);
+}
+
+function exportCompExcel(){
+  const data=DB.comp||[];
+  const headers=['م','اسم الشركة/المؤسسة','موضوع الشكوى','النتيجة النهائية','هل تمت معالجتها','وقت البدء','وقت الانتهاء','نسبة الإنجاز','الإنجاز الفعلي','ملاحظات'];
+  const keys=['seq','name','subj','result','done','start','end','prog','actual','notes'];
+  const mapped=data.map(r=>{const o={};headers.forEach((h,i)=>o[h]=r[keys[i]]||'');return o;});
+  exportExcel(mapped,headers,'الشكاوي-والتظلمات');
+}
+
+function exportEmployeesExcel(){
+  const data=DB.employees||[];
+  const headers=['الاسم الأول','اسم العائلة','المسمى الوظيفي','القسم','الهاتف','البريد الإلكتروني','تاريخ الانضمام','الحالة'];
+  const keys=['fname','lname','title','dept','phone','email','join','status'];
+  const mapped=data.map(e=>{const o={};headers.forEach((h,i)=>o[h]=e[keys[i]]||'');return o;});
+  exportExcel(mapped,headers,'الموظفون');
+}
+
+// ── PERMISSIONS SYSTEM ──
+function getSelectedPerms(){
+  return Array.from(document.querySelectorAll('.perm-cb:checked')).map(cb=>cb.value);
+}
+function setSelectedPerms(perms){
+  document.querySelectorAll('.perm-cb').forEach(cb=>{
+    cb.checked=Array.isArray(perms)&&perms.includes(cb.value);
+  });
+}
+
+// Override saveEmp to include permissions
+const _origSaveEmp=saveEmp;
+saveEmp=function(){
+  // collect perms before saving - patch into DB after original save
+  const perms=getSelectedPerms();
+  // Intercept: we need to patch the saved item
+  const origFbSave=fbSave;
+  // Save perms in a temp var and apply after
+  window._pendingPerms=perms;
+  _origSaveEmp();
+};
+
+// Apply perms when employee is saved - patch after save
+const _origFbSave=fbSave;
+function fbSaveWithPerms(col,item){
+  if(col==='employees'&&window._pendingPerms!==undefined){
+    item={...item,perms:window._pendingPerms};
+    delete window._pendingPerms;
+  }
+  return _origFbSave(col,item);
+}
+
+// Patch editEmp to load perms
+const _origEditEmp=editEmp;
+editEmp=function(id){
+  _origEditEmp(id);
+  const emp=DB.employees.find(e=>e.id===id);
+  if(emp&&emp.perms){
+    setTimeout(()=>setSelectedPerms(emp.perms),50);
+  } else {
+    setTimeout(()=>setSelectedPerms([]),50);
+  }
+};
+
+// Apply permissions to employee portal nav
+function applyEmpPerms(emp){
+  const perms=emp.perms||[];
+  const permMap={
+    'tasks':'eni-mytasks','goals':'eni-mygoals','initiatives':'eni-myinit',
+    'vacations':'eni-myvac','daily':'eni-mydaily'
+  };
+  // Show/hide nav items based on perms
+  Object.entries(permMap).forEach(([perm,niId])=>{
+    const ni=$(niId);
+    if(ni){
+      if(perms.length===0||perms.includes(perm)){
+        ni.style.display='';
+      } else {
+        ni.style.display='none';
+      }
+    }
+  });
+  // Add extra sections to emp portal if permitted
+  const extraSeps=document.querySelectorAll('#scr-emp .sb-sep');
+  if(perms.length>0){
+    // Show a sections label
+    const extraNav=$('emp-extra-nav');
+    if(!extraNav){
+      const nav=$('.sb-nav')||document.querySelector('#scr-emp .sb-nav');
+      if(nav){
+        const extraPerms=['r1','r2','r3','r4','r5','natl','comp','tinv','kpi2','devplan'];
+        const labels={'r1':'طلبات الوزير','r2':'طلبات الوكيل','r3':'طلبات المدير','r4':'طلبات المديريات','r5':'طلبات التوظيف','natl':'المنصة الوطنية','comp':'الشكاوي','tinv':'حصر المهام','kpi2':'مؤشرات الأداء','devplan':'الخطة التطويرية'};
+        const icons={'r1':'ti-user-star','r2':'ti-user-check','r3':'ti-user-cog','r4':'ti-building','r5':'ti-id-badge','natl':'ti-message-circle','comp':'ti-alert-triangle','tinv':'ti-list-check','kpi2':'ti-chart-bar','devplan':'ti-rocket'};
+        const granted=extraPerms.filter(p=>perms.includes(p));
+        if(granted.length>0){
+          const div=document.createElement('div');
+          div.id='emp-extra-nav';
+          div.innerHTML='<div class="sb-sep" style="color:rgba(255,220,100,0.85)">أقسام إضافية</div>'+
+            granted.map(p=>`<div class="ni" onclick="aPageNew('${p}')"><i class="ti ${icons[p]}"></i><span>${labels[p]}</span></div>`).join('');
+          nav.appendChild(div);
+        }
+      }
+    }
+  }
 }
 
 </script>
