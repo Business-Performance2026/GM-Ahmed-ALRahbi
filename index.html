@@ -801,31 +801,19 @@ function fbDelete(col, id){
 function startListeners(){
   stopListeners();
   setSyncState('syncing');
-  // Load ALL data in one request first
-  db.ref('/').once('value').then(snap=>{
-    const allData = snap.val()||{};
-    COLLECTIONS.forEach(col=>{
-      const d = allData[col];
-      DB[col] = d ? Object.entries(d).map(([k,v])=>({id:k,...v})) : [];
+  // Set up listeners - data loads in background, UI stays responsive
+  COLLECTIONS.forEach(col=>{
+    const r = db.ref(col);
+    r.on('value', snap=>{
+      const data = snap.val();
+      DB[col] = data ? Object.entries(data).map(([k,v])=>({id:k,...v})) : [];
+      setSyncState('ok');
+      if(CU) refreshCurrentView();
+    }, err=>{
+      setSyncState('error');
+      console.error('Firebase listener error:',err);
     });
-    setSyncState('ok');
-    $('loading-ov') && $('loading-ov').classList.add('hide');
-    refreshCurrentView();
-    // Then set up individual listeners for real-time updates
-    COLLECTIONS.forEach(col=>{
-      const r = db.ref(col);
-      r.on('value', snap=>{
-        const data = snap.val();
-        DB[col] = data ? Object.entries(data).map(([k,v])=>({id:k,...v})) : [];
-        setSyncState('ok');
-        if(CU) refreshCurrentView();
-      }, err=>{ setSyncState('error'); console.error(err); });
-      listeners[col] = r;
-    });
-  }).catch(err=>{
-    setSyncState('error');
-    console.error('Firebase load error:',err);
-    showToast('خطأ في الاتصال: '+err.message);
+    listeners[col] = r;
   });
 }
 
@@ -1322,6 +1310,10 @@ function initDates(){
 
 // ── EVENT LISTENERS ──
 document.addEventListener('DOMContentLoaded',()=>{
+  // ALWAYS hide loading overlay immediately - never block UI
+  const lo=$('loading-ov');
+  if(lo) lo.classList.add('hide');
+
   // Restore session after page refresh
   const savedCU = localStorage.getItem('cu');
   if(savedCU){
@@ -1338,11 +1330,9 @@ document.addEventListener('DOMContentLoaded',()=>{
       startListeners();
     } catch(e){
       localStorage.removeItem('cu');
-      $('loading-ov').classList.add('hide');
       showScr('scr-login');
     }
   } else {
-    $('loading-ov').classList.add('hide');
     showScr('scr-login');
   }
 
