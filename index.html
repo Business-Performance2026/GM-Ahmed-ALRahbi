@@ -800,17 +800,32 @@ function fbDelete(col, id){
 // ── REALTIME LISTENERS ──
 function startListeners(){
   stopListeners();
-  COLLECTIONS.forEach(col=>{
-    const ref = db.ref(col);
-    ref.on('value', snap=>{
-      const data = snap.val();
-      DB[col] = data
-        ? Object.entries(data).map(([key,val])=>({id:key,...val}))
-        : [];
-      setSyncState('ok');
-      refreshCurrentView();
-    }, err=>{ setSyncState('error'); console.error(err); });
-    listeners[col] = ref;
+  setSyncState('syncing');
+  // Load ALL data in one request first
+  db.ref('/').once('value').then(snap=>{
+    const allData = snap.val()||{};
+    COLLECTIONS.forEach(col=>{
+      const d = allData[col];
+      DB[col] = d ? Object.entries(d).map(([k,v])=>({id:k,...v})) : [];
+    });
+    setSyncState('ok');
+    $('loading-ov') && $('loading-ov').classList.add('hide');
+    refreshCurrentView();
+    // Then set up individual listeners for real-time updates
+    COLLECTIONS.forEach(col=>{
+      const r = db.ref(col);
+      r.on('value', snap=>{
+        const data = snap.val();
+        DB[col] = data ? Object.entries(data).map(([k,v])=>({id:k,...v})) : [];
+        setSyncState('ok');
+        if(CU) refreshCurrentView();
+      }, err=>{ setSyncState('error'); console.error(err); });
+      listeners[col] = r;
+    });
+  }).catch(err=>{
+    setSyncState('error');
+    console.error('Firebase load error:',err);
+    showToast('خطأ في الاتصال: '+err.message);
   });
 }
 
@@ -855,8 +870,8 @@ function doLogin(){
     localStorage.setItem('cu', JSON.stringify(CU));
     showScr('scr-admin');
     initDates();
-    startListeners();
     aPage('dashboard');
+    startListeners();
     return;
   }
   const tryEmpLogin = () => {
@@ -1307,28 +1322,27 @@ function initDates(){
 
 // ── EVENT LISTENERS ──
 document.addEventListener('DOMContentLoaded',()=>{
-  $('loading-ov').classList.add('hide');
-
   // Restore session after page refresh
   const savedCU = localStorage.getItem('cu');
   if(savedCU){
     try{
       CU = JSON.parse(savedCU);
-      startListeners(); // This will fetch data AND render via refreshCurrentView
       if(CU.role==='admin'){
         showScr('scr-admin');
         initDates();
         aPage('dashboard');
       } else if(CU.role==='employee'){
         showScr('scr-emp');
-        // buildEmpPortal will be called once data arrives in refreshCurrentView
         ePage('home');
       }
+      startListeners();
     } catch(e){
       localStorage.removeItem('cu');
+      $('loading-ov').classList.add('hide');
       showScr('scr-login');
     }
   } else {
+    $('loading-ov').classList.add('hide');
     showScr('scr-login');
   }
 
