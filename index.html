@@ -891,10 +891,18 @@ function doLogin(){
   if(u==='Ahmed'&&p==='Oman@2020'){
     CU={role:'admin'};
     localStorage.setItem('cu', JSON.stringify(CU));
-    showScr('scr-admin');
-    initDates();
-    aPage('dashboard');
-    try { startListeners(); } catch(e){ console.warn(e); }
+    try {
+      showScr('scr-admin');
+      initDates();
+      aPage('dashboard');
+      startListeners();
+    } catch(e){
+      console.error('Login error:', e);
+      // Force show admin screen even on error
+      document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+      const adm = document.getElementById('scr-admin');
+      if(adm) adm.classList.add('active');
+    }
     return;
   }
   const tryEmpLogin = () => {
@@ -936,12 +944,14 @@ function logout(){
 
 // ── ADMIN PAGES ──
 function aPage(pg){
-  ['dashboard','employees','tasks','projects','initiatives','goals','vacations','daily'].forEach(p=>{
-    $('ap-'+p).classList.toggle('active',p===pg);
-    const ni=$('ni-'+p); if(ni) ni.classList.toggle('active',p===pg);
-  });
-  if(pg==='dashboard') renderDash();
-  refreshSel();
+  try {
+    ['dashboard','employees','tasks','projects','initiatives','goals','vacations','daily'].forEach(p=>{
+      const el=$('ap-'+p); if(el) el.classList.toggle('active',p===pg);
+      const ni=$('ni-'+p); if(ni) ni.classList.toggle('active',p===pg);
+    });
+    if(pg==='dashboard') setTimeout(()=>{ try{renderDash();}catch(e){console.warn(e);} },100);
+    refreshSel();
+  } catch(e){ console.warn('aPage error:', e); }
 }
 
 // ── EMP PAGES ──
