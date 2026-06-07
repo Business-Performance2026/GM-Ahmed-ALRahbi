@@ -780,23 +780,27 @@ function fbDelete(col, id){
 // ── REAL-TIME LISTENERS ──
 function startListeners(){
   stopListeners();
-  // Load from cache first for instant display
+  // Show cached data instantly
   loadCache();
+  setSyncState('ok');
   if(CU) refreshCurrentView();
-  setSyncState('syncing');
-  // Then sync with Firestore
-  COLLECTIONS.forEach(col=>{
+  // Sync in background - one collection at a time
+  let idx = 0;
+  function loadNext(){
+    if(idx >= COLLECTIONS.length){ setSyncState('ok'); return; }
+    const col = COLLECTIONS[idx++];
     const unsub = fdb.collection(col).onSnapshot(snap=>{
       DB[col] = snap.docs.map(d=>({id:d.id,...d.data()}));
       saveCache();
-      setSyncState('ok');
       if(CU) refreshCurrentView();
+      loadNext();
     }, err=>{
-      setSyncState('error');
-      console.error('Firestore error:', err);
+      console.error(col, err);
+      loadNext();
     });
     listeners[col] = unsub;
-  });
+  }
+  loadNext();
 }
 
 function stopListeners(){
@@ -1372,10 +1376,10 @@ function initDates(){
 
 // ── EVENT LISTENERS ──
 document.addEventListener('DOMContentLoaded',()=>{
-  // Load data and hide loading
-  loadDB();
+  // Hide loading immediately - never block
   const lo=$('loading-ov');
   if(lo) lo.classList.add('hide');
+  loadCache();
 
   // Restore session after page refresh
   const savedCU = localStorage.getItem('cu');
