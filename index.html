@@ -173,7 +173,7 @@ tr:hover td{background:#fafaf8}
 <body>
 
 <!-- LOADING -->
-<div class="loading-ov" id="loading-ov">
+<div class="loading-ov hide" id="loading-ov">
   <div class="spinner"></div>
   <div class="loading-txt">جاري الاتصال بقاعدة البيانات...</div>
 </div>
@@ -182,7 +182,7 @@ tr:hover td{background:#fafaf8}
 <div class="toast" id="toast"></div>
 
 <!-- LOGIN -->
-<div id="scr-login" class="screen">
+<div id="scr-login" class="screen active">
 <div class="lw"><div class="lp">
   <div class="lh">
     <div class="lb"><i class="ti ti-building-community"></i></div>
@@ -780,27 +780,29 @@ function fbDelete(col, id){
 // ── REAL-TIME LISTENERS ──
 function startListeners(){
   stopListeners();
-  // Show cached data instantly
+  // Show cached data instantly - app works immediately
   loadCache();
   setSyncState('ok');
   if(CU) refreshCurrentView();
-  // Sync in background - one collection at a time
-  let idx = 0;
-  function loadNext(){
-    if(idx >= COLLECTIONS.length){ setSyncState('ok'); return; }
-    const col = COLLECTIONS[idx++];
-    const unsub = fdb.collection(col).onSnapshot(snap=>{
-      DB[col] = snap.docs.map(d=>({id:d.id,...d.data()}));
-      saveCache();
-      if(CU) refreshCurrentView();
-      loadNext();
-    }, err=>{
-      console.error(col, err);
-      loadNext();
-    });
-    listeners[col] = unsub;
-  }
-  loadNext();
+  // Sync with Firestore in background - non-blocking
+  // Load all collections at once but don't block UI
+  COLLECTIONS.forEach(col=>{
+    try {
+      const unsub = fdb.collection(col).onSnapshot(snap=>{
+        DB[col] = snap.docs.map(d=>({id:d.id,...d.data()}));
+        saveCache();
+        setSyncState('ok');
+        if(CU) refreshCurrentView();
+      }, err=>{
+        // Firestore error - keep using cached data
+        setSyncState('error');
+        console.warn('Firestore:', col, err.code);
+      });
+      listeners[col] = unsub;
+    } catch(e){
+      console.warn('Firestore setup error:', col, e);
+    }
+  });
 }
 
 function stopListeners(){
@@ -892,7 +894,7 @@ function doLogin(){
     showScr('scr-admin');
     initDates();
     aPage('dashboard');
-    startListeners();
+    try { startListeners(); } catch(e){ console.warn(e); }
     return;
   }
   const tryEmpLogin = () => {
@@ -1361,7 +1363,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         showScr('scr-emp');
         ePage('home');
       }
-      startListeners();
+      try { startListeners(); } catch(e){ console.warn(e); }
     } catch(e){
       localStorage.removeItem('cu');
       showScr('scr-login');
