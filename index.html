@@ -888,51 +888,45 @@ function showScr(id){
 function doLogin(){
   const u=v('l-u').trim(), p=v('l-p').trim();
   $('l-err').style.display='none';
+  // Admin login
   if(u==='Ahmed'&&p==='Oman@2020'){
     CU={role:'admin'};
-    localStorage.setItem('cu', JSON.stringify(CU));
-    try {
-      showScr('scr-admin');
-      initDates();
-      aPage('dashboard');
-      startListeners();
-    } catch(e){
-      console.error('Login error:', e);
-      // Force show admin screen even on error
-      document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-      const adm = document.getElementById('scr-admin');
-      if(adm) adm.classList.add('active');
-    }
+    localStorage.setItem('cu',JSON.stringify(CU));
+    showScr('scr-admin');
+    initDates();
+    aPage('dashboard');
+    try{startListeners();}catch(e){console.warn(e);}
     return;
   }
-  const tryEmpLogin = () => {
-    const emp=DB.employees.find(e=>e.username===u&&e.password===p);
-    if(emp){
-      CU={role:'employee',id:emp.id};
-      localStorage.setItem('cu', JSON.stringify(CU));
-      showScr('scr-emp');
-      startListeners();
-      buildEmpPortal(emp);
-      ePage('home');
-      return true;
-    }
-    return false;
-  };
-    if(!tryEmpLogin()){
-    // Try loading from Firestore then retry login
-    fdb.collection('employees').get().then(snap=>{
-      DB.employees = snap.docs.map(d=>({id:d.id,...d.data()}));
-      saveCache();
-      if(!tryEmpLogin()){
-        $('l-err').style.display='block';
-      }
-    }).catch(()=>{ $('l-err').style.display='block'; });
-  });
-      if(!tryEmpLogin()){
-        $('l-err').style.display='block';
-      }
-    }).catch(()=>{ $('l-err').style.display='block'; });
+  // Employee login - check local cache first
+  const emp=DB.employees.find(e=>e.username===u&&e.password===p);
+  if(emp){
+    CU={role:'employee',id:emp.id};
+    localStorage.setItem('cu',JSON.stringify(CU));
+    showScr('scr-emp');
+    buildEmpPortal(emp);
+    ePage('home');
+    try{startListeners();}catch(e){console.warn(e);}
+    return;
   }
+  // Try loading from Firestore if not in cache
+  try{
+    fdb.collection('employees').get().then(snap=>{
+      DB.employees=snap.docs.map(d=>({id:d.id,...d.data()}));
+      saveCache();
+      const emp2=DB.employees.find(e=>e.username===u&&e.password===p);
+      if(emp2){
+        CU={role:'employee',id:emp2.id};
+        localStorage.setItem('cu',JSON.stringify(CU));
+        showScr('scr-emp');
+        buildEmpPortal(emp2);
+        ePage('home');
+        try{startListeners();}catch(e){console.warn(e);}
+      } else {
+        $('l-err').style.display='block';
+      }
+    }).catch(()=>{ $('l-err').style.display='block'; });
+  }catch(e){ $('l-err').style.display='block'; }
 }
 
 function logout(){
@@ -2964,21 +2958,22 @@ function clearReqFilter(key){
 // ── EXCEL EXPORT ──
 function exportExcel(data, headers, filename){
   if(!data||!data.length){showToast('لا توجد بيانات للتصدير');return;}
-  // Build CSV with BOM for Arabic support
-  const bom='﻿';
-  const rows=[headers.join(','),...data.map(row=>headers.map(h=>{
-    const val=String(row[h]||'').replace(/,/g,' ').replace(/
-/g,' ');
-    return '"'+val+'"';
-  }).join(','))];
-  const csv=bom+rows.join('
-');
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download=filename+'.csv';
-  document.body.appendChild(a);a.click();
-  document.body.removeChild(a);URL.revokeObjectURL(url);
+  var bom = String.fromCharCode(0xFEFF);
+  var lines = [];
+  lines.push(headers.map(function(h){return '"'+h+'"';}).join(','));
+  data.forEach(function(row){
+    lines.push(headers.map(function(h){
+      var val = String(row[h]||'').split(',').join(' ').split('"').join("'");
+      return '"'+val+'"';
+    }).join(','));
+  });
+  var csv = bom + lines.join('\r\n');
+  var blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href=url; a.download=filename+'.csv';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
   showToast('تم تصدير Excel ✓');
 }
 
