@@ -727,26 +727,88 @@ tr:hover td{background:#fafaf8}
   <div class="modal-foot"><button class="btn" id="mc-daily">إلغاء</button><button class="btn btn-blue" id="ms-daily"><i class="ti ti-check"></i> <span id="mb-daily">إضافة</span></button></div>
 </div></div>
 
-<!-- FIREBASE SDK -->
+<!-- FIRESTORE SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyAFai1p5MC3OQuekVXFZFPFj5OcWlMqOa0",
   authDomain: "ahmed-alrahbi.firebaseapp.com",
-  databaseURL: "https://ahmed-alrahbi-default-rtdb.firebaseio.com",
   projectId: "ahmed-alrahbi",
   storageBucket: "ahmed-alrahbi.firebasestorage.app",
   messagingSenderId: "717294506589",
   appId: "1:717294506589:web:029cb601fa5af881d073b4"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const fdb = firebase.firestore();
 
-const AVC = ['av0','av1','av2','av3','av4','av5'];
-let DB = {employees:[],tasks:[],projects:[],initiatives:[],goals:[],vacations:[],daily:[]};
+// ══ COLLECTIONS ══
+const COLLECTIONS = ['employees','tasks','projects','initiatives','goals','vacations','daily',
+  'r1','r2','r3','r4','r5','tinv','tdist','kpi2','natl','pub','devplan','comp','attend'];
+
+let DB = {};
+COLLECTIONS.forEach(c => DB[c] = []);
 let CU = null, CS = 0, charts = {};
 let listeners = {};
+
+// ── LOCAL CACHE (so app works even offline) ──
+const SK = 'empsys_cache_v1';
+function saveCache(){ try{ localStorage.setItem(SK, JSON.stringify(DB)); }catch(e){} }
+function loadCache(){
+  try{
+    const d = localStorage.getItem(SK);
+    if(d){ const p=JSON.parse(d); COLLECTIONS.forEach(c=>{ DB[c]=p[c]||[]; }); }
+  }catch(e){}
+}
+
+// ── FIRESTORE SAVE / DELETE ──
+function fbSave(col, item){
+  setSyncState('syncing');
+  const {id, ...data} = item;
+  fdb.collection(col).doc(String(id)).set(data)
+    .then(()=>{ setSyncState('ok'); showToast('تم الحفظ ✓'); })
+    .catch(e=>{ setSyncState('error'); showToast('خطأ: '+e.message); console.error(e); });
+}
+
+function fbDelete(col, id){
+  setSyncState('syncing');
+  fdb.collection(col).doc(String(id)).delete()
+    .then(()=>{ setSyncState('ok'); showToast('تم الحذف ✓'); })
+    .catch(e=>{ setSyncState('error'); showToast('خطأ: '+e.message); });
+}
+
+// ── REAL-TIME LISTENERS ──
+function startListeners(){
+  stopListeners();
+  // Load from cache first for instant display
+  loadCache();
+  if(CU) refreshCurrentView();
+  setSyncState('syncing');
+  // Then sync with Firestore
+  COLLECTIONS.forEach(col=>{
+    const unsub = fdb.collection(col).onSnapshot(snap=>{
+      DB[col] = snap.docs.map(d=>({id:d.id,...d.data()}));
+      saveCache();
+      setSyncState('ok');
+      if(CU) refreshCurrentView();
+    }, err=>{
+      setSyncState('error');
+      console.error('Firestore error:', err);
+    });
+    listeners[col] = unsub;
+  });
+}
+
+function stopListeners(){
+  Object.values(listeners).forEach(u=>{ try{ u(); }catch(e){} });
+  listeners = {};
+}
+
+const nid = () => fdb.collection('_').doc().id;
+function loadDB(){ loadCache(); }
+
+const AVC = ['av0','av1','av2','av3','av4','av5'];
+// DB, CU, charts, listeners already defined above
 
 const $ = id => document.getElementById(id);
 const v = id => ($( id)||{}).value||'';
@@ -1310,7 +1372,8 @@ function initDates(){
 
 // ── EVENT LISTENERS ──
 document.addEventListener('DOMContentLoaded',()=>{
-  // ALWAYS hide loading overlay immediately - never block UI
+  // Load data and hide loading
+  loadDB();
   const lo=$('loading-ov');
   if(lo) lo.classList.add('hide');
 
