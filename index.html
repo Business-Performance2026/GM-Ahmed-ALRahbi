@@ -812,7 +812,6 @@ const nid = () => fdb.collection('_').doc().id;
 function loadDB(){ loadCache(); }
 
 const AVC = ['av0','av1','av2','av3','av4','av5'];
-// DB, CU, charts, listeners already defined above
 
 const $ = id => document.getElementById(id);
 const v = id => ($( id)||{}).value||'';
@@ -823,7 +822,7 @@ const ini = (f,l) => (f[0]||'').toUpperCase()+(l[0]||'').toUpperCase();
 const tod = () => new Date().toISOString().split('T')[0];
 const ddays = (a,b) => Math.max(1,Math.round((new Date(b)-new Date(a))/86400000)+1);
 const strs = n => '★'.repeat(n)+'☆'.repeat(5-n);
-const nid = () => db.ref().push().key;
+// nid defined above
 
 function pC(p){return p==='عالية'?'b-red':p==='متوسطة'?'b-amber':'b-green';}
 function sC(s){
@@ -845,48 +844,16 @@ function setSyncState(state){
   });
 }
 
-const COLLECTIONS = ['employees','tasks','projects','initiatives','goals','vacations','daily','r1','r2','r3','r4','r5','tinv','tdist','kpi2','natl','pub','devplan','comp','attend'];
+// COLLECTIONS defined above
 
-// ── FIREBASE SAVE / DELETE ──
-function fbSave(col, item){
-  setSyncState('syncing');
-  const {id, ...data} = item;
-  return db.ref(col+'/'+id).set(data)
-    .then(()=>{ setSyncState('ok'); showToast('تم الحفظ ✓'); })
-    .catch(e=>{ setSyncState('error'); showToast('خطأ: '+e.message); console.error(e); });
-}
-
-function fbDelete(col, id){
-  setSyncState('syncing');
-  return db.ref(col+'/'+id).remove()
-    .then(()=>{ setSyncState('ok'); showToast('تم الحذف ✓'); })
-    .catch(e=>{ setSyncState('error'); showToast('خطأ: '+e.message); });
-}
+// fbSave and fbDelete defined above
 
 // ── REALTIME LISTENERS ──
-function startListeners(){
-  stopListeners();
-  setSyncState('syncing');
-  // Set up listeners - data loads in background, UI stays responsive
-  COLLECTIONS.forEach(col=>{
-    const r = db.ref(col);
-    r.on('value', snap=>{
-      const data = snap.val();
-      DB[col] = data ? Object.entries(data).map(([k,v])=>({id:k,...v})) : [];
-      setSyncState('ok');
-      if(CU) refreshCurrentView();
-    }, err=>{
-      setSyncState('error');
-      console.error('Firebase listener error:',err);
-    });
-    listeners[col] = r;
-  });
-}
+// startListeners defined above
 
-function stopListeners(){
-  Object.values(listeners).forEach(r=>r.off());
-  listeners={};
-}
+
+// stopListeners defined above
+
 
 function refreshCurrentView(){
   if(!CU) return;
@@ -1213,7 +1180,7 @@ function rTasks(){
 }
 function updTask(id,val){
   const t=DB.tasks.find(x=>x.id===id);
-  if(t){const {id:tid,...data}=t; db.ref('tasks/'+id).update({status:val}).then(()=>showToast('تم التحديث ✓'));}
+  if(t){ fbSave('tasks',{...t,status:val}); }
 }
 
 function rProjs(){
@@ -1283,7 +1250,7 @@ function rVacs(){
   </tr>`).join('');
 }
 function updVac(id,val){
-  db.ref('vacations/'+id).update({status:val}).then(()=>showToast('تم التحديث ✓'));
+  const vv=DB.vacations.find(x=>x.id===id); if(vv) fbSave('vacations',{...vv,status:val});
 }
 
 function rDaily(){renderDailyList('g-daily',DB.daily,true);}
