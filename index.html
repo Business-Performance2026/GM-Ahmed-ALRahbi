@@ -918,14 +918,16 @@ function doLogin(){
     }
     return false;
   };
-  if(!tryEmpLogin()){
-    firebase.database().ref('/').once('value').then(snap=>{
-      const data = snap.val()||{};
-      COLLECTIONS.forEach(col=>{
-        DB[col] = data[col]
-          ? Object.entries(data[col]).map(([key,val])=>({id:key,...val}))
-          : [];
-      });
+    if(!tryEmpLogin()){
+    // Try loading from Firestore then retry login
+    fdb.collection('employees').get().then(snap=>{
+      DB.employees = snap.docs.map(d=>({id:d.id,...d.data()}));
+      saveCache();
+      if(!tryEmpLogin()){
+        $('l-err').style.display='block';
+      }
+    }).catch(()=>{ $('l-err').style.display='block'; });
+  });
       if(!tryEmpLogin()){
         $('l-err').style.display='block';
       }
