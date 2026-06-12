@@ -11,7 +11,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --sb:#03455E;--dash:#607496;--card:#ffffff;
+  --sb:#71029C;--dash:#D352FF;--card:#ffffff;
   --txt:#1c1c1a;--txt2:#5a5a56;--txt3:#9a9a96;
   --brd:rgba(0,0,0,0.09);--brd2:rgba(0,0,0,0.18);
   --blue:#1a6bc4;--blue-l:#deeaf8;--blue-d:#0f4a8a;
@@ -114,7 +114,7 @@ tr:hover td{background:#fafaf8}
 .stars{display:flex;gap:3px;margin-top:3px}
 .stars span{font-size:26px;cursor:pointer;color:#ddd;transition:color .1s;line-height:1}
 .stars span.on{color:#f5a623}
-.lw{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#03455E 0%,#607496 60%,#03455E 100%)}
+.lw{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#71029C 0%,#D352FF 60%,#71029C 100%)}
 .lp{width:420px}
 .lh{text-align:center;margin-bottom:26px}
 .lb{width:66px;height:66px;border-radius:18px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border:2px solid rgba(255,255,255,0.22)}
@@ -232,7 +232,7 @@ tr:hover td{background:#fafaf8}
       <div class="nav-sep" style="color:rgba(255,220,100,0.85)">سجل الطلبات</div>
       <div class="ni" id="ni-r1"><i class="ti ti-user-star"></i><span>طلبات و</span></div>
       <div class="ni" id="ni-r2"><i class="ti ti-user-check"></i><span>طلبات و ك</span></div>
-      <div class="ni" id="ni-r3"><i class="ti ti-user-cog"></i><span>طلبات و و</span></div>
+      <div class="ni" id="ni-r3"><i class="ti ti-user-cog"></i><span>طلبات م م</span></div>
       <div class="ni" id="ni-r4"><i class="ti ti-building"></i><span>طلبات م م و</span></div>
       <div class="ni" id="ni-r5"><i class="ti ti-id-badge"></i><span>طلبات ت</span></div>
 
@@ -387,7 +387,7 @@ tr:hover td{background:#fafaf8}
         <button class="btn btn-sm" onclick="clearReqFilter('r1')" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i class="ti ti-x" style="font-size:12px"></i> مسح</button>
         <span id="fcount-r1" style="font-size:11px;color:rgba(255,255,255,0.7);margin-right:auto"></span>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r1"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r1"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r2">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">طلبات و ك</div></div>
@@ -411,13 +411,13 @@ tr:hover td{background:#fafaf8}
         <button class="btn btn-sm" onclick="clearReqFilter('r2')" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i class="ti ti-x" style="font-size:12px"></i> مسح</button>
         <span id="fcount-r2" style="font-size:11px;color:rgba(255,255,255,0.7);margin-right:auto"></span>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r2"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r2"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r3">
-      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">طلبات و و</div></div>
+      <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">طلبات م م</div></div>
         <div style="display:flex;gap:8px">
           <button class="btn btn-wh btn-sm" onclick="exportReqExcel(3)"><i class="ti ti-file-spreadsheet"></i> Excel</button>
-          <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r3','طلبات و و')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
+          <button class="btn btn-wh btn-sm" onclick="exportSingleReqPDF('r3','طلبات م م')"><i class="ti ti-file-type-pdf"></i> تصدير PDF</button>
           <button class="btn btn-wh" onclick="openM('m-r3')"><i class="ti ti-plus"></i> إضافة طلب</button>
         </div>
       </div>
@@ -435,7 +435,7 @@ tr:hover td{background:#fafaf8}
         <button class="btn btn-sm" onclick="clearReqFilter('r3')" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i class="ti ti-x" style="font-size:12px"></i> مسح</button>
         <span id="fcount-r3" style="font-size:11px;color:rgba(255,255,255,0.7);margin-right:auto"></span>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r3"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r3"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r4">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">طلبات م م و</div></div>
@@ -459,7 +459,7 @@ tr:hover td{background:#fafaf8}
         <button class="btn btn-sm" onclick="clearReqFilter('r4')" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i class="ti ti-x" style="font-size:12px"></i> مسح</button>
         <span id="fcount-r4" style="font-size:11px;color:rgba(255,255,255,0.7);margin-right:auto"></span>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r4"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن/الشركة</th><th>الموضوع</th><th>التقسيم المعني</th><th>تاريخ الإحالة</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد النهائي</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r4"></tbody></table></div>
     </div>
     <div class="pg" id="ap-r5">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">طلبات ت</div></div>
@@ -483,7 +483,7 @@ tr:hover td{background:#fafaf8}
         <button class="btn btn-sm" onclick="clearReqFilter('r5')" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.25)"><i class="ti ti-x" style="font-size:12px"></i> مسح</button>
         <span id="fcount-r5" style="font-size:11px;color:rgba(255,255,255,0.7);margin-right:auto"></span>
       </div>
-      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن</th><th>الموضوع</th><th>رقم التواصل</th><th>التقسيم المعني</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r5"></tbody></table></div>
+      <div class="card-flat"><table><thead><tr><th>رقم المرجع</th><th>تاريخ الاستلام</th><th>تاريخ الخطاب</th><th>المواطن</th><th>الموضوع</th><th>التقسيم المعني</th><th>تاريخ رد التقسيم</th><th>تاريخ الرد</th><th>مدة الإنجاز</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody id="tb-r5"></tbody></table></div>
     </div>
     <div class="pg" id="ap-tinv">
       <div class="pg-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><div style="font-size:20px;font-weight:800;color:#fff">حصر المهام</div></div><button class="btn btn-wh" onclick="openM('m-tinv')"><i class="ti ti-plus"></i> إضافة</button></div>
@@ -644,7 +644,7 @@ tr:hover td{background:#fafaf8}
       <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="attend"> الحضور والانصراف</label>
       <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="r1"> طلبات الوزير</label>
       <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="r2"> طلبات الوكيل</label>
-      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="r3"> طلبات و و</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="r3"> طلبات م م</label>
       <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="r4"> طلبات م م و</label>
       <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="r5"> طلبات ت</label>
       <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" class="perm-cb" value="comp"> الشكاوي والتظلمات</label>
@@ -1757,7 +1757,7 @@ function exportProjectsPDF(){
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r1-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r1-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r1-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r1-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r1-subj" placeholder="موضوع الطلب"></div>
-  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r1-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r1-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>التقسيم المعني</label><input id="r1-dept" placeholder="القسم"></div></div>
   <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r1-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r1-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r1-final"></div></div>
   <div class="fr"><label>ملاحظات</label><textarea id="r1-notes" placeholder="..."></textarea></div>
   <input type="hidden" id="r1-id">
@@ -1769,7 +1769,7 @@ function exportProjectsPDF(){
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r2-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r2-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r2-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r2-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r2-subj" placeholder="موضوع الطلب"></div>
-  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r2-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r2-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>التقسيم المعني</label><input id="r2-dept" placeholder="القسم"></div></div>
   <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r2-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r2-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r2-final"></div></div>
   <div class="fr"><label>ملاحظات</label><textarea id="r2-notes" placeholder="..."></textarea></div>
   <input type="hidden" id="r2-id">
@@ -1777,11 +1777,11 @@ function exportProjectsPDF(){
 </div></div>
 
 <div class="ov" id="m-r3"><div class="modal">
-  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-user-cog"></i></div><span id="mt-r3">إضافة طلب — طلبات و و</span></div>
+  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-user-cog"></i></div><span id="mt-r3">إضافة طلب — طلبات م م</span></div>
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r3-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r3-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r3-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r3-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r3-subj" placeholder="موضوع الطلب"></div>
-  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r3-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r3-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>التقسيم المعني</label><input id="r3-dept" placeholder="القسم"></div></div>
   <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r3-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r3-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r3-final"></div></div>
   <div class="fr"><label>ملاحظات</label><textarea id="r3-notes" placeholder="..."></textarea></div>
   <input type="hidden" id="r3-id">
@@ -1793,7 +1793,7 @@ function exportProjectsPDF(){
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r4-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r4-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r4-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r4-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r4-subj" placeholder="موضوع الطلب"></div>
-  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r4-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r4-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>التقسيم المعني</label><input id="r4-dept" placeholder="القسم"></div></div>
   <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r4-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r4-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r4-final"></div></div>
   <div class="fr"><label>ملاحظات</label><textarea id="r4-notes" placeholder="..."></textarea></div>
   <input type="hidden" id="r4-id">
@@ -1805,7 +1805,7 @@ function exportProjectsPDF(){
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r5-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r5-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r5-ldate"></div><div class="fr"><label>المواطن</label><input id="r5-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r5-subj" placeholder="موضوع الطلب"></div>
-  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r5-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r5-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>التقسيم المعني</label><input id="r5-dept" placeholder="القسم"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r5-deptreply"></div><div class="fr"><label>تاريخ الرد</label><input type="date" id="r5-final"></div></div>
   <div class="fr"><label>ملاحظات</label><textarea id="r5-notes" placeholder="..."></textarea></div>
   <input type="hidden" id="r5-id">
@@ -1943,7 +1943,7 @@ function saveReq(n){
   const item={
     id:id||nid(),
     ref:v('r'+n+'-ref'), recv:v('r'+n+'-recv'), ldate:v('r'+n+'-ldate'),
-    name:v('r'+n+'-name'), subj:v('r'+n+'-subj'), phone:v('r'+n+'-phone'),
+    name:v('r'+n+'-name'), subj:v('r'+n+'-subj'),
     dept:v('r'+n+'-dept'), rdate:v('r'+n+'-rdate'),
     deptreply:v('r'+n+'-deptreply'), final:v('r'+n+'-final'),
     notes:v('r'+n+'-notes')
@@ -1951,7 +1951,7 @@ function saveReq(n){
   if(!item.subj){alert('يرجى إدخال الموضوع');return;}
   fbSave('r'+n, item);
   closeM('m-r'+n);
-  ['ref','name','subj','phone','dept','notes','id'].forEach(f=>clr(['r'+n+'-'+f]));
+  ['ref','name','subj','dept','notes','id'].forEach(f=>clr(['r'+n+'-'+f]));
   $('mt-r'+n).textContent='إضافة طلب';
   $('mb-r'+n).textContent='إضافة';
 }
@@ -1959,7 +1959,7 @@ function saveReq(n){
 function editReq(n,id){
   const item=(DB['r'+n]||[]).find(x=>x.id===id); if(!item)return;
   sv('r'+n+'-ref',item.ref); sv('r'+n+'-recv',item.recv); sv('r'+n+'-ldate',item.ldate);
-  sv('r'+n+'-name',item.name); sv('r'+n+'-subj',item.subj); sv('r'+n+'-phone',item.phone);
+  sv('r'+n+'-name',item.name); sv('r'+n+'-subj',item.subj);
   sv('r'+n+'-dept',item.dept); sv('r'+n+'-rdate',item.rdate);
   sv('r'+n+'-deptreply',item.deptreply); sv('r'+n+'-final',item.final);
   sv('r'+n+'-notes',item.notes); sv('r'+n+'-id',id);
@@ -2117,7 +2117,7 @@ function rNewReq(n){
       return true;
     });
   }
-  const cols=n===5?12:13;
+  const cols=n===5?11:12;
   if(!filtered.length){tb.innerHTML=`<tr><td colspan="${cols}"><div class="emp-st"><i class="ti ti-inbox"></i><p>لا توجد طلبات</p></div></td></tr>`;return;}
   tb.innerHTML=filtered.map(r=>{
     const dur=calcDuration(r.recv,r.final);
@@ -2126,7 +2126,7 @@ function rNewReq(n){
     <td><b>${r.ref||'—'}</b></td><td>${r.recv||'—'}</td><td>${r.ldate||'—'}</td>
     <td>${r.name||'—'}</td>
     <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.subj||''}">${r.subj||'—'}</td>
-    <td>${r.phone||'—'}</td><td>${r.dept||'—'}</td>
+    <td>${r.dept||'—'}</td>
     ${n!==5?`<td>${r.rdate||'—'}</td>`:''}
     <td>${r.deptreply||'—'}</td><td>${r.final||'—'}</td>
     <td><b style="color:${dc};white-space:nowrap">${dur}</b></td>
@@ -2250,7 +2250,7 @@ function renderReqCards(){
   const configs=[
     {key:'r1',label:'طلبات و',icon:'ti-user-star',color:'#1a6bc4',bg:'#deeaf8'},
     {key:'r2',label:'طلبات و ك',icon:'ti-user-check',color:'#0f7a6e',bg:'#daf2ef'},
-    {key:'r3',label:'طلبات و و',icon:'ti-user-cog',color:'#5b4fcf',bg:'#eceafb'},
+    {key:'r3',label:'طلبات م م',icon:'ti-user-cog',color:'#5b4fcf',bg:'#eceafb'},
     {key:'r4',label:'طلبات م م و',icon:'ti-building',color:'#b06a00',bg:'#fdf0dc'},
     {key:'r5',label:'طلبات ت',icon:'ti-id-badge',color:'#2d7d3a',bg:'#e0f0e3'},
   ];
@@ -2301,7 +2301,7 @@ function exportReqPDF(){
   const configs=[
     {key:'r1',label:'طلبات و',color:[26,107,196]},
     {key:'r2',label:'طلبات و ك',color:[15,122,110]},
-    {key:'r3',label:'طلبات و و',color:[91,79,207]},
+    {key:'r3',label:'طلبات م م',color:[91,79,207]},
     {key:'r4',label:'طلبات م م و',color:[176,106,0]},
     {key:'r5',label:'طلبات ت',color:[45,125,58]},
   ];
@@ -2557,7 +2557,7 @@ td{padding:8px 10px;border-bottom:1px solid #e0dedd;vertical-align:middle}
       <th>تاريخ الاستلام</th>
       <th>المواطن/الشركة</th>
       <th>الموضوع</th>
-      <th>رقم التواصل</th>
+      
       <th>التقسيم المعني</th>
       ${!isR5?'<th>تاريخ الإحالة</th>':''}
       <th>تاريخ رد التقسيم</th>
@@ -2980,8 +2980,8 @@ function exportExcel(data, headers, filename){
 function exportReqExcel(n){
   const data=DB['r'+n]||[];
   if(!data.length){showToast('لا توجد بيانات');return;}
-  const keys=['ref','recv','ldate','name','subj','phone','dept','rdate','deptreply','final','notes'];
-  const headers=['رقم المرجع','تاريخ الاستلام','تاريخ الخطاب','المواطن/الشركة','الموضوع','رقم التواصل','التقسيم المعني','تاريخ الإحالة','تاريخ رد التقسيم','تاريخ الرد النهائي','ملاحظات'];
+  const keys=['ref','recv','ldate','name','subj','dept','rdate','deptreply','final','notes'];
+  const headers=['رقم المرجع','تاريخ الاستلام','تاريخ الخطاب','المواطن/الشركة','الموضوع','التقسيم المعني','تاريخ الإحالة','تاريخ رد التقسيم','تاريخ الرد النهائي','ملاحظات'];
   const mapped=data.map(r=>{const o={};headers.forEach((h,i)=>o[h]=r[keys[i]]||'');return o;});
   const nameMap={1:'و',2:'و-ك',3:'و-و',4:'م-م-و',5:'ت'};
   exportExcel(mapped,headers,'طلبات-'+nameMap[n]);
@@ -3074,7 +3074,7 @@ function applyEmpPerms(emp){
       const nav=$('.sb-nav')||document.querySelector('#scr-emp .sb-nav');
       if(nav){
         const extraPerms=['r1','r2','r3','r4','r5','natl','comp','tinv','kpi2','devplan'];
-        const labels={'r1':'طلبات الوزير','r2':'طلبات الوكيل','r3':'طلبات و و','r4':'طلبات م م و','r5':'طلبات ت','natl':'المنصة الوطنية','comp':'الشكاوي','tinv':'حصر المهام','kpi2':'مؤشرات الأداء','devplan':'الخطة التطويرية'};
+        const labels={'r1':'طلبات الوزير','r2':'طلبات الوكيل','r3':'طلبات م م','r4':'طلبات م م و','r5':'طلبات ت','natl':'المنصة الوطنية','comp':'الشكاوي','tinv':'حصر المهام','kpi2':'مؤشرات الأداء','devplan':'الخطة التطويرية'};
         const icons={'r1':'ti-user-star','r2':'ti-user-check','r3':'ti-user-cog','r4':'ti-building','r5':'ti-id-badge','natl':'ti-message-circle','comp':'ti-alert-triangle','tinv':'ti-list-check','kpi2':'ti-chart-bar','devplan':'ti-rocket'};
         const granted=extraPerms.filter(p=>perms.includes(p));
         if(granted.length>0){
@@ -3121,7 +3121,7 @@ function applyEmpPerms(emp){
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r1-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r1-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r1-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r1-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r1-subj" placeholder="موضوع الطلب"></div>
-  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r1-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r1-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>التقسيم المعني</label><input id="r1-dept" placeholder="القسم"></div></div>
   <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r1-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r1-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r1-final"></div></div>
   <div class="fr"><label>ملاحظات</label><textarea id="r1-notes" placeholder="..."></textarea></div>
   <input type="hidden" id="r1-id">
@@ -3133,7 +3133,7 @@ function applyEmpPerms(emp){
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r2-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r2-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r2-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r2-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r2-subj" placeholder="موضوع الطلب"></div>
-  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r2-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r2-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>التقسيم المعني</label><input id="r2-dept" placeholder="القسم"></div></div>
   <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r2-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r2-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r2-final"></div></div>
   <div class="fr"><label>ملاحظات</label><textarea id="r2-notes" placeholder="..."></textarea></div>
   <input type="hidden" id="r2-id">
@@ -3141,11 +3141,11 @@ function applyEmpPerms(emp){
 </div></div>
 
 <div class="ov" id="m-r3"><div class="modal">
-  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-user-cog"></i></div><span id="mt-r3">إضافة طلب — طلبات و و</span></div>
+  <div class="modal-title"><div class="mtic" style="background:var(--purple)"><i class="ti ti-user-cog"></i></div><span id="mt-r3">إضافة طلب — طلبات م م</span></div>
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r3-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r3-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r3-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r3-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r3-subj" placeholder="موضوع الطلب"></div>
-  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r3-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r3-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>التقسيم المعني</label><input id="r3-dept" placeholder="القسم"></div></div>
   <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r3-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r3-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r3-final"></div></div>
   <div class="fr"><label>ملاحظات</label><textarea id="r3-notes" placeholder="..."></textarea></div>
   <input type="hidden" id="r3-id">
@@ -3157,7 +3157,7 @@ function applyEmpPerms(emp){
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r4-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r4-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r4-ldate"></div><div class="fr"><label>المواطن/الشركة</label><input id="r4-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r4-subj" placeholder="موضوع الطلب"></div>
-  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r4-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r4-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>التقسيم المعني</label><input id="r4-dept" placeholder="القسم"></div></div>
   <div class="fg3"><div class="fr"><label>تاريخ الإحالة</label><input type="date" id="r4-rdate"></div><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r4-deptreply"></div><div class="fr"><label>تاريخ الرد النهائي</label><input type="date" id="r4-final"></div></div>
   <div class="fr"><label>ملاحظات</label><textarea id="r4-notes" placeholder="..."></textarea></div>
   <input type="hidden" id="r4-id">
@@ -3169,7 +3169,7 @@ function applyEmpPerms(emp){
   <div class="fg2"><div class="fr"><label>رقم المرجع</label><input id="r5-ref" placeholder="رقم المرجع"></div><div class="fr"><label>تاريخ الاستلام</label><input type="date" id="r5-recv"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ الخطاب</label><input type="date" id="r5-ldate"></div><div class="fr"><label>المواطن</label><input id="r5-name" placeholder="الاسم"></div></div>
   <div class="fr"><label>الموضوع *</label><input id="r5-subj" placeholder="موضوع الطلب"></div>
-  <div class="fg2"><div class="fr"><label>رقم التواصل</label><input id="r5-phone" placeholder="رقم الهاتف"></div><div class="fr"><label>التقسيم المعني</label><input id="r5-dept" placeholder="القسم"></div></div>
+  <div class="fg2"><div class="fr"><label>التقسيم المعني</label><input id="r5-dept" placeholder="القسم"></div></div>
   <div class="fg2"><div class="fr"><label>تاريخ رد التقسيم</label><input type="date" id="r5-deptreply"></div><div class="fr"><label>تاريخ الرد</label><input type="date" id="r5-final"></div></div>
   <div class="fr"><label>ملاحظات</label><textarea id="r5-notes" placeholder="..."></textarea></div>
   <input type="hidden" id="r5-id">
