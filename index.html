@@ -293,6 +293,26 @@ tr:hover td{background:#fafaf8}
         <div class="ch-card"><div class="ch-title"><i class="ti ti-chart-bar"></i>إنجاز المشاريع</div><div class="ch-wrap"><canvas id="ch-proj"></canvas></div></div>
         <div class="ch-card"><div class="ch-title"><i class="ti ti-chart-donut"></i>توزيع الأقسام</div><div class="ch-wrap"><canvas id="ch-dept"></canvas></div></div>
       </div>
+
+      <!-- REQUESTS ANALYTICS CHART -->
+      <div class="ch-card" style="margin-bottom:18px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+          <div class="ch-title" style="margin-bottom:0"><i class="ti ti-chart-bar"></i>تحليل سجل الطلبات</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <label style="font-size:12px;font-weight:600;color:var(--txt2)">عرض:</label>
+            <select id="req-chart-filter" onchange="renderReqChart()" style="padding:6px 10px;border-radius:var(--r);border:1.5px solid var(--brd2);font-size:12px;background:#fff;color:var(--txt);font-family:inherit">
+              <option value="all">جميع الطلبات</option>
+              <option value="r1">طلبات و</option>
+              <option value="r2">طلبات و ك</option>
+              <option value="r3">طلبات م م</option>
+              <option value="r4">طلبات م م و</option>
+              <option value="r5">طلبات ت</option>
+            </select>
+          </div>
+        </div>
+        <div style="position:relative;height:220px"><canvas id="ch-req-analytics"></canvas></div>
+      </div>
+
       <div class="dg">
         <div>
           <div class="dsc" style="margin-bottom:14px">
@@ -1322,6 +1342,7 @@ function renderDash(){
   kpis();
   setTimeout(buildCharts,80);
   renderReqCards();
+  renderReqChart();
   renderDurationStats();
   renderDashComp();
   $('d-proj').innerHTML=DB.projects.length
@@ -1463,6 +1484,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   window.editReq=editReq;window.editTInv=editTInv;window.editTDist=editTDist;
   window.editComp=editComp;window.editAttend=editAttend;
   window.exportCompPDF=exportCompPDF;
+  window.renderReqChart=renderReqChart;
 
   // New nav items
   const ni_comp=$('ni-comp');if(ni_comp)ni_comp.addEventListener('click',()=>aPageNew('comp'));
@@ -3086,6 +3108,104 @@ function applyEmpPerms(emp){
         }
       }
     }
+  }
+}
+
+
+
+// ══ REQUESTS ANALYTICS CHART (bar, with filter) ══
+let reqAnalyticsChart=null;
+function renderReqChart(){
+  const c=$('ch-req-analytics');
+  if(!c) return;
+  const filter=$('req-chart-filter')?.value||'all';
+
+  const configs=[
+    {key:'r1',label:'طلبات و',color:'#1a6bc4'},
+    {key:'r2',label:'طلبات و ك',color:'#0f7a6e'},
+    {key:'r3',label:'طلبات م م',color:'#5b4fcf'},
+    {key:'r4',label:'طلبات م م و',color:'#b06a00'},
+    {key:'r5',label:'طلبات ت',color:'#2d7d3a'},
+  ];
+
+  if(reqAnalyticsChart){reqAnalyticsChart.destroy();reqAnalyticsChart=null;}
+
+  if(filter==='all'){
+    // Show all 5 types side by side - total/done/pending per type
+    const labels=configs.map(c=>c.label);
+    const totals=configs.map(c=>(DB[c.key]||[]).length);
+    const done=configs.map(c=>(DB[c.key]||[]).filter(r=>r.final).length);
+    const pending=configs.map(c=>(DB[c.key]||[]).filter(r=>!r.deptreply&&!r.final).length);
+    const inProgress=configs.map((c,i)=>totals[i]-done[i]-pending[i]);
+
+    reqAnalyticsChart=new Chart(c,{type:'bar',data:{
+      labels,
+      datasets:[
+        {label:'مكتمل الرد',data:done,backgroundColor:'rgba(45,125,58,0.85)',borderRadius:6},
+        {label:'رد التقسيم',data:inProgress,backgroundColor:'rgba(26,107,196,0.85)',borderRadius:6},
+        {label:'قيد المعالجة',data:pending,backgroundColor:'rgba(176,106,0,0.85)',borderRadius:6}
+      ]
+    },options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:10,boxWidth:14}}},
+      scales:{
+        x:{stacked:true,grid:{display:false},ticks:{font:{size:11}}},
+        y:{stacked:true,beginAtZero:true,ticks:{font:{size:10},stepSize:1},grid:{color:'rgba(0,0,0,0.05)'}}
+      }
+    }});
+  } else {
+    // Show detail for one type - monthly breakdown
+    const data=DB[filter]||[];
+    const cfg=configs.find(c=>c.key===filter);
+
+    // Group by month
+    const byMonth={};
+    data.forEach(r=>{
+      if(!r.recv) return;
+      const d=new Date(r.recv);
+      if(isNaN(d)) return;
+      const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+      if(!byMonth[key]) byMonth[key]={total:0,done:0,pending:0};
+      byMonth[key].total++;
+      if(r.final) byMonth[key].done++;
+      else if(!r.deptreply) byMonth[key].pending++;
+    });
+
+    const months=Object.keys(byMonth).sort();
+    const monthLabels=months.map(m=>{
+      const [y,mo]=m.split('-');
+      const names=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+      return names[parseInt(mo)-1]+' '+y;
+    });
+
+    if(!months.length){
+      // No date data - show single bar with total
+      reqAnalyticsChart=new Chart(c,{type:'bar',data:{
+        labels:[cfg.label],
+        datasets:[
+          {label:'إجمالي',data:[data.length],backgroundColor:cfg.color+'cc',borderRadius:6},
+          {label:'مكتمل الرد',data:[data.filter(r=>r.final).length],backgroundColor:'rgba(45,125,58,0.85)',borderRadius:6},
+          {label:'قيد المعالجة',data:[data.filter(r=>!r.deptreply&&!r.final).length],backgroundColor:'rgba(176,106,0,0.85)',borderRadius:6}
+        ]
+      },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11}}}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}});
+      return;
+    }
+
+    reqAnalyticsChart=new Chart(c,{type:'bar',data:{
+      labels:monthLabels,
+      datasets:[
+        {label:'إجمالي '+cfg.label,data:months.map(m=>byMonth[m].total),backgroundColor:cfg.color+'cc',borderRadius:6},
+        {label:'مكتمل الرد',data:months.map(m=>byMonth[m].done),backgroundColor:'rgba(45,125,58,0.85)',borderRadius:6},
+        {label:'قيد المعالجة',data:months.map(m=>byMonth[m].pending),backgroundColor:'rgba(176,106,0,0.85)',borderRadius:6}
+      ]
+    },options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:10,boxWidth:14}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:10}}},
+        y:{beginAtZero:true,ticks:{font:{size:10},stepSize:1},grid:{color:'rgba(0,0,0,0.05)'}}
+      }
+    }});
   }
 }
 
